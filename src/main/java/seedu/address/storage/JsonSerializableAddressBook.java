@@ -20,15 +20,23 @@ import seedu.address.model.person.Person;
 class JsonSerializableAddressBook {
 
     public static final String MESSAGE_DUPLICATE_PERSON = "Persons list contains duplicate person(s).";
+    public static final String MESSAGE_DUPLICATE_ARCHIVED_PERSON = "Archived persons list contains"
+            + " duplicate person(s).";
 
     private final List<JsonAdaptedPerson> persons = new ArrayList<>();
+    private final List<JsonAdaptedPerson> archivedPersons = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonSerializableAddressBook} with the given persons.
      */
     @JsonCreator
-    public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons) {
+    public JsonSerializableAddressBook(
+            @JsonProperty("persons") List<JsonAdaptedPerson> persons,
+            @JsonProperty("archivedPersons") List<JsonAdaptedPerson> archivedPersons) {
         this.persons.addAll(persons);
+        if (archivedPersons != null) {
+            this.archivedPersons.addAll(archivedPersons);
+        }
     }
 
     /**
@@ -37,7 +45,14 @@ class JsonSerializableAddressBook {
      * @param source future changes to this will not affect the created {@code JsonSerializableAddressBook}.
      */
     public JsonSerializableAddressBook(ReadOnlyAddressBook source) {
-        persons.addAll(source.getPersonList().stream().map(JsonAdaptedPerson::new).collect(Collectors.toList()));
+        persons.addAll(source.getPersonList()
+                .stream()
+                .map(JsonAdaptedPerson::new)
+                .collect(Collectors.toList()));
+        archivedPersons.addAll(source.getArchivedPersonList()
+                .stream()
+                .map(JsonAdaptedPerson::new)
+                .collect(Collectors.toList()));
     }
 
     /**
@@ -53,6 +68,14 @@ class JsonSerializableAddressBook {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
             }
             addressBook.addPerson(person);
+        }
+
+        for (JsonAdaptedPerson jsonAdaptedPerson : archivedPersons) {
+            Person person = jsonAdaptedPerson.toModelType();
+            if (addressBook.hasArchivedPerson(person)) {
+                throw new IllegalValueException(MESSAGE_DUPLICATE_ARCHIVED_PERSON);
+            }
+            addressBook.addArchivedPerson(person);
         }
         return addressBook;
     }

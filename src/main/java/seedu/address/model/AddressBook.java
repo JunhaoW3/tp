@@ -88,6 +88,21 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons.setPerson(target, editedPerson);
     }
 
+    public void archivePerson(Person person) {
+        requireNonNull(person);
+        persons.remove(person);
+        archivedPersons.add(person);
+    }
+
+    public void addArchivedPerson(Person person) {
+        archivedPersons.add(person);
+    }
+
+    public boolean hasArchivedPerson(Person person) {
+        requireNonNull(person);
+        return archivedPersons.contains(person);
+    }
+
     /**
      * Removes {@code key} from this {@code AddressBook}.
      * {@code key} must exist in the address book.
@@ -112,12 +127,6 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     public ObservableList<Person> getArchivedPersonList() {
         return archivedPersons.asUnmodifiableObservableList();
-    }
-
-    public void archivePerson(Person person) {
-        requireNonNull(person);
-        persons.remove(person);
-        archivedPersons.add(person);
     }
 
     @Override
