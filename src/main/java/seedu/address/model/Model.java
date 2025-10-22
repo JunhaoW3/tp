@@ -86,4 +86,6 @@ public interface Model {
     void updateFilteredPersonList(Predicate<Person> predicate);
 
     void archivePerson(Person target);
+
+    void updateFilteredPersonListToShowArchived();
 }

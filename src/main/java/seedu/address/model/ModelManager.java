@@ -21,7 +21,7 @@ public class ModelManager implements Model {
 
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
-    private final FilteredList<Person> filteredPersons;
+    private FilteredList<Person> filteredPersons;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -109,6 +109,11 @@ public class ModelManager implements Model {
         requireNonNull(target);
         addressBook.archivePerson(target);
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+    }
+
+    @Override
+    public void updateFilteredPersonListToShowArchived() {
+        filteredPersons = new FilteredList<>(addressBook.getArchivedPersonList());
     }
 
     @Override
