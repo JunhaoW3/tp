@@ -45,8 +45,7 @@ public class ArchiveCommand extends Command {
         }
 
         Person personToArchive = lastShownList.get(targetIndex.getZeroBased());
-        // TODO: Implement archivePerson command for addressbook
-        // model.archivePerson(personToArchive);
+        model.archivePerson(personToArchive);
         return new CommandResult(String.format(MESSAGE_ARCHIVE_PERSON_SUCCESS, Messages.format(personToArchive)));
     }
 

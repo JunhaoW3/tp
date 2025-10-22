@@ -105,6 +105,13 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void archivePerson(Person target) {
+        requireNonNull(target);
+        addressBook.archivePerson(target);
+        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+    }
+
+    @Override
     public void setPerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
 
