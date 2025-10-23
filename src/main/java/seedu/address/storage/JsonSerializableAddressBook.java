@@ -61,6 +61,7 @@ class JsonSerializableAddressBook {
      * @throws IllegalValueException if there were any data constraints violated.
      */
     public AddressBook toModelType() throws IllegalValueException {
+        System.out.println("Loading archived persons: " + archivedPersons.size());
         AddressBook addressBook = new AddressBook();
         for (JsonAdaptedPerson jsonAdaptedPerson : persons) {
             Person person = jsonAdaptedPerson.toModelType();

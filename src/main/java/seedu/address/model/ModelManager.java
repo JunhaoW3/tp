@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
@@ -22,6 +23,7 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private FilteredList<Person> filteredPersons;
+    private FilteredList<Person> filteredArchivedPersons;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -34,6 +36,7 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
+        filteredArchivedPersons = new FilteredList<>(this.addressBook.getArchivedPersonList());
     }
 
     public ModelManager() {
@@ -112,8 +115,10 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void updateFilteredPersonListToShowArchived() {
-        filteredPersons = new FilteredList<>(addressBook.getArchivedPersonList());
+    public void unarchivePerson(Person target) {
+        requireNonNull(target);
+        addressBook.unarchivePerson(target);
+        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
 
     @Override
@@ -135,9 +140,19 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public ObservableList<Person> getFilteredArchivedPersonList() {
+        return FXCollections.unmodifiableObservableList(filteredArchivedPersons);
+    }
+
+    @Override
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
+    }
+
+    @Override
+    public void updateFilteredPersonListToShowArchived() {
+        filteredArchivedPersons.setPredicate(person -> true);
     }
 
     @Override

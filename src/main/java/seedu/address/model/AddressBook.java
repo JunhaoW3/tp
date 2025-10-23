@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.person.exceptions.PersonNotFoundException;
 
 /**
  * Wraps all data at the address-book level
@@ -101,6 +102,15 @@ public class AddressBook implements ReadOnlyAddressBook {
     public boolean hasArchivedPerson(Person person) {
         requireNonNull(person);
         return archivedPersons.contains(person);
+    }
+
+    public void unarchivePerson(Person person) {
+        requireNonNull(person);
+        if (!archivedPersons.contains(person)) {
+            throw new PersonNotFoundException();
+        }
+        archivedPersons.remove(person);
+        persons.add(person);
     }
 
     /**
