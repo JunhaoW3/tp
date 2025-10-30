@@ -284,7 +284,7 @@ The `add`, `delete` and `edit` reminders commands are then designed as separate 
 
   <br>
   
-  * Upon execution of the `AddReminderCommand`, the method `Person#addReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the new `Reminder.java` as parameter and initialises a new `ArrayList<Reminder>` with the `Reminder.java` added to the previous `ArrayList<Reminder>` of the Person and returns a new `Person` object with the newly updated `ArrayList<Reminder>`
+  * Upon execution of the `AddReminderCommand`, the method `Person#addReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the new `Reminder.java` as parameter and initialises a new `ArrayList<Reminder>` with the `Reminder.java` added to the previous `ArrayList<Reminder>` of the `Person` and returns a new `Person` object with the newly updated `ArrayList<Reminder>`
 
 <br>
 
@@ -301,7 +301,7 @@ The `add`, `delete` and `edit` reminders commands are then designed as separate 
 
   <br>
 
-  * Upon execution of the `DeleteReminderCommand`, the method `Person#removeReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the `Reminder.java` as parameter and initialises a new `ArrayList<Reminder>` with the `Reminder.java` removed from the previous `ArrayList<Reminder>` of the Person and returns a new `Person` object with the newly updated `ArrayList<Reminder>`
+  * Upon execution of the `DeleteReminderCommand`, the method `Person#removeReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the `Reminder.java` as parameter and initialises a new `ArrayList<Reminder>` with the `Reminder.java` removed from the previous `ArrayList<Reminder>` of the `Person` and returns a new `Person` object with the newly updated `ArrayList<Reminder>`
 
 <br>
 
@@ -324,7 +324,57 @@ The `add`, `delete` and `edit` reminders commands are then designed as separate 
     
     <br>
     
-    2. The method `Person#addReminder` is then called on the `Person` with the given `ClIENT_INDEX` in the model which takes in `EDITED_REMINDER` as parameter and adds it to the `Person` similar to how `AddReminderCommand` is implemented. 
+    2. The method `Person#addReminder` is then called on the `Person` with the given `ClIENT_INDEX` in the model which takes in `EDITED_REMINDER` as parameter and adds it to the `Person` similar to how `AddReminderCommand` is implemented.
+
+### Meeting Notes Feature
+
+#### Challenge
+* Next, we wanted a convenient way for users to record and review key discussions with clients in a simple yet efficient way. We needed to decide what order to store and display meeting notes — whether to prioritise a simple internal logic or a more intuitive user interface.
+
+#### Implementation Details
+
+Meeting Notes are set up as a `MeetingNote.java` class with two key internal fields.
+* `String` TEXT
+* `LocalDateTime` date and time at which the meeting note was created.
+
+<br>
+
+The `add` and `delete` meeting note commands are then designed as separate commands based on a new field in the `Person.java` class where meeting notes are internally stored as an `ArrayList<MeetingNote>` for every `Person` object initialised.
+
+<br>
+
+##### Command Implementation
+* ###### Add Meeting Note
+    * The user will execute `note CLIENT_INDEX TEXT` which initialises a new `MeetingNote.java` with the given text and the current LocalDateTime after parsing of the user input is done by `AddMeetingNoteCommandParser.java` and validation of the text by `MeetingNote.java`.
+
+  <br>
+
+    * A newly initialised `AddMeetingNoteCommand.java` will then have the fields before `AddMeetingNoteCommand#exceute` is called.
+        * `CLIENT_INDEX`
+        * and the previously initialised `MeetingNote.java`
+
+  <br>
+
+    * Upon execution of the `AddMeetingNoteCommand`, the method `Person#addMeetingNote` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the new `MeetingNote.java` as parameter and initialises a new `ArrayList<MeetingNote>` with the `MeetingNote.java` added to the previous `ArrayList<MeetingNote>` of the `Person` and returns a new `Person` object with the newly updated `ArrayList<MeetingNote>`.
+
+<br>
+
+--------------------------------------------------------------------------------------------------------------------
+
+* ###### Delete Meeting Note
+    * The user will execute `nDelete CLIENT_INDEX MEETING_NOTE_INDEX` which are based on the indexes on the displayed GUI after parsing of the user input is done by `DeleteMeetingNoteCommandParser.java`.
+
+  <br>
+
+    * This initialises a new `DeleteMeetingNoteCommand.java` with two fields before `DeleteMeetingNoteCommand#exceute` is called.
+        * `CLIENT_INDEX`
+        * `MEETING_NOTE_INDEX`
+
+  <br>
+
+    * Upon execution of the `DeleteMeetingNoteCommand`, the method `Person#removeMeetingNote` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the `MeetingNote.java` as parameter and initialises a new `ArrayList<MeetingNote>` with the `MeetingNote.java` removed from the previous `ArrayList<MeetingNote>` of the `Person` and returns a new `Person` object with the newly updated `ArrayList<MeetingNote>`.
+
+<br>
 
 --------------------------------------------------------------------------------------------------------------------
 ### Insurance Policy Feature
@@ -741,7 +791,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **MSS**
 
 1.  The user <u>searches for the client by their name (UC01)</u>.
-2.  The user selects the option to add meeting notes for the client by their index, and enters the meeting notes.
+2.  The user selects the option to add meeting notes for the client, and enters the meeting notes.
 3.  FinHub validates the updated data.
 4.  FinHub displays a success message.
 
@@ -756,7 +806,43 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 3.
 
-**Use Case: UC15 - Archive client**
+* 2b. The user enters an invalid note.
+    * 2b1. FinHub warns that the note entered is invalid and prompts the user to enter again.
+
+      Step 2b1 is repeated until a valid note.
+
+      Use case resumes at step 3.
+
+
+**Use case: UC15 - Delete client meeting notes**
+
+**Precondition**: Client list must not be empty.
+
+**MSS**
+
+1.  The user <u>searches for the client by their name (UC01)</u>.
+2.  The user selects which client and which meeting note to delete.
+3.  FinHub displays a success message.
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The user selects an invalid client.
+    * 2a1. FinHub warns that user does not exist and prompts the user to select again.
+
+      Step 2a1 is repeated until a correct selection.
+
+      Use case resumes at step 3.
+
+* 2a. The user enters an invalid meeting note.
+    * 23a1. FinHub warns that the meeting note is invalid and prompts the user to enter another note.
+
+      Step 3a1 is repeated until a correct selection.
+
+      Use case resumes at step 4.
+
+**Use Case: UC16 - Archive client**
 
 **Precondition**: User is logged into the CLI System.
 
@@ -781,7 +867,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 3a. The user cancels at the confirmation step.
   Use case ends.
 
-**Use Case: UC16 - Enter application with password**
+**Use Case: UC17 - Enter application with password**
 
 **MSS**
 
@@ -807,7 +893,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case ends.
 
-**Use Case: UC17 - Star a client**
+**Use Case: UC18 - Star a client**
 
 **MSS**
 
@@ -837,7 +923,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case ends.
 
-**Use Case: UC18 - Unstar a client**
+**Use Case: UC19 - Unstar a client**
 
 **MSS**
 
@@ -948,9 +1034,9 @@ testers are expected to do more *exploratory* testing.
 
 * Test Case: Adds a reminder to a client with a valid index
   * Assumption: Valid Inputs
-  * User Input: reminder 1 h/Follow up with client on insurance quote d/2026-11-10 09:00
+  * User Input: `reminder 1 h/Follow up with client on insurance quote d/2026-11-10 09:00`
   * Expected Outcome:
-    * A reminder with the header [Follow up with client on insurance quote] and deadline [2026-11-10 09:00] is added to the client at index 1.
+    * A reminder with the header {Follow up with client on insurance quote} and deadline {2026-11-10 09:00} is added to the client at index 1.
     * A success message is displayed: `Reminder added to {Person's Name}: {Follow up with client on insurance quote}, due by {2026-11-10 09:00}`
     * The reminder list for the client at index 1 is re-sorted by the closest deadlines first, followed by the header name.
 
@@ -958,7 +1044,7 @@ testers are expected to do more *exploratory* testing.
 
 * Test Case: Adds a reminder to a client with an invalid index
   * Assumption: Invalid Client Index (index exceeds number of clients currently displayed)
-  * User Input: reminder 100000 h/Follow up with client on insurance quote d/2026-11-10 09:00
+  * User Input: `reminder 100000 h/Follow up with client on insurance quote d/2026-11-10 09:00`
   * Expected Outcome:
     * A failure message is displayed: `The client index provided is invalid — it exceeds the number of clients currently displayed`
 
@@ -966,7 +1052,7 @@ testers are expected to do more *exploratory* testing.
 
 * Test Case: Adds a reminder to a client with a valid index and deadline but invalid header
   * Assumption: Valid Client Index but Invalid Header (empty)
-  * User Input: reminder 1 h/ d/2026-11-10 09:00
+  * User Input: `reminder 1 h/ d/2026-11-10 09:00`
   * Expected Outcome:
     * A failure message is displayed: `Reminder can take any value but cannot be blank.`
 
@@ -974,7 +1060,7 @@ testers are expected to do more *exploratory* testing.
 
 * Test Case: Adds a reminder to a client with a valid index and header but invalid deadline format
   * Assumption: Valid Client Index but invalid deadline format (not formatted to "yyyy-MM-dd HH:mm")
-  * User Input: reminder 1 h/Follow up with client on insurance quote d/2029-10-10 1000
+  * User Input: `reminder 1 h/Follow up with client on insurance quote d/2029-10-10 1000`
   * Expected Outcome:
     * A failure message is displayed: `Deadline should be in the following format: yyyy-MM-dd HH:mm`
 
@@ -989,17 +1075,17 @@ testers are expected to do more *exploratory* testing.
 
 * Test Case: Deletes a reminder with a valid index from a client with a valid index
   * Assumptions: Valid Inputs & Chosen Client has reminders to be removed
-  * User Input: rDelete 1 1
+  * User Input: `rDelete 1 1`
   * Expected Outcome:
     * The first reminder of the first client will be deleted.
     * A success message is displayed: `Deleted Client {Person's Name}'s Reminder 1: {Deleted Reminder}`
-    * The reminder list for the client at index 1 will not contain the [Deleted Reminder].
+    * The reminder list for the client at index 1 will not contain the {Deleted Reminder}.
 
 &nbsp;
 
 * Test Case: Deletes a reminder with a valid index from a client with an invalid index
   * Assumption: Invalid Client Index (index exceeds number of clients currently displayed)
-  * User Input: rDelete 100000 1
+  * User Input: `rDelete 100000 1`
   * Expected Outcome:
     * A failure message is displayed: `The client index provided is invalid — it exceeds the number of clients currently displayed`
 
@@ -1007,7 +1093,7 @@ testers are expected to do more *exploratory* testing.
 
 * Test Case: Deletes a reminder with an invalid index from a client with a valid index
   * Assumption: Invalid Reminder Index (index exceeds number of reminders of the client's reminder list)
-  * User Input: rDelete 1 10000000
+  * User Input: `rDelete 1 10000000`
   * Expected Outcome:
     * A failure message is displayed: `The reminder index provided is invalid — it exceeds the number of reminders this client currently has`
 
@@ -1022,7 +1108,7 @@ testers are expected to do more *exploratory* testing.
 
 * Test Case: Edits the reminder at a valid index of the reminder list of a client at a valid index
   * Assumption: Valid Inputs & Edited Reminder is **different** from Previous Reminder
-  * User Input: rEdit 1 1 h/Submit updated policy document d/2026-11-15 17:30
+  * User Input: `rEdit 1 1 h/Submit updated policy document d/2026-11-15 17:30`
   * Expected Outcome:
     * The first reminder of the client at index 1 will be replaced with a new reminder with the header [Submit updated policy document] and deadline [2026-11-15 17:30].
     * A success message is displayed: `Edited Client {Person's Name}'s Reminder 1: from {Previous Reminder} to {Edited Reminder}`
@@ -1031,7 +1117,7 @@ testers are expected to do more *exploratory* testing.
 
 * Test Case: Edits a reminder with a valid index from a client with an invalid index
   * Assumption: Invalid Client Index (index exceeds number of clients currently displayed)
-  * User Input: rEdit 100000 1 h/Submit updated policy document d/2026-11-15 17:30
+  * User Input: `rEdit 100000 1 h/Submit updated policy document d/2026-11-15 17:30`
   * Expected Outcome:
     * A failure message is displayed: `The client index provided is invalid — it exceeds the number of clients currently displayed`
 
@@ -1039,7 +1125,7 @@ testers are expected to do more *exploratory* testing.
 
 * Test Case: Edits a reminder with an invalid index from a client with a valid index
   * Assumption: Invalid Reminder Index (index exceeds number of reminders of the client's reminder list)
-  * User Input: rEdit 1 10000000 h/Submit updated policy document d/2026-11-15 17:30
+  * User Input: `rEdit 1 10000000 h/Submit updated policy document d/2026-11-15 17:30`
   * Expected Outcome:
     * A failure message is displayed: `The reminder index provided is invalid — it exceeds the number of reminders this client currently has`
 
@@ -1047,13 +1133,69 @@ testers are expected to do more *exploratory* testing.
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Saving data
+### Adding a meeting note
+* Prerequisites: Make sure the list of clients is displayed using the `activelist` command.
 
-1. Dealing with missing/corrupted data files
+&nbsp;
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+* Test Case: Adds a meeting note to a client with a valid index
+    * Assumption: Valid Inputs
+    * User Input: `note 1 Client is interested in the premium health policy`
+    * Expected Outcome:
+        * A meeting note {Client is interested in the premium health policy} is added to the top of the meeting note list of the client at index 1 .
+        * A success message is displayed: `Meeting note added to {Person's Name}: [date and time when note is created] CLient is interested in the premium health policy`
 
-1. _{ more test cases …​ }_
+&nbsp;
+
+* Test Case: Adds a meeting note to a client with an invalid index
+    * Assumption: Invalid Client Index (index exceeds number of clients currently displayed)
+    * User Input: `note 10000 Client is interested in the premium health policy`
+    * Expected Outcome:
+        * A failure message is displayed: `The client index provided is invalid — it exceeds the number of clients currently displayed`
+
+&nbsp;
+
+* Test Case: Adds a meeting note to a client with a valid index but invalid text
+    * Assumption: Valid Client Index but Invalid text (empty)
+    * User Input: `note 1`
+    * Expected Outcome:
+        * A failure message is displayed: `Invalid command format!
+          note: Adds a meeting note to the client identified by the index number in the displayed client list.
+          Parameters: INDEX (must be a positive integer) TEXT (cannot be empty)
+          Example: note 1 Client wants to know more about xx policy`
+
+<br>
+
+--------------------------------------------------------------------------------------------------------------------
+
+### Deleting a meeting note
+* Prerequisites: Make sure the list of clients is displayed using the `activelist` command
+
+&nbsp;
+
+* Test Case: Deletes a meeting note with a valid index from a client with a valid index
+    * Assumptions: Valid Inputs & Chosen Client has meeting notes to be removed
+    * User Input: `nDelete 1 1`
+    * Expected Outcome:
+        * The first meeting note of the first client will be deleted.
+        * A success message is displayed: `Deleted Client {Person's Name}'s Meeting Note 1: [date and time when note is created] {Deleted Meeting Note}`
+        * The meeting note list for the client at index 1 will not contain the {Deleted Meeting Note}.
+
+&nbsp;
+
+* Test Case: Deletes a reminder with a valid index from a client with an invalid index
+    * Assumption: Invalid Client Index (index exceeds number of clients currently displayed)
+    * User Input: nDelete 100000 1
+    * Expected Outcome:
+        * A failure message is displayed: `The client index provided is invalid — it exceeds the number of clients currently displayed`
+
+&nbsp;
+
+* Test Case: Deletes a reminder with an invalid index from a client with a valid index
+    * Assumption: Invalid Reminder Index (index exceeds number of reminders of the client's reminder list)
+    * User Input: rDelete 1 10000000
+    * Expected Outcome:
+        * A failure message is displayed: `The meeting note index provided is invalid — it exceeds the number of meeting notes this client currently has`
 
 <br>
 
@@ -1111,6 +1253,8 @@ and must include at least one letter or digit.`.
 
 <br>
 
+--------------------------------------------------------------------------------------------------------------------
+
 ### Starring a client
 * Prerequisites: Make sure the list of clients is displayed using the `activelist` command. The list should include at least one client who is not starred.
 
@@ -1150,6 +1294,8 @@ star: stars the client identified by the index number used in the displayed clie
 Parameters: INDEX (must be a positive integer)`.
 
 <br>
+
+--------------------------------------------------------------------------------------------------------------------
 
 ### Unstarring a client
 * Prerequisites: Make sure the list of clients is displayed using the `activelist` command. The list should include at least one client who is starred.
