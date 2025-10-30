@@ -327,7 +327,37 @@ The `add`, `delete` and `edit` reminders commands are then designed as separate 
     2. The method `Person#addReminder` is then called on the `Person` with the given `ClIENT_INDEX` in the model which takes in `EDITED_REMINDER` as parameter and adds it to the `Person` similar to how `AddReminderCommand` is implemented. 
 
 --------------------------------------------------------------------------------------------------------------------
+### Insurance Policy Feature
 
+#### Challenge
+* We introduced an **`InsurancePolicy`** field that must behave like other AB3-style value objects (trimmed, validated, immutable), while also:
+    - Integrating with **Add**/**Edit** client flows (parsing, error messages).
+    - Rendering consistently in the UI without breaking existing cards/layouts.
+
+#### Implementation Details
+
+`InsurancePolicy` is implemented as a value object:
+
+- **Class:** `InsurancePolicy.java`
+- **Internal field:**
+    * `String value` (trimmed in the constructor, guaranteed valid thereafter)
+
+- **Constraints:**
+    * Must contain **at least one** letter or digit.
+    * Allowed characters: letters, digits, spaces, and these symbols: `+ / & ( ) ' . , -`
+    * Leading/trailing spaces are **trimmed** before validation.
+
+##### Command Integration
+* ###### Add Client
+    * The user will execute `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS ip/INSURANCE_POLICY [t/TAG]…​`. `AddCommandParser.java` extracts `ip/…` and calls `ParserUtil.parseInsurancePolicy(...)`, which constructs `InsurancePolicy.java` or throws with MESSAGE_CONSTRAINTS.
+      `Person` is built with the validated and non-optional `InsurancePolicy` field and added to the clients list.
+
+--------------------------------------------------------------------------------------------------------------------
+* ##### Edit Client
+    * The user will execute `edit CLIENT_INDEX ip/INSURANCE_POLICY`. `EditCommandParser.java` treats `ip/…` as an optional edited field; if present, it validates and sets the new `InsurancePolicy.java`.
+      A new `Person` instance is created with the updated policy (immutability preserved), replacing the old one in `UniquePersonList.java`
+      
+--------------------------------------------------------------------------------------------------------------------
 ## **Documentation, logging, testing, configuration, dev-ops**
 
 * [Documentation guide](Documentation.md)
@@ -492,23 +522,22 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  The user selects the option to add clients.
-2.  The user enters the client's details (name, telephone number, email address).
-3.  FinHub validates the input.
-4.  FinHub adds the new client into the address book.
-5.  FinHub displays a confirmation message.
+1.  The user enters the client's details (name, telephone number, email address, insurance policy).
+2.  FinHub validates the input.
+3.  FinHub adds the new client into the address book.
+4.  FinHub displays a confirmation message.
 
     Use case ends.
 
 **Extensions**
 
-* 3a. The user enters invalid/missing inputs.
-    * 3a1. FinHub prompts the user to enter the correct details.
+* 2a. The user enters invalid/missing inputs.
+    * 2a1. FinHub prompts the user to enter the correct details.
 
-      Use case resumes at step 2.
+      Use case resumes at step 1.
 
-* 3b. The user enters an email/telephone number that has been added before.
-    * 3b1. FinHub warns that a duplicate entry is not allowed.
+* 2b. The user enters an email/telephone number that has been added before.
+    * 2b1. FinHub warns that a duplicate entry is not allowed.
 
       Use case ends.
 
@@ -547,7 +576,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  The user <u>searches for the client to edit by their name (UC01)</u>.
+1.  The user <u>searches for the client by their name (UC01)</u>.
 2.  The user selects the client to be edited, and enters one or more updated fields.
 3.  FinHub validates the updated data.
 4.  FinHub displays a success message.
@@ -645,7 +674,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 3.
 
-**Use case: UC12 - Set reminder for clients**
+**Use case: UC12 - Add reminder for clients**
 
 **Precondition**: Client list must not be empty.
 
@@ -1025,6 +1054,60 @@ testers are expected to do more *exploratory* testing.
    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
 1. _{ more test cases …​ }_
+
+<br>
+
+
+### Adding a client (with insurance policy field)
+* Prerequisites: -
+
+&nbsp;
+
+* Test Case: Add a client with a valid insurance policy
+    * Assumption: the client has not been added yet
+    * Input: `add n/Betsy Crowe e/betsycrowe@example.com a/Palace Street p/1234567 t/classmate ip/AIB LifePlan`
+    * Expected Outcome:
+        * The client, Betsy Crowe, is added.
+        * A success message is displayed: `New client added: Betsy Crowe; Phone: 1234567; Email: betsycrowe@example.com; Address: Palace Street; Insurance Policy: AIB LifePlan; Tags: [classmate]`.
+
+&nbsp;
+
+* Test Case: Add a client with an invalid insurance policy (just whitespace)
+    * Input: `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 ip/ `
+    * Expected Outcome:
+        * A failure message is displayed: `Policy name may only contain letters, digits, spaces, and + / & ( ) ' . , - 
+and must include at least one letter or digit.`.
+
+&nbsp;
+
+* Test Case: Try adding a client with invalid command format (no insurance policy)
+    * Input: `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
+    * Expected Outcome:
+        * A failure message is displayed: `Invalid command format! 
+add: Adds a client to FinHub. Parameters: n/NAME p/PHONE e/EMAIL a/ADDRESS ip/INSURANCE_POLICY [t/TAG]...
+Example: add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 ip/AIB Overall Lifeshield Plan t/friends t/owesMoney`
+
+<br>
+
+### Editing a client's insurance policy field
+* Prerequisites: The client has already been added.
+
+&nbsp;
+
+* Test Case: Edit a client with a new valid insurance policy
+    * Assumption: -
+    * Input: `edit 1 ip/AIB LifePlan`
+    * Expected Outcome:
+        * Client 1, Alex's insurance policy is now AIB LifePlan
+        * A success message is displayed: `Edited CLient: Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com; Address: Blk 30 Geylang Street 29, #06-40; Insurance Policy: AIB LifePlan; Tags: [friends]`.
+
+&nbsp;
+
+* Test Case: Edit a client with an invalid insurance policy (just whitespace)
+    * Input: `edit 1 ip/ `
+    * Expected Outcome:
+        * A failure message is displayed: `Policy name may only contain letters, digits, spaces, and + / & ( ) ' . , - 
+and must include at least one letter or digit.`.
 
 <br>
 
