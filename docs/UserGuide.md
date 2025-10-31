@@ -47,8 +47,8 @@ Our target users are insurance agents who:
   * [2.1 General Commands](#2-1-general-commands)
     * [2.1.1 Viewing Help : `help`](#2-1-1-viewing-help-help)
     * [2.1.2 Listing all Clients : `list`](#2-1-2-listing-all-clients-list)
-    * [2.1.3 Listing all active Clients : `activelist`](#2-1-3-listing-all-active-clients-list)
-    * [2.1.4 Listing all archived Clients : `archivelist`](#2-1-4-listing-all-archived-clients-list)
+    * [2.1.3 Listing all active Clients : `activelist`](#2-1-3-listing-active-clients-activelist)
+    * [2.1.4 Listing all archived Clients : `archivelist`](#2-1-4-listing-archive-clients-archivelist)
     * [2.1.5 Clear all Entries : `clear`](#2-1-5-clearing-all-entries-clear)
     * [2.1.6 Exiting the Program : `exit`](#2-1-6-exiting-the-program-exit)
   * [2.2 Managing Clients](#2-2-managing-clients)
@@ -631,26 +631,26 @@ Restore a backup of that file or delete it to regenerate sample data. Try to avo
 
 ## <font color=##3a5a40>6. Command Summary</font>
 
-| Action                                                       | Format, Examples                                                                                                                                                                              |
-|--------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [**Help**](#2-1-1-viewing-help-help)                         | `help`                                                                                                                                                                                        |
-| [**List**](#2-1-2-listing-all-clients-list)                  | `list`                                                                                                                                                                                        |
-| [**activelist**](#2-1-3-listing-all-active-clients-list)     | `activelist`                                                                                                                                                                                  |
-| [**archivelist**](#2-1-4-listing-all-archive-clients-list)   | `archivelist`                                                                                                                                                                                 |
-| [**Clear**](#2-1-5-clearing-all-entires-clear)               | `clear`                                                                                                                                                                                       |
-| [**Add**](#2-2-1-adding-a-client-add)                        | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS ip/INSURANCE_POLICY [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`  |
-| [**Delete**](#2-2-2-deleting-a-client-delete)                | `delete CLIENT_INDEX`<br> e.g., `delete 3`                                                                                                                                                    |
-| [**Edit**](#2-2-3-editing-a-client-edit)                     | `edit CLIENT_INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [ip/INSURANCE_POLICY] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                   |g
-| [**Find**](#2-2-4-locating-clients-by-name-find)             | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                                                    |
-| [**Star**](#2-2-5-starring-a-client-star)                    | `star CLIENT_INDEX`<br> e.g., `star 1`                                                                                                                                                        |
-| [**Unstar**](#2-2-6-removing-star-status-of-a-client-unstar) | `unstar CLIENT_INDEX`<br> e.g., `unstar 1`                                                                                                                                                    |
-| [**Archive**](#2-2-7-archiving-a-client-archive)             | `archive CLIENT_INDEX`<br> e.g., `archive 1`                                                                                                                                                  |
-| [**Unarchive**](#2-2-8-unarchiving-a-client-unarchive)       | `unarchive CLIENT_INDEX`<br> e.g., `unarchive 1`                                                                                                                                              |
-| [**Reminder**](#2-3-1-adding-a-reminder-reminder)            | `reminder CLIENT_INDEX h/HEADER d/DEADLINE`<br> e.g., `reminder 1 h/Meeting on Friday d/2026-04-24 16:00`                                                                                     |  
-| [**rDelete**](#2-3-2-deleting-a-reminder-rdelete)            | `rDelete CLIENT_INDEX REMINDER_INDEX`<br> e.g., `rDelete 2 1`                                                                                                                                 |
-| [**rEdit**](#2-3-3-editing-a-reminder-redit)                 | `rEdit CLIENT_INDEX REMINDER_INDEX h/HEADER d/DEADLINE`<br> e.g., `rEdit 1 1 h/Meeting on Friday d/2026-04-24 16:00`                                                                          |
-| [**Note**](#2-4-1-adding-a-meeting-note-note)                | `note CLIENT_INDEX TEXT`<br> e.g., `note 1 Client wants to know about policy abc`                                                                                                             |
-| [**nDelete**](#2-4-2-deleting-a-meeting-note-ndelete)        | `nDelete CLIENT_INDEX MEETING_NOTE_INDEX`<br> e.g., `nDelete 1 1`                                                                                                                             |
+| Action                                                        | Format, Examples                                                                                                                                                                              |
+|---------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [**Help**](#2-1-1-viewing-help-help)                          | `help`                                                                                                                                                                                        |
+| [**List**](#2-1-2-listing-all-clients-list)                   | `list`                                                                                                                                                                                        |
+| [**activelist**](#2-1-3-listing-active-clients-activelist)    | `activelist`                                                                                                                                                                                  |
+| [**archivelist**](#2-1-4-listing-archive-clients-archivelist) | `archivelist`                                                                                                                                                                                 |
+| [**Clear**](#2-1-5-clearing-all-entries-clear)                | `clear`                                                                                                                                                                                       |
+| [**Add**](#2-2-1-adding-a-client-add)                         | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS ip/INSURANCE_POLICY [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`  |
+| [**Delete**](#2-2-2-deleting-a-client-delete)                 | `delete CLIENT_INDEX`<br> e.g., `delete 3`                                                                                                                                                    |
+| [**Edit**](#2-2-3-editing-a-client-edit)                      | `edit CLIENT_INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [ip/INSURANCE_POLICY] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                   |g
+| [**Find**](#2-2-4-locating-clients-by-name-find)              | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                                                    |
+| [**Star**](#2-2-5-starring-a-client-star)                     | `star CLIENT_INDEX`<br> e.g., `star 1`                                                                                                                                                        |
+| [**Unstar**](#2-2-6-removing-star-status-of-a-client-unstar)  | `unstar CLIENT_INDEX`<br> e.g., `unstar 1`                                                                                                                                                    |
+| [**Archive**](#2-2-7-archiving-a-client-archive)              | `archive CLIENT_INDEX`<br> e.g., `archive 1`                                                                                                                                                  |
+| [**Unarchive**](#2-2-8-unarchiving-a-client-unarchive)        | `unarchive CLIENT_INDEX`<br> e.g., `unarchive 1`                                                                                                                                              |
+| [**Reminder**](#2-3-1-adding-a-reminder-reminder)             | `reminder CLIENT_INDEX h/HEADER d/DEADLINE`<br> e.g., `reminder 1 h/Meeting on Friday d/2026-04-24 16:00`                                                                                     |  
+| [**rDelete**](#2-3-2-deleting-a-reminder-rdelete)             | `rDelete CLIENT_INDEX REMINDER_INDEX`<br> e.g., `rDelete 2 1`                                                                                                                                 |
+| [**rEdit**](#2-3-3-editing-a-reminder-redit)                  | `rEdit CLIENT_INDEX REMINDER_INDEX h/HEADER d/DEADLINE`<br> e.g., `rEdit 1 1 h/Meeting on Friday d/2026-04-24 16:00`                                                                          |
+| [**Note**](#2-4-1-adding-a-meeting-note-note)                 | `note CLIENT_INDEX TEXT`<br> e.g., `note 1 Client wants to know about policy abc`                                                                                                             |
+| [**nDelete**](#2-4-2-deleting-a-meeting-note-ndelete)         | `nDelete CLIENT_INDEX MEETING_NOTE_INDEX`<br> e.g., `nDelete 1 1`                                                                                                                             |
 
 
 ## Glossary
