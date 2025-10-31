@@ -503,7 +503,37 @@ _{Explain here how the data archiving feature will be implemented}_
 <br>
 
 --------------------------------------------------------------------------------------------------------------------
+### Insurance Policy Feature
 
+#### Challenge
+* We introduced an **`InsurancePolicy`** field that must behave like other AB3-style value objects (trimmed, validated, immutable), while also:
+    - Integrating with **Add**/**Edit** client flows (parsing, error messages).
+    - Rendering consistently in the UI without breaking existing cards/layouts.
+
+#### Implementation Details
+
+`InsurancePolicy` is implemented as a value object:
+
+- **Class:** `InsurancePolicy.java`
+- **Internal field:**
+    * `String value` (trimmed in the constructor, guaranteed valid thereafter)
+
+- **Constraints:**
+    * Must contain **at least one** letter or digit.
+    * Allowed characters: letters, digits, spaces, and these symbols: `+ / & ( ) ' . , -`
+    * Leading/trailing spaces are **trimmed** before validation.
+
+##### Command Integration
+* ###### Add Client
+    * The user will execute `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS ip/INSURANCE_POLICY [t/TAG]…​`. `AddCommandParser.java` extracts `ip/…` and calls `ParserUtil.parseInsurancePolicy(...)`, which constructs `InsurancePolicy.java` or throws with MESSAGE_CONSTRAINTS.
+      `Person` is built with the validated and non-optional `InsurancePolicy` field and added to the clients list.
+
+--------------------------------------------------------------------------------------------------------------------
+* ##### Edit Client
+    * The user will execute `edit CLIENT_INDEX ip/INSURANCE_POLICY`. `EditCommandParser.java` treats `ip/…` as an optional edited field; if present, it validates and sets the new `InsurancePolicy.java`.
+      A new `Person` instance is created with the updated policy (immutability preserved), replacing the old one in `UniquePersonList.java`
+      
+--------------------------------------------------------------------------------------------------------------------
 ## **Documentation, logging, testing, configuration, dev-ops**
 
 * [Documentation guide](Documentation.md)
@@ -532,39 +562,40 @@ _{Explain here how the data archiving feature will be implemented}_
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                | I want to …​                                                          | So that I can…​                                                                                         |
-|----------|------------------------|-----------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|
-| `* * *`  | user                   | save the data I input                                                 | not have to input them again on start-up                                                                |
-| `* * *`  | user                   | search clients by name                                                | easily find a specific client’s information                                                             |
-| `* * *`  | user                   | delete reminders                                                      | remove any outdated/non-necessary/wrongly set-up reminders                                              |
-| `* * *`  | user                   | add a new client's contact                                            | keep track of his information                                                                           |
-| `* * *`  | user                   | delete a client's contact                                             | keep my contacts clean                                                                                  |
-| `* * *`  | user                   | set reminders for policy renewal dates, birthdays, or important dates | maintain strong client relationships and be reminded to follow up                                       |
-| `* * *`  | user                   | use CLI                                                               | easily find what I am looking for rather than navigating a GUI                                          |
-| `* *`    | user                   | search clients by phone number                                        | find specific clients through their phone number                                                        |
-| `* *`    | user                   | search clients by email                                               | find specific clients through their email                                                               |
-| `* *`    | user                   | mark my client as completed                                           | easily keep track of which clients are already onboarded and who is yet to be onboarded                 |
-| `* *`    | user                   | receive alerts                                                        | maintain regular engagement                                                                             |
-| `* *`    | user                   | see upcoming policy renewal dates                                     | proactively reach out to clients before policy expires                                                  |
-| `* *`    | user                   | keep track of my client's deadline that is coming soon                | better prioritise and manage my time                                                                    |
-| `* *`    | forgetful user         | be alerted when I try to add a duplicate client                       | keep my contacts organised                                                                              |
-| `* *`    | user                   | edit a client's information                                           | update changing information                                                                             |
-| `* *`    | user                   | record client meeting notes                                           | remember key discussion points with each client                                                         |
-| `* *`    | user                   | view revenue/profit per client                                        | identify my most valuable clients.                                                                      |
-| `* *`    | user                   | record client preferences for preferred communication channel         | contact them in the best way possible                                                                   |
-| `* *`    | user                   | group my clients by policy type                                       | quickly filter relevant contacts                                                                        |
-| `* *`    | user                   | edit reminders                                                        | make changes to reminders when I change my mind                                                         |
-| `*`      | user                   | be able to tag a client with a custom label                           | customize the grouping of clients                                                                       |
-| `*`      | user                   | bookmark “star clients” for quick access                              | jump to top clients immediately                                                                         |
-| `*`      | user                   | assign priority levels to tasks                                       | manage time more efficiently                                                                            |
-| `*`      | user                   | view a client history timeline                                        | see a chronological record of interactions                                                              |
-| `*`      | user                   | see in-app tutorials                                                  | easily familiarise with FinHub's features                                                               |
-| `*`      | user with many clients | save the data I enter                                                 | save time re-entering all data each time I open the app                                                 |
-| `*`      | user                   | view a dashboard summary of activities                                | get an overview of my workload                                                                          |
-| `*`      | user                   | keep track of insurance claims requested by clients                   | easily see what claims are made for the different clients, as well as when the claim has been requested |
-| `*`      | user                   | archive inactive clients                                              | keep my workspace uncluttered                                                                           |
-| `*`      | user                   | export data as a spreadsheet                                          | view it more easily                                                                                     |
-| `*`      | user                   | access FinHub with a password                                         | keep my client's information confidential                                                               |
+| Priority | As a …​                | I want to …​                                                          | So that I can…​                                                                                                                                    |
+|----------|------------------------|-----------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| `* * *`  | user                   | save the data I input                                                 | not have to input them again on start-up                                                                                                           |
+| `* * *`  | user                   | search clients by name                                                | easily find a specific client’s information                                                                                                        |
+| `* * *`  | user                   | delete reminders                                                      | remove any outdated/non-necessary/wrongly set-up reminders                                                                                         |
+| `* * *`  | user                   | add a new client's contact                                            | keep track of his information                                                                                                                      |
+| `* * *`  | user                   | delete a client's contact                                             | keep my contacts clean                                                                                                                             |
+| `* * *`  | user                   | set reminders for policy renewal dates, birthdays, or important dates | maintain strong client relationships and be reminded to follow up                                                                                  |
+| `* * *`  | user                   | use CLI                                                               | easily find what I am looking for rather than navigating a GUI                                                                                     |
+| `* * *`  | user                   | record clients' insurance policy                                      | easily review what coverage your clients already have and identify gaps or overlaps.                                                               |
+| `* *`    | user                   | search clients by phone number                                        | find specific clients through their phone number                                                                                                   |
+| `* *`    | user                   | search clients by email                                               | find specific clients through their email                                                                                                          |
+| `* *`    | user                   | mark my client as completed                                           | easily keep track of which clients are already onboarded and who is yet to be onboarded                                                            |
+| `* *`    | user                   | receive alerts                                                        | maintain regular engagement                                                                                                                        |
+| `* *`    | user                   | see upcoming policy renewal dates                                     | proactively reach out to clients before policy expires                                                                                             |
+| `* *`    | user                   | keep track of my client's deadline that is coming soon                | better prioritise and manage my time                                                                                                               |
+| `* *`    | forgetful user         | be alerted when I try to add a duplicate client                       | keep my contacts organised                                                                                                                         |
+| `* *`    | user                   | edit a client's information                                           | update changing information                                                                                                                        |
+| `* *`    | user                   | record client meeting notes                                           | remember key discussion points with each client                                                                                                    |
+| `* *`    | user                   | view revenue/profit per client                                        | identify my most valuable clients.                                                                                                                 |
+| `* *`    | user                   | record client preferences for preferred communication channel         | contact them in the best way possible                                                                                                              |
+| `* *`    | user                   | group my clients by policy type                                       | quickly filter relevant contacts                                                                                                                   |
+| `* *`    | user                   | edit reminders                                                        | make changes to reminders when I change my mind                                                                                                    |
+| `*`      | user                   | be able to tag a client with a custom label                           | customize the grouping of clients                                                                                                                  |
+| `*`      | user                   | bookmark “star clients” for quick access                              | jump to top clients immediately                                                                                                                    |
+| `*`      | user                   | assign priority levels to tasks                                       | manage time more efficiently                                                                                                                       |
+| `*`      | user                   | view a client history timeline                                        | see a chronological record of interactions                                                                                                         |
+| `*`      | user                   | see in-app tutorials                                                  | easily familiarise with FinHub's features                                                                                                          |
+| `*`      | user with many clients | save the data I enter                                                 | save time re-entering all data each time I open the app                                                                                            |
+| `*`      | user                   | view a dashboard summary of activities                                | get an overview of my workload                                                                                                                     |
+| `*`      | user                   | keep track of insurance claims requested by clients                   | easily see what claims are made for the different clients, as well as when the claim has been requested                                            |
+| `*`      | user                   | archive inactive clients                                              | keep my workspace uncluttered                                                                                                                      |
+| `*`      | user                   | export data as a spreadsheet                                          | view it more easily                                                                                                                                |
+| `*`      | user                   | access FinHub with a password                                         | keep my client's information confidential                                                                                                          |
 
 
 ### Use cases
@@ -669,23 +700,22 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  The user selects the option to add clients.
-2.  The user enters the client's details (name, telephone number, email address).
-3.  FinHub validates the input.
-4.  FinHub adds the new client into the address book.
-5.  FinHub displays a confirmation message.
+1.  The user enters the client's details (name, telephone number, email address, insurance policy).
+2.  FinHub validates the input.
+3.  FinHub adds the new client into the address book.
+4.  FinHub displays a confirmation message.
 
     Use case ends.
 
 **Extensions**
 
-* 3a. The user enters invalid/missing inputs.
-    * 3a1. FinHub prompts the user to enter the correct details.
+* 2a. The user enters invalid/missing inputs.
+    * 2a1. FinHub prompts the user to enter the correct details.
 
-      Use case resumes at step 2.
+      Use case resumes at step 1.
 
-* 3b. The user enters an email/telephone number that has been added before.
-    * 3b1. FinHub warns that a duplicate entry is not allowed.
+* 2b. The user enters an email/telephone number that has been added before.
+    * 2b1. FinHub warns that a duplicate entry is not allowed.
 
       Use case ends.
 
@@ -718,7 +748,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  The user <u>searches for the client to edit by their name (UC01)</u>.
+1.  The user <u>searches for the client by their name (UC01)</u>.
 2.  The user selects the client to be edited, and enters one or more updated fields.
 3.  FinHub validates the updated data.
 4.  FinHub displays a success message.
@@ -816,7 +846,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 3.
 
-**Use case: UC12 - Set reminder for clients**
+**Use case: UC12 - Add reminder for clients**
 
 **Precondition**: Client list must not be empty.
 
@@ -898,10 +928,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 3.
 
-* 2a. The user enters an invalid note.
-    * 2a1. FinHub warns that the note entered is invalid and prompts the user to enter again.
+* 2b. The user enters an invalid note.
+    * 2b1. FinHub warns that the note entered is invalid and prompts the user to enter again.
 
-      Step 2a1 is repeated until a valid note.
+      Step 2b1 is repeated until a valid note.
 
       Use case resumes at step 3.
 
@@ -1277,6 +1307,59 @@ testers are expected to do more *exploratory* testing.
 
 <br>
 
+
+### Adding a client (with insurance policy field)
+* Prerequisites: -
+
+&nbsp;
+
+* Test Case: Add a client with a valid insurance policy
+    * Assumption: the client has not been added yet
+    * Input: `add n/Betsy Crowe e/betsycrowe@example.com a/Palace Street p/1234567 t/classmate ip/AIB LifePlan`
+    * Expected Outcome:
+        * The client, Betsy Crowe, is added.
+        * A success message is displayed: `New client added: Betsy Crowe; Phone: 1234567; Email: betsycrowe@example.com; Address: Palace Street; Insurance Policy: AIB LifePlan; Tags: [classmate]`.
+
+&nbsp;
+
+* Test Case: Add a client with an invalid insurance policy (just whitespace)
+    * Input: `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 ip/ `
+    * Expected Outcome:
+        * A failure message is displayed: `Policy name may only contain letters, digits, spaces, and + / & ( ) ' . , - 
+and must include at least one letter or digit.`.
+
+&nbsp;
+
+* Test Case: Try adding a client with invalid command format (no insurance policy)
+    * Input: `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
+    * Expected Outcome:
+        * A failure message is displayed: `Invalid command format! 
+add: Adds a client to FinHub. Parameters: n/NAME p/PHONE e/EMAIL a/ADDRESS ip/INSURANCE_POLICY [t/TAG]...
+Example: add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 ip/AIB Overall Lifeshield Plan t/friends t/owesMoney`
+
+<br>
+
+### Editing a client's insurance policy field
+* Prerequisites: The client has already been added.
+
+&nbsp;
+
+* Test Case: Edit a client with a new valid insurance policy
+    * Input: `edit 1 ip/AIB LifePlan`
+    * Expected Outcome:
+        * Client 1, Alex's insurance policy is now AIB LifePlan
+        * A success message is displayed: `Edited CLient: Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com; Address: Blk 30 Geylang Street 29, #06-40; Insurance Policy: AIB LifePlan; Tags: [friends]`.
+
+&nbsp;
+
+* Test Case: Edit a client with an invalid insurance policy (just whitespace)
+    * Input: `edit 1 ip/ `
+    * Expected Outcome:
+        * A failure message is displayed: `Policy name may only contain letters, digits, spaces, and + / & ( ) ' . , - 
+and must include at least one letter or digit.`.
+
+<br>
+
 --------------------------------------------------------------------------------------------------------------------
 
 ### Archiving a client
@@ -1496,27 +1579,27 @@ Parameters: INDEX (must be a positive integer).`
 
 **Effort Required**
 
-**Design & Architecture (≈ 1–2 person-days)
+**Design & Architecture (≈ 1–2 person-days)**
 - Identified where **new responsibilities** live (model vs parser vs UI), keeping AB3 layering intact.
 - Defined **error messaging strategy** (model-centric constraints; consistent messages).
 - Decided on **single-source-of-truth** for people + **view predicates** for Active/Archived/Starred.
 - Chose **tolerant JSON readers** (forward/backward compatibility) + strict writers.
 
-**Model & Validation (≈ 1–3 person-days)
+**Model & Validation (≈ 1–3 person-days)**
 - Implemented value objects/entities:
-    - `Reminder` (header + future-only datetime, canonical formatter).
+    - `Reminder` (header + datetime, canonical formatter).
     - `MeetingNote` (immutable text).
     - `InsurancePolicy` (trim + regex; explicit constraints).
 - Added invariants + unit tests (null/empty, whitespace, format, “close to now” edges).
 - Ensured **immutability** or safe copying for nested lists.
 
-**Logic & Parsing (≈ 2–4 person-days)
-- New commands & parsers: `addrem`, `editrem`, `delrem`, `addnote`, `delnote`, `archive`, `unarchive`, `activelist`, `archivelist`, `star`, `unstar`.
+**Logic & Parsing (≈ 2–4 person-days)**
+- New commands & parsers: `reminder`, `rEdit`, `rDelete`, `note`, `nDelete`, `archive`, `unarchive`, `activelist`, `archivelist`, `star`, `unstar`.
 - **Late index resolution** in `Command#execute` to avoid stale indices under filters.
 - Distinct error surfaces for **person index** vs **inner list index**.
 - Tests for parsing ambiguity, missing prefixes, and filtered-list behaviors.
 
-**UI Engineering (multi-panel, scrolling) (≈ 3–5 person-days)
+**UI Engineering (multi-panel, scrolling) (≈ 3–5 person-days)**
 - Panels: `ReminderListPanel`, `GeneralReminderListPanel`, `MeetingNoteListPanel`; cards for both.
 - Fixed **nested scroll bugs** (double scrollbars, clipped text, scroll focus jumps):
     - Avoid `ScrollPane` inside `ListView`.
@@ -1525,45 +1608,44 @@ Parameters: INDEX (must be a positive integer).`
 - Reapplied comparator/filter **once** after mutations to reduce layout thrashing.
 - Visual markers for **starred/archived** without breaking virtualization.
 
-**Storage & Migration (≈ 2–3 person-days)
+**Storage & Migration (≈ 2–3 person-days)**
 - Adapters: `JsonAdaptedReminder`, `JsonAdaptedMeetingNote`, updated `JsonAdaptedPerson`.
 - **Backward compatibility**: default missing arrays to `[]`, ignore unknown fields; fail only on truly corrupted sub-entries.
 - Round-trip tests: new → JSON → new; **old JSON → new model**; mixed lists with corrupted entries.
 
-**Testing (≈ 3–5 person-days)
+**Testing (≈ 3–5 person-days)**
 - **Model**: value object constraints, equals/hashCode, string forms.
 - **Logic**: success/failure paths, filtered/archived/starred interactions, two-index commands.
 - **Storage**: deserialisation with missing/extra fields, corrupted sub-entries, non-ASCII.
 - **UI** (selective): render of multi-line reminder/note cards; no horizontal overflow; no crash on long texts.
 - Regression tests for **scrolling bugs** (where feasible) and **message wording**.
 
-**Tooling, CI, Docs (≈ 1–2 person-days)
+**Tooling, CI, Docs (≈ 1–2 person-days)**
 - Gradle tasks wired for tests and checks; CI green on model/logic/storage suites.
 - Updated DG & UG, manual testing appendix, and acknowledgements; PlantUML stubs added.
 
 
 **Achievements**
 
-**Reliability & Data Safety
-- **Future-only reminders** with canonical parsing prevent silent “past reminder” entries.
+**Reliability & Data Safety**
 - **Tolerant JSON readers** mean older saves still load; corrupted sub-items no longer crash the app—users keep the rest of their data.
 - **Late index resolution** eliminates a class of “deleted wrong row” bugs in filtered views.
 
-**Usability & UX
-- **Clear, targeted errors** (format + future-time; person vs reminder index) reduce user confusion.
+**Usability & UX**
+- **Clear, targeted errors** (format + time; person vs reminder index) reduce user confusion.
 - **Multi-panel UI** now handles long, wrapped content without clipping or random scrollbars.
 - **Star/Archive indicators** are visible and consistent with list filters.
 
-**Code Quality & Maintainability
+**Code Quality & Maintainability**
 - Constraints enforced at the **model boundary** (single source of truth).
 - **No duplicated lists** for filters—predicates maintain a coherent view over one dataset.
 - Cohesive adapters (`JsonAdapted*`) isolate serialization concerns, easing future schema changes.
 
-**Performance & Responsiveness
+**Performance & Responsiveness**
 - **Virtualized lists** remain snappy even with many reminders/notes.
 - Post-mutation **one-shot refresh** prevents relayout storms.
 
-**Developer Experience
+**Developer Experience**
 - **Deterministic tests**: reduced flakiness from “close to now” cases.
 - DG/UG now **point to the right classes and flows**, making onboarding easier.
 
