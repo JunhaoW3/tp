@@ -1237,7 +1237,6 @@ Example: add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #0
 &nbsp;
 
 * Test Case: Edit a client with a new valid insurance policy
-    * Assumption: -
     * Input: `edit 1 ip/AIB LifePlan`
     * Expected Outcome:
         * Client 1, Alex's insurance policy is now AIB LifePlan
@@ -1412,14 +1411,14 @@ Parameters: INDEX (must be a positive integer)`.
 
 **Model & Validation (≈ 1–3 person-days)
 - Implemented value objects/entities:
-    - `Reminder` (header + future-only datetime, canonical formatter).
+    - `Reminder` (header + datetime, canonical formatter).
     - `MeetingNote` (immutable text).
     - `InsurancePolicy` (trim + regex; explicit constraints).
 - Added invariants + unit tests (null/empty, whitespace, format, “close to now” edges).
 - Ensured **immutability** or safe copying for nested lists.
 
 **Logic & Parsing (≈ 2–4 person-days)
-- New commands & parsers: `addrem`, `editrem`, `delrem`, `addnote`, `delnote`, `archive`, `unarchive`, `activelist`, `archivelist`, `star`, `unstar`.
+- New commands & parsers: `reminder`, `rEdit`, `rDelete`, `note`, `nDelete`, `archive`, `unarchive`, `activelist`, `archivelist`, `star`, `unstar`.
 - **Late index resolution** in `Command#execute` to avoid stale indices under filters.
 - Distinct error surfaces for **person index** vs **inner list index**.
 - Tests for parsing ambiguity, missing prefixes, and filtered-list behaviors.
