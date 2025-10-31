@@ -46,6 +46,7 @@ public class ModelManager implements Model {
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         archivedPersons = new FilteredList<>(this.addressBook.getPersonList(), Person::isArchived);
         updateFilteredPersonList(person -> !person.isArchived());
+        this.currentFilter = p -> !p.isArchived();
         this.generalReminderList = FXCollections.observableArrayList();
         for (Person p : filteredPersons) {
             ArrayList<Reminder> pReminderList = p.getReminders();
