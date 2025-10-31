@@ -12,7 +12,7 @@ tasks done faster than traditional GUI apps.
 
 <box type="tip">
 
-**Tip:** In addition to managing standard contact fields, FinHub also allows you to add reminders and meeting notes to 
+**Tip:** In addition to managing standard contact fields, FinHub also allows you to add reminders and meeting notes to
 each client. You also have the option to star or archive clients for better client organisation.
 </box>
 
@@ -144,7 +144,7 @@ Our target users are insurance agents who:
   as space characters surrounding line-breaks may be omitted when copied over to the application.
   </box>
 
-* Any indices i.e. `CLIENT_INDEX`, `REMINDER_INDEX` and `MEETING_NOTE_INDEX` 
+* Any indices i.e. `CLIENT_INDEX`, `REMINDER_INDEX` and `MEETING_NOTE_INDEX`
   **must be positive integers** 1, 2, 3, …​
 
 
@@ -284,8 +284,8 @@ Finds clients whose names contain any of the given keywords.
 
 Format: `find KEYWORD [MORE_KEYWORDS]`
 
-* The search is case-insensitive. 
-* The order of the keywords does not matter. 
+* The search is case-insensitive.
+* The order of the keywords does not matter.
 * Only the name is searched.
 * Clients matching at least one keyword will be returned (i.e. `OR` search).
 
@@ -411,10 +411,10 @@ Format: `reminder CLIENT_INDEX h/HEADER d/DEADLINE`
 
 Examples:
 
-* `list` followed by `reminder 2 h/Meeting on Friday d/2026-04-24 16:00` adds the reminder "Meeting on Friday, due by 
-2026-04-24 16:00" to the 2nd client in the displayed clients list. 
-* `find alex` followed by `reminder 1 h/Meeting on Saturday d/2026-06-24 18:00` adds the reminder "Meeting on Saturday, 
-* due by 2026-06-24 18:00" to the 1st client in the results of the `find` command. 
+* `list` followed by `reminder 2 h/Meeting on Friday d/2026-04-24 16:00` adds the reminder "Meeting on Friday, due by
+2026-04-24 16:00" to the 2nd client in the displayed clients list.
+* `find alex` followed by `reminder 1 h/Meeting on Saturday d/2026-06-24 18:00` adds the reminder "Meeting on Saturday,
+* due by 2026-06-24 18:00" to the 1st client in the results of the `find` command.
 
 <box type="tip">
 
@@ -493,7 +493,7 @@ Format: `note CLIENT_INDEX TEXT`
 * When adding a meeting note, FinHub automatically records the date and time the note was added.
 * `CLIENT_INDEX` refers to the index number of the client shown in the displayed clients list.
 * `TEXT` refers to the content of the meeting note that you want to add to the specified client.
-* `TEXT` cannot be empty. 
+* `TEXT` cannot be empty.
 * Only one meeting note can be added at a time.
 * More than one meeting note can be added to each client.
 
@@ -521,7 +521,7 @@ Format: `nDelete CLIENT_INDEX MEETING_NOTE_INDEX`
 
 * Deletes the meeting note at the specified `MEETING_NOTE_INDEX` of the specified clients listed at `CLIENT_INDEX`.
 * `CLIENT_INDEX` refers to the index number of the client shown in the displayed clients list.
-* `MEETING_NOTE_INDEX` refers to the index number of the meeting note shown in the specified client's 
+* `MEETING_NOTE_INDEX` refers to the index number of the meeting note shown in the specified client's
 displayed meeting notes list.
 * Both `CLIENT_INDEX` and `MEETING_NOTE_INDEX` must be provided.
 * Only one meeting note can be deleted at a time.
@@ -634,7 +634,7 @@ Restore a backup of that file or delete it to regenerate sample data. Try to avo
 | Action                                                       | Format, Examples                                                                                                                                                                              |
 |--------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [**Help**](#2-1-1-viewing-help-help)                         | `help`                                                                                                                                                                                        |
-| [**List**](#2-1-2-listing-all-clients-list)                  | `list`                                                                                                                                                                                        | 
+| [**List**](#2-1-2-listing-all-clients-list)                  | `list`                                                                                                                                                                                        |
 | [**activelist**](#2-1-3-listing-all-active-clients-list)     | `activelist`                                                                                                                                                                                  |
 | [**archivelist**](#2-1-4-listing-all-archive-clients-list)   | `archivelist`                                                                                                                                                                                 |
 | [**Clear**](#2-1-5-clearing-all-entires-clear)               | `clear`                                                                                                                                                                                       |
@@ -645,13 +645,13 @@ Restore a backup of that file or delete it to regenerate sample data. Try to avo
 | [**Star**](#2-2-5-starring-a-client-star)                    | `star CLIENT_INDEX`<br> e.g., `star 1`                                                                                                                                                        |
 | [**Unstar**](#2-2-6-removing-star-status-of-a-client-unstar) | `unstar CLIENT_INDEX`<br> e.g., `unstar 1`                                                                                                                                                    |
 | [**Archive**](#2-2-7-archiving-a-client-archive)             | `archive CLIENT_INDEX`<br> e.g., `archive 1`                                                                                                                                                  |
-| [**Unarchive**](#2-2-8-unarchiving-a-client-unarchive)       | `unarchive CLIENT_INDEX`<br> e.g., `unarchive 1`                                                                                                                                              | 
-| [**Reminder**](#2-3-1-adding-a-reminder-reminder)            | `reminder CLIENT_INDEX h/HEADER d/DEADLINE`<br> e.g., `reminder 1 h/Meeting on Friday d/2026-04-24 16:00`                                                                                     |   
+| [**Unarchive**](#2-2-8-unarchiving-a-client-unarchive)       | `unarchive CLIENT_INDEX`<br> e.g., `unarchive 1`                                                                                                                                              |
+| [**Reminder**](#2-3-1-adding-a-reminder-reminder)            | `reminder CLIENT_INDEX h/HEADER d/DEADLINE`<br> e.g., `reminder 1 h/Meeting on Friday d/2026-04-24 16:00`                                                                                     |  
 | [**rDelete**](#2-3-2-deleting-a-reminder-rdelete)            | `rDelete CLIENT_INDEX REMINDER_INDEX`<br> e.g., `rDelete 2 1`                                                                                                                                 |
 | [**rEdit**](#2-3-3-editing-a-reminder-redit)                 | `rEdit CLIENT_INDEX REMINDER_INDEX h/HEADER d/DEADLINE`<br> e.g., `rEdit 1 1 h/Meeting on Friday d/2026-04-24 16:00`                                                                          |
 | [**Note**](#2-4-1-adding-a-meeting-note-note)                | `note CLIENT_INDEX TEXT`<br> e.g., `note 1 Client wants to know about policy abc`                                                                                                             |
-| [**nDelete**](#2-4-2-deleting-a-meeting-note-ndelete)        | `nDelete CLIENT_INDEX MEETING_NOTE_INDEX`<br> e.g., `nDelete 1 1`                                                                                                                             |   
-                                                                                                                                                                             
+| [**nDelete**](#2-4-2-deleting-a-meeting-note-ndelete)        | `nDelete CLIENT_INDEX MEETING_NOTE_INDEX`<br> e.g., `nDelete 1 1`                                                                                                                             |
+
 
 ## Glossary
 

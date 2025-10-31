@@ -13,7 +13,7 @@
 
 ## **Acknowledgements**
 
-FinHub was adapted from AddressBook-Level3 (AB3) reated by the [SE-EDU initiative](https://se-education.org)
+FinHub was adapted from AddressBook-Level3 (AB3) created by the [SE-EDU initiative](https://se-education.org)
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -69,7 +69,7 @@ The sections below give more details of each component.
 
 The **API** of this component is specified in [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
 
-<puml src="diagrams/UiClassDiagram.puml" alt="Structure of the UI Component"/>
+<puml src="diagrams/UiClassDiagram.puml" alt="Structure of the UI Component" width="800"/>
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
@@ -118,7 +118,7 @@ How the parsing works:
 ### Model component
 **API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
 
-<puml src="diagrams/ModelClassDiagram.puml" width="450" />
+<puml src="diagrams/ModelClassDiagram.puml" width="650" />
 
 
 The `Model` component,
@@ -152,11 +152,255 @@ The `Storage` component,
 
 Classes used by multiple components are in the `seedu.address.commons` package.
 
+<br>
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Implementation**
 
 This section describes some noteworthy details on how certain features are implemented.
+
+### Reminders Feature
+
+#### Challenge
+* Reminders was the first feature that we deemed as important for MVP - as we decided that reminders will be stored as an `ArrayList<Reminder>` for each `Person`, we needed to expand the current model, logic and storage to include it.
+
+#### Implementation Details
+
+Reminders are set up as a `Reminder.java` class with two key internal fields.
+* `String` header
+* `LocalDateTime` deadline
+
+<br>
+
+The `add`, `delete` and `edit` reminders commands are then designed as separate commands based on a new field in the `Person.java` class where reminders are internally stored as an `ArrayList<Reminder>` for every `Person` object initialised.
+
+<br>
+
+##### Command Implementation
+* ###### Add Reminder
+  * The user will execute `reminder CLIENT_INDEX h/HEADER d/yyyy-MM-dd HH:mm` which initialises a new `Reminder.java` with the given header and deadline after parsing of the user input is done by `AddReminderCommandParser.java` and validation of header and deadline by `Reminder.java`.
+
+<br>
+
+  * A newly initialised `AddReminderCommand.java` will then have the fields before `AddReminderCommand#exceute` is called.
+    * `CLIENT_INDEX` 
+    * and the previously initialised `Reminder.java`
+
+<br>
+
+  * Upon execution of the `AddReminderCommand`, the method `Person#addReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the new `Reminder.java` as parameter and initialises a new `ArrayList<Reminder>` with the `Reminder.java` added to the previous `ArrayList<Reminder>` of the `Person` and returns a new `Person` object with the newly updated `ArrayList<Reminder>`
+
+<br>
+
+--------------------------------------------------------------------------------------------------------------------
+
+* ###### Delete Reminder
+  * The user will execute `rDelete CLIENT_INDEX REMINDER_INDEX` which are based on the indexes on the displayed GUI after parsing of the user input is done by `DeleteReminderCommandParser.java`.
+
+<br>
+
+  * This initialises a new `DeleteReminderCommand.java` with two fields before `DeleteReminderCommand#exceute` is called.
+    * `CLIENT_INDEX`
+    * `REMINDER_INDEX`
+
+<br>
+
+  * Upon execution of the `DeleteReminderCommand`, the method `Person#removeReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the `Reminder.java` as parameter and initialises a new `ArrayList<Reminder>` with the `Reminder.java` removed from the previous `ArrayList<Reminder>` of the `Person` and returns a new `Person` object with the newly updated `ArrayList<Reminder>`
+
+<br>
+
+--------------------------------------------------------------------------------------------------------------------
+
+* ###### Edit Reminder
+  * The user will execute `rEdit CLIENT_INDEX REMINDER_INDEX h/HEADER d/yyyy-MM-dd HH:mm` which initialises a new `Reminder.java` with the given header and deadline after parsing of the user input is done by `EditReminderCommandParser.java` and validation of header and deadline by `Reminder.java`.
+
+<br>
+
+  * This initialises a new `EditReminderCommand.java` with three fields before `EditReminderCommand#execute` is called.
+    * `CLIENT_INDEX`
+    * `REMINDER_INDEX` which is the index of the reminder to be edited.
+    * `EDITED_REMINDER` which is the new `Reminder.java` as parsed and initialised before.
+
+<br>
+
+  * Upon execution of the `EditReminderCommand`
+    1. The method `Person#removeReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which utilises `REMINDER_INDEX` to locate the `Reminder.java` in the `Person` and removes the reminder similar to how `DeleteReminderCommand` is implemented.
+
+<br>
+
+    2. The method `Person#addReminder` is then called on the `Person` with the given `ClIENT_INDEX` in the model which takes in `EDITED_REMINDER` as parameter and adds it to the `Person` similar to how `AddReminderCommand` is implemented.
+
+<br>
+
+--------------------------------------------------------------------------------------------------------------------
+
+### Meeting Notes Feature
+
+#### Challenges
+* Next, we wanted a convenient way for users to record and review key discussions with clients in a simple yet efficient way. We needed to decide what order to store and display meeting notes — whether to prioritise a simple internal logic or a more intuitive user interface.
+
+#### Implementation Details
+
+Meeting Notes are set up as a `MeetingNote.java` class with two key internal fields.
+* `String` TEXT
+* `LocalDateTime` date and time at which the meeting note was created.
+
+<br>
+
+The `add` and `delete` meeting note commands are then designed as separate commands based on a new field in the `Person.java` class where meeting notes are internally stored as an `ArrayList<MeetingNote>` for every `Person` object initialised.
+
+<br>
+
+##### Command Implementation
+* ###### Add Meeting Note
+    * The user will execute `note CLIENT_INDEX TEXT` which initialises a new `MeetingNote.java` with the given text and the current LocalDateTime after parsing of the user input is done by `AddMeetingNoteCommandParser.java` and validation of the text by `MeetingNote.java`.
+
+  <br>
+
+    * A newly initialised `AddMeetingNoteCommand.java` will then have the fields before `AddMeetingNoteCommand#exceute` is called.
+        * `CLIENT_INDEX`
+        * and the previously initialised `MeetingNote.java`
+
+  <br>
+
+    * Upon execution of the `AddMeetingNoteCommand`, the method `Person#addMeetingNote` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the new `MeetingNote.java` as parameter and initialises a new `ArrayList<MeetingNote>` with the `MeetingNote.java` added to the previous `ArrayList<MeetingNote>` of the `Person` and returns a new `Person` object with the newly updated `ArrayList<MeetingNote>`.
+
+<br>
+
+--------------------------------------------------------------------------------------------------------------------
+
+* ###### Delete Meeting Note
+    * The user will execute `nDelete CLIENT_INDEX MEETING_NOTE_INDEX` which are based on the indexes on the displayed GUI after parsing of the user input is done by `DeleteMeetingNoteCommandParser.java`.
+
+  <br>
+
+    * This initialises a new `DeleteMeetingNoteCommand.java` with two fields before `DeleteMeetingNoteCommand#exceute` is called.
+        * `CLIENT_INDEX`
+        * `MEETING_NOTE_INDEX`
+
+  <br>
+
+    * Upon execution of the `DeleteMeetingNoteCommand`, the method `Person#removeMeetingNote` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the `MeetingNote.java` as parameter and initialises a new `ArrayList<MeetingNote>` with the `MeetingNote.java` removed from the previous `ArrayList<MeetingNote>` of the `Person` and returns a new `Person` object with the newly updated `ArrayList<MeetingNote>`.
+
+<br>
+
+--------------------------------------------------------------------------------------------------------------------
+
+### Star Client Feature
+
+#### Challenges
+* The goal was to provide an easy way for users to "star" clients. This would allow users to mark clients they want to highlight or prioritize, and later allow them to remove the starred status if needed. 
+* There was some debate on whether to display starred clients in a separate list or to prioritize them within the existing list. We decided to integrate starred clients into the main list, sorting them to appear at the top, which required adding a sorting logic in `Person.java` too.
+
+#### Implementation Details
+
+To implement the star client feature, we focus on the following areas:
+1. **Model**: Each `Person` object has a boolean field `isStarred` to mark whether a client is starred or not. The logic of starring or unstarring a client updates this field.
+
+&nbsp;
+
+2. **Commands**: Two main commands are created:
+    - `StarCommand`: For marking a client as starred. 
+    - `UnstarCommand`: For removing the starred status of a client.
+
+&nbsp;
+
+3. **Parser**: Command parsing logic to ensure that the user's input is valid and parsed correctly into command objects.
+
+&nbsp;
+
+4. **Sorting**: We need to ensure that when clients are starred or unstarred, the list is updated accordingly (both in terms of the internal storage and the displayed user interface).
+<br>
+
+##### Command Implementation
+* ###### Star Command
+    * **Objective**: Marks a `Person` (Client) as starred based on their displayed index in the list.
+
+    &nbsp;
+
+    * **Command Syntax**: `star CLIENT_INDEX`
+        * Parameters:
+            * `CLIENT_INDEX`: The index of the client (starts from 1 in the displayed list).
+        * Usage Example:
+            *  `star 1`: Stars the client at index 1.
+
+    &nbsp;
+
+    * **Key Steps**:
+        1. *Input parsing:*
+            * The `StarCommandParser.java` parses the input string. If the input is empty, a `ParseException` is thrown.
+            * The `ParserUtil#parseIndex(String args)` method is used to parse the client index, which is logged for debugging.
+
+        &nbsp;
+
+        2. *Check if Already Starred:*
+            * The command retrieves the `Person` object using the parsed index.
+            * The `Person#isStarred()` method checks if the client is already starred.
+            * If the client is already starred, a `CommandException` is thrown with the message "Chosen client is already starred."
+
+        &nbsp;
+
+        3. *Update Starred Status:*
+            * If the client is unstarred, The command updates the client's starred status by calling the `Person#rebuildWithStarredStatus(boolean isStarred)` method. This method creates a new Person object with the updated starred status (set to `true`).
+            * The updated `Person` is saved back into the model using `Model#setPerson(Person target, Person editedPerson)`.
+
+        &nbsp;
+
+        4. *Re-sort the Client List:*
+            * After starring a client, the list of clients is re-sorted by calling `Model#sortPersons(Comparator<Person> comparator)`. This ensures that all starred clients are prioritized and appear at the top of the list.
+
+        &nbsp;
+
+        5. *Return Command Result:*
+            * The command returns a `CommandResult` with a success message, confirming that the client has been starred.
+
+<br>
+
+--------------------------------------------------------------------------------------------------------------------
+* ###### Unstar Command
+    * **Objective**: Removes the starred status of a `Person` (Client), based on their displayed index in the list.
+
+  &nbsp;
+
+    * **Command Syntax**: `unstar CLIENT_INDEX`
+        * Parameters:
+            * `CLIENT_INDEX`: The index of the client (starts from 1 in the displayed list).
+        * Usage Example:
+            *  `unstar 1`: Stars the client at index 1.
+
+  &nbsp;
+
+    * **Key Steps**:
+        1. *Input parsing:*
+            * The `UnstarCommandParser.java` parses the input string. If the input is empty, a `ParseException` is thrown.
+            * The `ParserUtil#parseIndex(String args)` method is used to parse the client index, which is logged for debugging.
+
+      &nbsp;
+
+        2. *Check if Already Unstarred:*
+            * The command retrieves the `Person` object using the parsed index.
+            * The `Person#isStarred()` method checks if the client is already unstarred.
+            * If the client is already unstarred, a `CommandException` is thrown with the message "Chosen client is not starred."
+
+      &nbsp;
+
+        3. *Update Starred Status:*
+            * If the client is starred, The command updates the client's starred status by calling the `Person#rebuildWithStarredStatus(boolean isStarred)` method. This method creates a new Person object with the updated starred status (set to `false`).
+            * The updated `Person` is saved back into the model using `Model#setPerson(Person target, Person editedPerson)`.
+
+      &nbsp;
+
+        4. *Re-sort the Client List:*
+            * After unstarring a client, the list of clients is re-sorted by calling `Model#sortPersons(Comparator<Person> comparator)`. This ensures that the unstarred client is moved to its appropriate position in the list.
+
+      &nbsp;
+
+        5. *Return Command Result:*
+            * The command returns a `CommandResult` with a success message, confirming that the starred status has been removed from the client.
+<br>
+
+--------------------------------------------------------------------------------------------------------------------
 
 ### \[Proposed\] Undo/redo feature
 
@@ -241,13 +485,13 @@ The following activity diagram summarizes what happens when a user executes a ne
 **Aspect: How undo & redo executes:**
 
 * **Alternative 1 (current choice):** Saves the entire address book.
-  * Pros: Easy to implement.
-  * Cons: May have performance issues in terms of memory usage.
+    * Pros: Easy to implement.
+    * Cons: May have performance issues in terms of memory usage.
 
 * **Alternative 2:** Individual command knows how to undo/redo by
   itself.
-  * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
-  * Cons: We must ensure that the implementation of each individual command are correct.
+    * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
+    * Cons: We must ensure that the implementation of each individual command are correct.
 
 _{more aspects and alternatives to be added}_
 
@@ -255,124 +499,6 @@ _{more aspects and alternatives to be added}_
 
 _{Explain here how the data archiving feature will be implemented}_
 
-### Reminders Feature
-
-#### Challenge
-* Reminders was the first feature that we deemed as important for MVP - as we decided that reminders will be stored as an `ArrayList<Reminder>` for each `Person`, we needed to expand the current model, logic and storage to include it.
-
-#### Implementation Details
-
-Reminders are set up as a `Reminder.java` class with two key internal fields.
-* `String` header
-* `LocalDateTime` deadline
-
-<br>
-
-The `add`, `delete` and `edit` reminders commands are then designed as separate commands based on a new field in the `Person.java` class where reminders are internally stored as an `ArrayList<Reminder>` for every `Person` object initialised.
-
-<br>
-
-##### Command Implementation
-* ###### Add Reminder
-  * The user will execute `reminder CLIENT_INDEX h/HEADER d/yyyy-MM-dd HH:mm` which initialises a new `Reminder.java` with the given header and deadline after parsing of the user input is done by `AddReminderCommandParser.java` and validation of header and deadline by `Reminder.java`.
-  
-  <br>
-  
-  * A newly initialised `AddReminderCommand.java` will then have the fields before `AddReminderCommand#exceute` is called.
-    * `CLIENT_INDEX` 
-    * and the previously initialised `Reminder.java`
-
-  <br>
-  
-  * Upon execution of the `AddReminderCommand`, the method `Person#addReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the new `Reminder.java` as parameter and initialises a new `ArrayList<Reminder>` with the `Reminder.java` added to the previous `ArrayList<Reminder>` of the `Person` and returns a new `Person` object with the newly updated `ArrayList<Reminder>`
-
-<br>
-
---------------------------------------------------------------------------------------------------------------------
-
-* ###### Delete Reminder
-  * The user will execute `rDelete CLIENT_INDEX REMINDER_INDEX` which are based on the indexes on the displayed GUI after parsing of the user input is done by `DeleteReminderCommandParser.java`.
-  
-  <br>
-  
-  * This initialises a new `DeleteReminderCommand.java` with two fields before `DeleteReminderCommand#exceute` is called.
-    * `CLIENT_INDEX`
-    * `REMINDER_INDEX`
-
-  <br>
-
-  * Upon execution of the `DeleteReminderCommand`, the method `Person#removeReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the `Reminder.java` as parameter and initialises a new `ArrayList<Reminder>` with the `Reminder.java` removed from the previous `ArrayList<Reminder>` of the `Person` and returns a new `Person` object with the newly updated `ArrayList<Reminder>`
-
-<br>
-
---------------------------------------------------------------------------------------------------------------------
-
-* ###### Edit Reminder
-  * The user will execute `rEdit CLIENT_INDEX REMINDER_INDEX h/HEADER d/yyyy-MM-dd HH:mm` which initialises a new `Reminder.java` with the given header and deadline after parsing of the user input is done by `EditReminderCommandParser.java` and validation of header and deadline by `Reminder.java`.
-
-  <br>
-
-  * This initialises a new `EditReminderCommand.java` with three fields before `EditReminderCommand#execute` is called.
-    * `CLIENT_INDEX`
-    * `REMINDER_INDEX` which is the index of the reminder to be edited.
-    * `EDITED_REMINDER` which is the new `Reminder.java` as parsed and initialised before.
-    
-  <br>
-
-  * Upon execution of the `EditReminderCommand`
-    1. The method `Person#removeReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which utilises `REMINDER_INDEX` to locate the `Reminder.java` in the `Person` and removes the reminder similar to how `DeleteReminderCommand` is implemented. 
-    
-    <br>
-    
-    2. The method `Person#addReminder` is then called on the `Person` with the given `ClIENT_INDEX` in the model which takes in `EDITED_REMINDER` as parameter and adds it to the `Person` similar to how `AddReminderCommand` is implemented.
-
-### Meeting Notes Feature
-
-#### Challenge
-* Next, we wanted a convenient way for users to record and review key discussions with clients in a simple yet efficient way. We needed to decide what order to store and display meeting notes — whether to prioritise a simple internal logic or a more intuitive user interface.
-
-#### Implementation Details
-
-Meeting Notes are set up as a `MeetingNote.java` class with two key internal fields.
-* `String` TEXT
-* `LocalDateTime` date and time at which the meeting note was created.
-
-<br>
-
-The `add` and `delete` meeting note commands are then designed as separate commands based on a new field in the `Person.java` class where meeting notes are internally stored as an `ArrayList<MeetingNote>` for every `Person` object initialised.
-
-<br>
-
-##### Command Implementation
-* ###### Add Meeting Note
-    * The user will execute `note CLIENT_INDEX TEXT` which initialises a new `MeetingNote.java` with the given text and the current LocalDateTime after parsing of the user input is done by `AddMeetingNoteCommandParser.java` and validation of the text by `MeetingNote.java`.
-
-  <br>
-
-    * A newly initialised `AddMeetingNoteCommand.java` will then have the fields before `AddMeetingNoteCommand#exceute` is called.
-        * `CLIENT_INDEX`
-        * and the previously initialised `MeetingNote.java`
-
-  <br>
-
-    * Upon execution of the `AddMeetingNoteCommand`, the method `Person#addMeetingNote` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the new `MeetingNote.java` as parameter and initialises a new `ArrayList<MeetingNote>` with the `MeetingNote.java` added to the previous `ArrayList<MeetingNote>` of the `Person` and returns a new `Person` object with the newly updated `ArrayList<MeetingNote>`.
-
-<br>
-
---------------------------------------------------------------------------------------------------------------------
-
-* ###### Delete Meeting Note
-    * The user will execute `nDelete CLIENT_INDEX MEETING_NOTE_INDEX` which are based on the indexes on the displayed GUI after parsing of the user input is done by `DeleteMeetingNoteCommandParser.java`.
-
-  <br>
-
-    * This initialises a new `DeleteMeetingNoteCommand.java` with two fields before `DeleteMeetingNoteCommand#exceute` is called.
-        * `CLIENT_INDEX`
-        * `MEETING_NOTE_INDEX`
-
-  <br>
-
-    * Upon execution of the `DeleteMeetingNoteCommand`, the method `Person#removeMeetingNote` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the `MeetingNote.java` as parameter and initialises a new `ArrayList<MeetingNote>` with the `MeetingNote.java` removed from the previous `ArrayList<MeetingNote>` of the `Person` and returns a new `Person` object with the newly updated `ArrayList<MeetingNote>`.
 
 <br>
 
@@ -415,6 +541,8 @@ The `add` and `delete` meeting note commands are then designed as separate comma
 * [Logging guide](Logging.md)
 * [Configuration guide](Configuration.md)
 * [DevOps guide](DevOps.md)
+
+<br>
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -600,9 +728,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1.  The user <u>searches for the client to delete by their name (UC01)</u>.
 2.  The user selects the client to be deleted.
-3.  FinHub asks for confirmation of the deletion.
-4.  FinHub removes the client from the address book.
-5.  FinHub displays a success message.
+3.  FinHub removes the client from the address book.
+4.  FinHub displays a success message.
 
     Use case ends.
 
@@ -614,11 +741,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
       Step 2a1 is repeated until a valid client has been selected.
 
       Use case resumes at step 3.
-
-
-* 3a. The user cancels the deletion.
-  Use case ends.
-
 
 **Use case: UC07 - Edit a client's information**
 
@@ -844,54 +966,57 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Use Case: UC16 - Archive client**
 
-**Precondition**: User is logged into the CLI System.
+**Precondition**: User is viewing active list.
 
 **MSS**
 
-1.  The user <u>searches for the client by their name (UC01)</u>.
-2.  The user types the archive command.
-3.  FinHub prompts for confirmation.
-4.  The user confirms.
-5.  FinHub changes the client's status from active to archived in the database.
-6.  FinHub displays a success message.
+1. The user <u>searches for the client by their name (UC01)</u>.
+2. FinHub displays a list of clients.
+3. The user selects the client they want to archive.
+4. FinHub successfully archives the client and displays a success message.
 
-    Use case ends.
+   Use case ends.
 
 **Extensions**
 
-* 2a. The user selects an invalid client.
-    * 2a1. FinHub displays a message that client is not found.
+* 2a. The list is empty.
 
-      Use case ends.
-
-* 3a. The user cancels at the confirmation step.
   Use case ends.
 
-**Use Case: UC17 - Enter application with password**
+* 3a. FinHub detects an error in the command entered.
+    * 3a1. FinHub displays an error message and prompts the user to input again.
+    * 3a2. The user re-enters the command to archive the client
+
+      Steps 3a1-3a2 are repeated until the command and data entered are correct.
+
+      Use case resumes at step 4.
+
+**Use Case: UC17 - Unarchiving a client**
+
+**Precondition**: User is viewing archive list.
 
 **MSS**
 
-1.  The user launches the application.
-2.  FinHub prompts user to enter username.
-3.  The user enters their username.
-4.  FinHub prompts for password.
-5.  The user enters their password.
-6.  FinHub validates the credentials against stored records.
-7.  If valid, the user is granted access.
+1. The user <u>searches for the client by their name (UC01)</u>.
+2. FinHub displays a list of clients.
+3. The user selects the client they wish to unarchive.
+4. FinHub successfully unarchives the client and displays a success message.
 
-    Use case ends.
+   Use case ends.
 
 **Extensions**
 
-* 6a. The user account does not exist.
-    * 6a1. FinHub will display an error message.
+* 2a. The list is empty.
 
-      Use case ends.
+  Use case ends.
 
-* 6b. The password entered is wrong.
-    * 6b1. FinHub will display an error message.
+* 3a. FinHub detects an error in the command entered.
+    * 3a1. FinHub displays an error message and prompts the user to input again.
+    * 3a2. The user re-enters the command to unarchive the client.
 
-      Use case ends.
+      Steps 3a1-3a2 are repeated until the command and data entered are correct.
+
+      Use case resumes at step 4.
 
 **Use Case: UC18 - Star a client**
 
@@ -918,7 +1043,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 4.
 
-* 3b The client has already been starred. 
+* 3b The client has already been starred.
     * 3b1 FinHub will display an error message and does not make any changes.
 
       Use case ends.
@@ -976,6 +1101,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Reminder**: A note linked to a specific client, with a message and due date
 * **User**: Insurance agent using the address book
 
+<br>
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Appendix: Instructions for manual testing**
@@ -995,7 +1122,7 @@ testers are expected to do more *exploratory* testing.
 
    1. Download the jar file and copy into an empty folder
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   1. Double-click the jar file Expected: Shows the GUI with a set of sample clients. The window size may not be optimum.
 
 1. Saving window preferences
 
@@ -1003,25 +1130,6 @@ testers are expected to do more *exploratory* testing.
 
    1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
-
-1. _{ more test cases …​ }_
-
-### Deleting a person
-
-1. Deleting a person while all persons are being shown
-
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
-
-   1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
-
-   1. Test case: `delete 0`<br>
-      Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
-
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
-
-1. _{ more test cases …​ }_
 
 <br>
 
@@ -1069,7 +1177,7 @@ testers are expected to do more *exploratory* testing.
 --------------------------------------------------------------------------------------------------------------------
 
 ### Deleting a reminder
-* Prerequisites: Make sure the list of clients is displayed using the `activelist` command 
+* Prerequisites: Make sure the list of clients is displayed using the `activelist` command
 
 &nbsp;
 
@@ -1254,6 +1362,74 @@ and must include at least one letter or digit.`.
 
 --------------------------------------------------------------------------------------------------------------------
 
+### Archiving a client
+* Prerequisites: Make sure the list of clients is displayed using the `activelist` command.
+  The list should include at least one client.
+
+&nbsp;
+
+* Test Case: Archiving a client with a valid index
+    * Input: `archive 1`
+    * Expected Outcome:
+        * The client at index 1 is archived.
+        * A success message is displayed: `Archived Client: [Client]`.
+        * The list is re-sorted with the remaining clients.
+
+&nbsp;
+
+* Test Case: Archiving a client with a invalid index
+    * Input: `archive 0`
+    * Expected Outcome:
+        * A failure message is displayed: `Any indices provided should be positive integers.
+Enter the command word again without any arguments to view the correct command format.`.
+
+&nbsp;
+
+* Test Case: Try archiving with an invalid command (no index)
+    * Input: `archive`
+    * Expected Outcome:
+        * A failure message is displayed: `Invalid command format! 
+archive: archives the client identified by the index number used in the displayed client list.
+Parameters: INDEX (must be a positive integer)`.
+
+<br>
+
+--------------------------------------------------------------------------------------------------------------------
+
+### Unarchiving a client
+* Prerequisites: Make sure the list of clients is displayed using the `archivelist` command.
+  The list should include at least one client.
+
+&nbsp;
+
+* Test Case: Unarchiving a client with a valid index
+    * Input: `unarchive 1`
+    * Expected Outcome:
+        * The client at index 1 is unarchived.
+        * A success message is displayed: `Unarchived Client:[Client]`.
+        * The list is re-sorted with the remaining clients.
+
+&nbsp;
+
+* Test Case: Unarchive a client with an invalid index
+    * Input: `unarchive 0`
+    * Expected Outcome:
+        * A failure message is displayed: `Any indices provided should be positive integers.
+Enter the command word again without any arguments to view the correct command format.`.
+
+&nbsp;
+
+* Test Case: Try unarchiving with an invalid command (no index)
+    * Input: `unarchive`
+    * Expected Outcome:
+        * A failure message is displayed: `Invalid command format!
+unarchive: unarchives client identified by the index number used in the displayed client list.
+Parameters: INDEX (must be a positive integer)`.
+
+<br>
+
+--------------------------------------------------------------------------------------------------------------------
+
 ### Starring a client
 * Prerequisites: Make sure the list of clients is displayed using the `activelist` command. The list should include at least one client who is not starred.
 
@@ -1273,7 +1449,7 @@ and must include at least one letter or digit.`.
     * Input: `star 0`
     * Expected Outcome:
         * A failure message is displayed: `Any indices provided should be positive integers.
-Enter the command word again without any arguments to view the correct command format.`.
+Enter the command word again without any arguments to view the correct command format`.
 
 &nbsp;
 
@@ -1281,14 +1457,14 @@ Enter the command word again without any arguments to view the correct command f
     * Assumption: client 1 is starred
     * Input: `star 1`
     * Expected Outcome:
-        * A failure message is displayed: `Chosen client is already starred.`.
+        * A failure message is displayed: `Chosen client is already starred`.
 
 &nbsp;
 
 * Test Case: Try starring with an invalid command (no index)
     * Input: `star`
     * Expected Outcome:
-        * A failure message is displayed: `Invalid command format! 
+        * A failure message is displayed: `Invalid command format!
 star: stars the client identified by the index number used in the displayed client list.
 Parameters: INDEX (must be a positive integer)`.
 
@@ -1315,7 +1491,7 @@ Parameters: INDEX (must be a positive integer)`.
     * Input: `unstar 0`
     * Expected Outcome:
         * A failure message is displayed: `Any indices provided should be positive integers.
-Enter the command word again without any arguments to view the correct command format.`.
+Enter the command word again without any arguments to view the correct command format.`
 
 &nbsp;
 
@@ -1323,16 +1499,16 @@ Enter the command word again without any arguments to view the correct command f
     * Assumption: client 1 has no starred status
     * Input: `unstar 1`
     * Expected Outcome:
-        * A failure message is displayed: `Chosen client is already unstarred.`.
+        * A failure message is displayed: `Chosen client is not starred`.
 
 &nbsp;
 
 * Test Case: Try unstarring with an invalid command (no index)
     * Input: `unstar`
     * Expected Outcome:
-        * A failure message is displayed: `Invalid command format! 
+        * A failure message is displayed: `Invalid command format!
 unstar: Removes starred status of the client identified by the index number used in the displayed client list.
-Parameters: INDEX (must be a positive integer)`.
+Parameters: INDEX (must be a positive integer).`
 
 <br>
 
@@ -1378,7 +1554,7 @@ Parameters: INDEX (must be a positive integer)`.
         - Manage growth in the parent layout: use `VBox.setVgrow(child, Priority.ALWAYS)` only on the container you want to grow; remove conflicting FXML `prefHeight`/`vgrow`.
         - Reapply comparator/filter after mutations to prevent layout thrashing.
 
-**Challenges**
+**Challenge**
 
 1. **Unclear error messages**
     - **Problem:** “Invalid index” was ambiguous—was it the person or the reminder index?
@@ -1398,7 +1574,7 @@ Parameters: INDEX (must be a positive integer)`.
 
 
 **Reused work**
-- AB3 infrastructure (UI shell, storage scaffold, test harness, model entities and logic flow).  
+- AB3 infrastructure (UI shell, storage scaffold, test harness, model entities and logic flow).
   _Net effect_: reduced boilerplate; effort focused on domain/features.
 
 **Effort Required**

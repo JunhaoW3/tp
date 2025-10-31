@@ -5,6 +5,7 @@ skinparam classAttributeFontColor #FFFFFF
 skinparam arrowThickness 1.1
 skinparam arrowColor MODEL_COLOR
 skinparam classBackgroundColor MODEL_COLOR
+skinparam classAttributeFontSize 24
 show members
 hide empty members
 
@@ -19,7 +20,7 @@ Class UserPrefs
 Class UniquePersonList
 Class Person {
     -isArchived : Boolean
-    +isStarred : Boolean
+    -isStarred : Boolean
 }
 Class Address
 Class Email
