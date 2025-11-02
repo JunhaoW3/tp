@@ -40,16 +40,16 @@ public class UnarchiveCommand extends Command {
         requireNonNull(model);
 
         if (!model.isViewingArchivedList()) {
-            throw new CommandException("You must be viewing the archive list to unarchive a person.");
+            throw new CommandException("You must be viewing the archive list or general list to unarchive a person.");
         }
 
-        List<Person> archivedList = model.getArchivedPersonList();
+        List<Person> lastShownList = model.getFilteredPersonList();
 
-        if (targetIndex.getZeroBased() >= archivedList.size()) {
+        if (targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
-        Person personToUnarchive = archivedList.get(targetIndex.getZeroBased());
+        Person personToUnarchive = lastShownList.get(targetIndex.getZeroBased());
         if (!personToUnarchive.isArchived()) {
             throw new CommandException(MESSAGE_NOT_ARCHIVED);
         }
@@ -60,6 +60,7 @@ public class UnarchiveCommand extends Command {
 
         Person unarchivedPerson = personToUnarchive.unarchive();
         model.setPerson(personToUnarchive, unarchivedPerson);
+        model.setToActiveList();
         model.refreshFilteredPersonList();
         return new CommandResult(String.format(MESSAGE_UNARCHIVE_PERSON_SUCCESS, Messages.format(unarchivedPerson)));
     }

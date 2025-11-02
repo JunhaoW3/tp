@@ -66,6 +66,7 @@ public class DeleteMeetingNoteCommand extends Command {
         assert editedPerson != null : "Edited client should not be null after adding meeting note";
 
         model.setPerson(personToDeleteFrom, editedPerson);
+        model.setToActiveList();
         model.refreshFilteredPersonList();
         return new CommandResult(String.format(MESSAGE_DELETE_MEETING_NOTE_SUCCESS,
                 personToDeleteFrom.getName(),

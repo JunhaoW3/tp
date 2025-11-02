@@ -63,6 +63,7 @@ public class AddMeetingNoteCommand extends Command {
         assert editedPerson != null : "Edited client should not be null after adding meeting note";
 
         model.setPerson(personToEdit, editedPerson);
+        model.setToActiveList();
         model.refreshFilteredPersonList();
         return new CommandResult(String.format(MESSAGE_ADD_MEETING_NOTE_SUCCESS, editedPerson.getName(), meetingNote));
     }

@@ -180,6 +180,24 @@ public class ModelManager implements Model {
         updateFilteredPersonList(predicate);
     }
 
+    @Override
+    public void setToArchiveList() {
+        setCurrentFilter(Person::isArchived);
+        setViewingArchivedList(true);
+    }
+
+    @Override
+    public void setToActiveList() {
+        setCurrentFilter(p -> !p.isArchived());
+        setViewingArchivedList(false);
+    }
+
+    @Override
+    public void setToGeneralList() {
+        setCurrentFilter(p -> true);
+        setViewingArchivedList(false);
+    }
+
     //=========== Filtered Person List Accessors =============================================================
 
     /**
