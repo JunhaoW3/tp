@@ -179,57 +179,57 @@ The `add`, `delete` and `edit` reminders commands are then designed as separate 
 
 ##### Command Implementation
 * ###### Add Reminder
-  * The user will execute `reminder CLIENT_INDEX h/HEADER d/yyyy-MM-dd HH:mm` which initialises a new `Reminder.java` with the given header and deadline after parsing of the user input is done by `AddReminderCommandParser.java` and validation of header and deadline by `Reminder.java`.
+    * The user will execute `reminder CLIENT_INDEX h/HEADER d/yyyy-MM-dd HH:mm` which initialises a new `Reminder.java` with the given header and deadline after parsing of the user input is done by `AddReminderCommandParser.java` and validation of header and deadline by `Reminder.java`.
 
-<br>
+    <br>
 
-  * A newly initialised `AddReminderCommand.java` will then have the fields before `AddReminderCommand#exceute` is called.
-    * `CLIENT_INDEX` 
-    * and the previously initialised `Reminder.java`
+    * A newly initialised `AddReminderCommand.java` will then have the fields before `AddReminderCommand#exceute` is called.
+      * `CLIENT_INDEX` 
+      * and the previously initialised `Reminder.java`
 
-<br>
+    <br>
 
-  * Upon execution of the `AddReminderCommand`, the method `Person#addReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the new `Reminder.java` as parameter and initialises a new `ArrayList<Reminder>` with the `Reminder.java` added to the previous `ArrayList<Reminder>` of the `Person` and returns a new `Person` object with the newly updated `ArrayList<Reminder>`
+    * Upon execution of the `AddReminderCommand`, the method `Person#addReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the new `Reminder.java` as parameter and initialises a new `ArrayList<Reminder>` with the `Reminder.java` added to the previous `ArrayList<Reminder>`, returning a new `Person` object with the newly updated `ArrayList<Reminder>`.
 
 <br>
 
 --------------------------------------------------------------------------------------------------------------------
 
 * ###### Delete Reminder
-  * The user will execute `rDelete CLIENT_INDEX REMINDER_INDEX` which are based on the indexes on the displayed GUI after parsing of the user input is done by `DeleteReminderCommandParser.java`.
+    * The user will execute `rDelete CLIENT_INDEX REMINDER_INDEX` which are based on the indexes on the displayed GUI after parsing of the user input is done by `DeleteReminderCommandParser.java`.
 
-<br>
+    <br>
 
-  * This initialises a new `DeleteReminderCommand.java` with two fields before `DeleteReminderCommand#exceute` is called.
-    * `CLIENT_INDEX`
-    * `REMINDER_INDEX`
+    * This initialises a new `DeleteReminderCommand.java` with two fields before `DeleteReminderCommand#exceute` is called.
+      * `CLIENT_INDEX`
+      * `REMINDER_INDEX`
+      
+    <br>
 
-<br>
-
-  * Upon execution of the `DeleteReminderCommand`, the method `Person#removeReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the `Reminder.java` as parameter and initialises a new `ArrayList<Reminder>` with the `Reminder.java` removed from the previous `ArrayList<Reminder>` of the `Person` and returns a new `Person` object with the newly updated `ArrayList<Reminder>`
+    * Upon execution of the `DeleteReminderCommand`, the method `Person#removeReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the `Reminder.java` at the `REMINDER_INDEX` of the `Person`'s `ArrayList<Reminder>` as parameter. This initialises a new `ArrayList<Reminder>` with the `Reminder.java` removed from the previous `ArrayList<Reminder>`, returning a new `Person` object with the updated `ArrayList<Reminder>`.
 
 <br>
 
 --------------------------------------------------------------------------------------------------------------------
 
 * ###### Edit Reminder
-  * The user will execute `rEdit CLIENT_INDEX REMINDER_INDEX h/HEADER d/yyyy-MM-dd HH:mm` which initialises a new `Reminder.java` with the given header and deadline after parsing of the user input is done by `EditReminderCommandParser.java` and validation of header and deadline by `Reminder.java`.
+    * The user will execute `rEdit CLIENT_INDEX REMINDER_INDEX h/HEADER d/yyyy-MM-dd HH:mm` which initialises a new `Reminder.java` with the given header and deadline after parsing of the user input is done by `EditReminderCommandParser.java` and validation of header and deadline by `Reminder.java`.
 
-<br>
+    <br>
 
-  * This initialises a new `EditReminderCommand.java` with three fields before `EditReminderCommand#execute` is called.
-    * `CLIENT_INDEX`
-    * `REMINDER_INDEX` which is the index of the reminder to be edited.
-    * `EDITED_REMINDER` which is the new `Reminder.java` as parsed and initialised before.
+    * This initialises a new `EditReminderCommand.java` with three fields before `EditReminderCommand#execute` is called.
+      * `CLIENT_INDEX`
+      *  the index of the reminder to be edited `REMINDER_INDEX`
+      * `EDITED_REMINDER` which is the new `Reminder.java`
 
-<br>
+    <br>
 
-  * Upon execution of the `EditReminderCommand`
-    1. The method `Person#removeReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which utilises `REMINDER_INDEX` to locate the `Reminder.java` in the `Person` and removes the reminder similar to how `DeleteReminderCommand` is implemented.
-
-<br>
-
-    2. The method `Person#addReminder` is then called on the `Person` with the given `ClIENT_INDEX` in the model which takes in `EDITED_REMINDER` as parameter and adds it to the `Person` similar to how `AddReminderCommand` is implemented.
+    * Upon execution of the `EditReminderCommand`,
+      1. The method `Person#removeReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which utilises `REMINDER_INDEX` to locate the `Reminder.java` in the `Person` and removes the reminder similar to how `DeleteReminderCommand` is implemented.
+    
+      <br>
+    
+      2. The method `Person#addReminder` is then called on the `Person` with the given `ClIENT_INDEX` in the model which takes in `EDITED_REMINDER` as parameter and adds it to the `Person` similar to how `AddReminderCommand` is implemented.
 
 <br>
 
