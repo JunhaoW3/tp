@@ -701,10 +701,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  The user enters the client's details (name, telephone number, email address, insurance policy).
+1.  The user enters the client's details (name, telephone number, email address, address, insurance policy).
 2.  FinHub validates the input.
-3.  FinHub adds the new client into the address book.
-4.  FinHub displays a confirmation message.
+3.  FinHub adds the new client.
+4.  FinHub displays a success message.
 
     Use case ends.
 
@@ -712,10 +712,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 2a. The user enters invalid/missing inputs.
     * 2a1. FinHub prompts the user to enter the correct details.
+  
+      Step 2a1 is repeated until all correct details have been entered.
 
       Use case resumes at step 1.
 
-* 2b. The user enters an email/telephone number that has been added before.
+* 2b. The user enters a name/email/telephone number that has been added before.
     * 2b1. FinHub warns that a duplicate entry is not allowed.
 
       Use case ends.
@@ -729,7 +731,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1.  The user <u>searches for the client to delete by their name (UC01)</u>.
 2.  The user selects the client to be deleted.
-3.  FinHub removes the client from the address book.
+3.  FinHub removes the client.
 4.  FinHub displays a success message.
 
     Use case ends.
@@ -761,15 +763,24 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 2a. The user selects an invalid client.
     * 2a1. FinHub warns that an invalid client has been selected, and prompts the user to select again.
 
-      Step 2a1 is repeated until a correct client has been selected.
+      Step 2a1 is repeated until a valid client has been selected.
 
-      Use case resumes at step 3
+      Use case resumes at step 3.
 
 
 * 2b. The user enters invalid fields.
     * 2b1. FinHub prompts the user to enter the correct details.
+  
+      Step 2b1 is repeated until correct details have been entered.
 
-      Use case resumes at step 2.
+      Use case resumes at step 3.
+
+* 2c. The user does not enter any fields to update. 
+    * 2c1. FinHub prompts the user to enter at least one field to update. 
+        
+      Step 2c1 is repeated until at least updated field is entered. 
+
+      Use case resumes at step 3.
 
 **Use case: UC08 - Delete reminder**
 
@@ -925,14 +936,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 2a. The user selects an invalid client.
     * 2a1. FinHub warns that user does not exist and prompts the user to select again.
 
-      Step 2a1 is repeated until a correct selection.
+      Step 2a1 is repeated until a valid client has been selected.
 
       Use case resumes at step 3.
 
 * 2b. The user enters an invalid note.
     * 2b1. FinHub warns that the note entered is invalid and prompts the user to enter again.
 
-      Step 2b1 is repeated until a valid note.
+      Step 2b1 is repeated until a valid note is entered.
 
       Use case resumes at step 3.
 
@@ -954,14 +965,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 2a. The user selects an invalid client.
     * 2a1. FinHub warns that user does not exist and prompts the user to select again.
 
-      Step 2a1 is repeated until a correct selection.
+      Step 2a1 is repeated until a valid client has been selected.
 
       Use case resumes at step 3.
 
-* 2a. The user enters an invalid meeting note.
-    * 23a1. FinHub warns that the meeting note is invalid and prompts the user to enter another note.
+* 2b. The user selects an invalid meeting note.
+    * 2b1. FinHub warns that the meeting note is invalid and prompts the user to enter another note.
 
-      Step 3a1 is repeated until a correct selection.
+      Step 2b1 is repeated until a valid note is selected.
 
       Use case resumes at step 4.
 
