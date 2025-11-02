@@ -421,8 +421,17 @@ Examples:
 
 * `list` followed by `reminder 2 h/Meeting on Friday d/2026-04-24 16:00` adds the reminder "Meeting on Friday, due by
 2026-04-24 16:00" to the 2nd client in the displayed clients list.
+
+<box type="success">
+
+**Assumption:** Bernice Yu is the 2nd client in the displayed clients list.
+<br>
+**Expected Output Message:** Reminder added to Bernice Yu: Meeting on Friday, due by 2026-04-24 16:00
+
+</box>
+
 * `find alex` followed by `reminder 1 h/Meeting on Saturday d/2026-06-24 18:00` adds the reminder "Meeting on Saturday,
-* due by 2026-06-24 18:00" to the 1st client in the results of the `find` command.
+due by 2026-06-24 18:00" to the 1st client in the results of the `find` command.
 
 <box type="tip">
 
@@ -451,6 +460,17 @@ Format: `rDelete CLIENT_INDEX REMINDER_INDEX`
 Examples:
 
 * `list` followed by `rDelete 2 1` deletes the 1st reminder in the displayed reminders list of the 2nd client in the displayed clients list.
+
+<box type="success">
+
+**Assumptions:**
+1. Bernice Yu is the 2nd client in the displayed clients list
+2. Meeting on Friday, due by 2026-04-24 16:00 is the first reminder in her list.
+
+**Expected Output Message:** Deleted Client Bernice Yu's Reminder 1: Meeting on Friday, due by 2026-04-24 16:00
+
+</box>
+
 * `find alex` followed by `rDelete 1 1` deletes the 1st reminder in the displayed reminders list of the 1st client in the results of the `find`
   command.
 
@@ -478,10 +498,22 @@ Format: `rEdit CLIENT_INDEX REMINDER_INDEX h/HEADER d/DEADLINE`
 * Only one reminder will be replaced by the new reminder at a time.
 
 Examples:
-* `list` followed by `rEdit 2 1 h/Meeting on Friday d/2026-04-24 16:00` edits the 1st reminder in the displayed reminders list of the 2nd client in
-  the displayed clients list to "Meeting on Friday, due by 2026-04-24 16:00".
-* `find alex` followed by `rEdit 1 1 h/Meeting on Friday d/2026-04-24 16:00` edits the 1st reminder in the displayed reminders list of the 1st client
-  in the results of the `find` command to "Meeting on Friday, due by 2026-04-24 16:00".
+* `list` followed by `rEdit 2 1 h/Meeting on Friday d/2026-04-24 16:00` edits the 1st reminder in the displayed 
+reminders list of the 2nd client in the displayed clients list to "Meeting on Friday, due by 2026-04-24 16:00".
+
+<box type="success">
+
+**Assumptions:**
+1. Bernice Yu is the 2nd client in the displayed clients list
+2. Call to confirm appointment, due by 2027-11-03 14:00 is the first reminder in her list.
+
+**Expected Output Message:** Edited Client Bernice Yu's Reminder 1: from Call to confirm appointment, due by 
+2027-11-03 14:00 to Meeting on Friday, due by 2026-04-24 16:00
+
+</box>
+
+* `find alex` followed by `rEdit 1 1 h/Meeting on Friday d/2026-04-24 16:00` edits the 1st reminder in the displayed
+reminders list of the 1st client in the results of the `find` command to "Meeting on Friday, due by 2026-04-24 16:00".
 
 <br>
 
