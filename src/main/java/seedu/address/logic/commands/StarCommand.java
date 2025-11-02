@@ -65,7 +65,7 @@ public class StarCommand extends Command {
 
         assert starredPerson != null : "Starred person should not be null after starring them";
         assert starredPerson.isStarred() : "Newly starred person must have isStarred = true";
-
+        model.editPersonGeneralReminderList(personToStar, starredPerson);
         model.setPerson(personToStar, starredPerson);
         model.sortPersons(STARRED_STATUS_COMPARATOR);
         model.refreshFilteredPersonList();

@@ -89,11 +89,7 @@ public class EditCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
-        for (Reminder r : personToEdit.getReminders()) {
-            model.deleteGeneralReminder(personToEdit, r);
-            model.addGeneralReminder(editedPerson, r);
-        }
-
+        model.editPersonGeneralReminderList(personToEdit, editedPerson);
         model.setPerson(personToEdit, editedPerson);
         model.refreshFilteredPersonList();
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));

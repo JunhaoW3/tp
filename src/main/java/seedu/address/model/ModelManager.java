@@ -206,6 +206,14 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void editPersonGeneralReminderList(Person toEdit, Person editedPerson) {
+        toEdit.getReminders().forEach(r -> {
+            this.deleteGeneralReminder(toEdit, r);
+            this.addGeneralReminder(editedPerson, r);
+        });
+    }
+
+    @Override
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);

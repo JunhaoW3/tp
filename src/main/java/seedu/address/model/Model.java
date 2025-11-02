@@ -125,6 +125,8 @@ public interface Model {
      */
     void clearGeneralReminderList();
 
+    void editPersonGeneralReminderList(Person toEdit, Person editedPerson);
+
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
