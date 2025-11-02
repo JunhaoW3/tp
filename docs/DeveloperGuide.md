@@ -237,7 +237,7 @@ The `add`, `delete` and `edit` reminders commands are then designed as separate 
 
 ### Meeting Notes Feature
 
-#### Challenges
+#### Challenge
 * Next, we wanted a convenient way for users to record and review key discussions with clients in a simple yet efficient way. We needed to decide what order to store and display meeting notes — whether to prioritise a simple internal logic or a more intuitive user interface.
 
 #### Implementation Details
