@@ -19,8 +19,11 @@ public class Reminder {
     public static final String HEADER_MESSAGE_CONSTRAINTS = "Reminder can take any value but cannot be blank.";
 
     public static final String DATE_INPUT_PATTERN = "uuuu-MM-dd HH:mm";
-    public static final String DEADLINE_MESSAGE_CONSTRAINTS = "Deadline should be in the following format: "
-            + DATE_INPUT_PATTERN;
+    public static final String DATE_INPUT_MESSAGE = "yyyy-MM-dd HH:mm";
+    public static final String DATE_INPUT_REGEX = "\\d{4}-\\b(0[1-9]|1[0-2])\\b-\\d{2} \\d{2}:\\d{2}";
+    public static final String DEADLINE_MESSAGE_FORMAT_CONSTRAINT = "Deadline should be in the following format: "
+            + DATE_INPUT_MESSAGE;
+    public static final String DEADLINE_MESSAGE_INVALID_CONSTRAINT = "Deadline given is an invalid date or time.";
 
     public final LocalDateTime deadline;
     public final String header;
@@ -34,9 +37,10 @@ public class Reminder {
     public Reminder(String header, String deadline) {
         requireAllNonNull(header, deadline);
         checkArgument(isValidHeader(header), HEADER_MESSAGE_CONSTRAINTS);
-        checkArgument(isValidDeadline(deadline), DEADLINE_MESSAGE_CONSTRAINTS);
+        isValidDeadline(deadline);
         this.header = header;
-        this.deadline = LocalDateTime.parse(deadline, DateTimeFormatter.ofPattern(DATE_INPUT_PATTERN));
+        this.deadline = LocalDateTime.parse(deadline,
+                DateTimeFormatter.ofPattern(DATE_INPUT_PATTERN).withResolverStyle(ResolverStyle.STRICT));
     }
 
     /**
@@ -47,9 +51,25 @@ public class Reminder {
     }
 
     /**
-     * Returns true if string is a valid deadline after today
+     * Returns true if string is a valid deadline after today (both format and date)
      */
     public static boolean isValidDeadline(String test) {
+        checkArgument(isValidDeadlineFormat(test), DEADLINE_MESSAGE_FORMAT_CONSTRAINT);
+        checkArgument(isValidDeadlineDate(test), DEADLINE_MESSAGE_INVALID_CONSTRAINT);
+        return true;
+    }
+
+    /**
+     * Returns true if string is of correct format
+     */
+    public static boolean isValidDeadlineFormat(String test) {
+        return test.matches(DATE_INPUT_REGEX);
+    }
+
+    /**
+     * Returns true if string in correctly parsed format is a valid date
+     */
+    public static boolean isValidDeadlineDate(String test) {
         try {
             LocalDateTime.parse(test,
                     DateTimeFormatter.ofPattern(DATE_INPUT_PATTERN).withResolverStyle(ResolverStyle.STRICT));
