@@ -18,9 +18,16 @@ each client. You also have the option to star or archive clients for better clie
 
 <box type="tip">
 
-**Tip:** Want to skip straight to the available commands?
+**Tips:** 
+<br>
+Want to skip straight to the available commands?
 <br>
 [Click Here for the Command Summary!](#6-command-summary)
+
+or need some definitions?
+<br>
+[Click Here for the Glossary!](#7-glossary)
+
 </box>
 
 --------------------------------------------------------------------------------------------------------------------
@@ -60,7 +67,7 @@ Our target users are insurance agents who:
     * [2.2.6 Removing Star of a Client : `unstar`](#2-2-6-removing-star-status-of-a-client-unstar)
     * [2.2.7 Archiving a Client : `archive`](#2-2-7-archiving-a-client-archive)
     * [2.2.8 Unarchiving a Client : `unarchive`](#2-2-8-unarchiving-a-client-unarchive)
-  * [2.3 Reminders](#2-2-3-reminders)
+  * [2.3 Reminders](#2-3-reminders)
     * [2.3.1 Adding a Reminder : `reminder`](#2-3-1-adding-a-reminder-reminder)
     * [2.3.2 Deleting a Reminder : `rDelete`](#2-3-2-deleting-a-reminder-rdelete)
     * [2.3.3 Editing a Reminder : `rEdit`](#2-3-3-editing-a-reminder-redit)
@@ -74,6 +81,7 @@ Our target users are insurance agents who:
 * [4. FAQ](#4-faq)
 * [5. Known Issues](#5-known-issues)
 * [6. Command Summary](#6-command-summary)
+* [7. Glossary](#7-glossary)
 
 <br>
 
@@ -653,7 +661,7 @@ Restore a backup of that file or delete it to regenerate sample data. Try to avo
 | [**nDelete**](#2-4-2-deleting-a-meeting-note-ndelete)         | `nDelete CLIENT_INDEX MEETING_NOTE_INDEX`<br> e.g., `nDelete 1 1`                                                                                                                             |
 
 
-## Glossary
+## <font color=##3a5a40>7. Glossary</font>
 
 | Term / Command                               | Meaning                                                                                                                               |
 |----------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
