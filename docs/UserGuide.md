@@ -20,7 +20,7 @@ each client. You also have the option to star or archive clients for better clie
 
 **Tip:** Want to skip straight to the available commands?
 <br>
-[Click Here for the Command Summary!](#command-summary)
+[Click Here for the Command Summary!](#6-command-summary)
 </box>
 
 --------------------------------------------------------------------------------------------------------------------
