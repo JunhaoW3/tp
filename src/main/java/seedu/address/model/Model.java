@@ -120,6 +120,9 @@ public interface Model {
      */
     ObservableList<Pair<Person, Reminder>> getGeneralReminderList();
 
+    /**
+     * Clears the entire list of general reminders
+     */
     void clearGeneralReminderList();
 
     /**
