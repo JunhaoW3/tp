@@ -37,8 +37,6 @@ public class EditReminderCommand extends Command {
 
     public static final String MESSAGE_EDIT_REMINDER_SUCCESS = "Edited Client %1$s's Reminder %2$d: from %3$s to %4$s";
 
-    public static final String MESSAGE_INVALID_REMINDER_DISPLAYED_INDEX = "The reminder index provided is invalid";
-
     public static final String MESSAGE_REMINDER_ALREADY_EXISTS = "This reminder already exists.";
 
     private final Index clientIndex;
@@ -68,7 +66,7 @@ public class EditReminderCommand extends Command {
 
         ArrayList<Reminder> reminderList = target.getReminders();
         if (reminderIndex.getZeroBased() >= reminderList.size()) {
-            throw new CommandException(MESSAGE_INVALID_REMINDER_DISPLAYED_INDEX);
+            throw new CommandException(Messages.MESSAGE_INVALID_REMINDER_DISPLAYED_INDEX);
         }
         Reminder toEdit = reminderList.get(this.reminderIndex.getZeroBased());
 

@@ -1,5 +1,4 @@
 package seedu.address.ui;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -33,41 +32,26 @@ public class ReminderListPanel extends UiPart<Region> {
     public ReminderListPanel(ObservableList<String> reminders) {
         super(FXML);
 
-        reminderListView.setItems(reminders != null ? reminders : FXCollections.observableArrayList());
-        reminderListView.setCellFactory(list -> new ReminderListViewCell() {
-            @Override
-            protected void updateItem(String text, boolean empty) {
-                super.updateItem(text, empty);
-                setText(null);
-                setGraphic(null);
-                if (!empty && text != null) {
-                    // correct order: (index, text)
-                    setGraphic(new ReminderCard(getIndex() + 1, text).getRoot());
-                }
-            }
-        });
+        ObservableList<String> noteList = reminders != null ? reminders : FXCollections.observableArrayList();
+        reminderListView.setItems(noteList);
+        reminderListView.setCellFactory(list -> new ReminderListViewCell());
 
-
-        // Make the list visually read-only & avoid dim selected state
         reminderListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         reminderListView.getSelectionModel().clearSelection();
         reminderListView.setFocusTraversable(false);
         reminderListView.setFixedCellSize(-1);
 
+        // Disable parent scrolling when mouse is hovering over meeting notes list
+        reminderListView.setOnScroll(event -> event.consume());
+
+
     }
 
-    /** Replace the items displayed by this list view. Safe no-op if {@code items} is null. */
     public void setItems(ObservableList<String> items) {
         reminderListView.setItems(items != null ? items : FXCollections.observableArrayList());
     }
 
-    /**
-     * ListCell that renders each reminder.
-     *
-     * <p>Primary path: render an FXML {@link ReminderCard} and set it as the graphic.</p>
-     * <p>Fallback path (for CI): render a plain string so tests do not need a JavaFX runtime.</p>
-     */
-    private static class ReminderListViewCell extends ListCell<String> {
+    private class ReminderListViewCell extends ListCell<String> {
         @Override
         protected void updateItem(String item, boolean empty) {
             super.updateItem(item, empty);
@@ -78,13 +62,14 @@ public class ReminderListPanel extends UiPart<Region> {
                 return;
             }
 
-            // Try to render the proper FXML card.
             try {
-                int idx = getIndex() + 1; // ListCell is 0-based; UI is 1-based.
-                setText(null); // prefer graphic when available
-                setGraphic(new ReminderCard(idx, item).getRoot());
+                int idx = getIndex() + 1;
+                setText(null);
+                Region cardRoot = new ReminderCard(idx, item).getRoot();
+                cardRoot.prefWidthProperty().bind(reminderListView.widthProperty().subtract(20));
+                cardRoot.maxWidthProperty().bind(reminderListView.widthProperty().subtract(20));
+                setGraphic(cardRoot);
             } catch (Exception e) {
-                // Fallback for headless/unit-test environments: show plain text.
                 int idx = getIndex() + 1;
                 setGraphic(null);
                 setText(ReminderTextUtil.formatItem(idx, item));

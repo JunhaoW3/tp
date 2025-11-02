@@ -33,13 +33,13 @@ public class SampleDataUtil {
             "Prepare meeting agenda for investment review", "2028-11-05 08:30",
             "Send birthday greeting to client", "2029-11-18 09:30");
     public static final ArrayList<MeetingNote> SAMPLE_MEETING_NOTES_ONE = createMeetingNotes(
-            "Discussed client's insurance needs and recommended FamilyCare plan.", "2025-10-01 10:30",
+            "Scheduled next review session for December.", "2025-10-10 16:45",
             "Client requested quotation for additional coverage.", "2025-10-05 11:00",
-            "Scheduled next review session for December.", "2025-10-10 16:45");
+            "Discussed client's insurance needs and recommended FamilyCare plan.", "2025-10-01 10:30");
     public static final ArrayList<MeetingNote> SAMPLE_MEETING_NOTES_TWO = createMeetingNotes(
-            "Explained investment risk profile and portfolio diversification.", "2025-09-20 14:15",
+            "Planned to introduce new product line next quarter.", "2025-09-30 09:30",
             "Client requested to adjust monthly savings plan.", "2025-09-25 10:00",
-            "Planned to introduce new product line next quarter.", "2025-09-30 09:30");
+            "Explained investment risk profile and portfolio diversification.", "2025-09-20 14:15");
     private static ArrayList<Reminder> createReminders(String... data) {
         ArrayList<Reminder> list = new ArrayList<>();
         for (int i = 0; i < data.length; i += 2) {
