@@ -185,8 +185,24 @@ public class AddCommandTest {
         public Predicate<Person> getCurrentFilter() {
             throw new AssertionError("This method should not be called.");
         }
+
         @Override
         public void setCurrentFilter(Predicate<Person> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setToActiveList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setToArchiveList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setToGeneralList() {
             throw new AssertionError("This method should not be called.");
         }
 
