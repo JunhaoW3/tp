@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
@@ -39,6 +40,7 @@ public class UnarchiveCommandTest {
 
         model.setCurrentFilter(Person::isArchived);
         model.setViewingArchivedList(true);
+        model.updateFilteredPersonList(Person::isArchived);
 
         UnarchiveCommand unarchiveCommand = new UnarchiveCommand(INDEX_FIRST_PERSON);
         Person unarchivedPerson = archivedPerson.unarchive();
@@ -49,10 +51,10 @@ public class UnarchiveCommandTest {
         );
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.setCurrentFilter(Person::isArchived);
-        expectedModel.setViewingArchivedList(true);
-
+        expectedModel.setCurrentFilter(p -> !p.isArchived());
+        expectedModel.setViewingArchivedList(false);
         expectedModel.setPerson(archivedPerson, unarchivedPerson);
+        expectedModel.updateFilteredPersonList(p -> !p.isArchived());
 
         assertCommandSuccess(unarchiveCommand, model, expectedMessage, expectedModel);
     }
@@ -83,6 +85,7 @@ public class UnarchiveCommandTest {
 
         model.setCurrentFilter(Person::isArchived);
         model.setViewingArchivedList(true);
+        model.updateFilteredPersonList(Person::isArchived);
 
         UnarchiveCommand unarchiveCommand = new UnarchiveCommand(Index.fromOneBased(1));
 
@@ -90,8 +93,9 @@ public class UnarchiveCommandTest {
                 Messages.format(personToArchive));
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.setCurrentFilter(Person::isArchived);
-        expectedModel.setViewingArchivedList(true);
+        expectedModel.setCurrentFilter(p -> !p.isArchived());
+        expectedModel.setViewingArchivedList(false);
+        expectedModel.updateFilteredPersonList(p -> !p.isArchived());
 
         Person unarchivedPerson = archivedPerson.unarchive();
         expectedModel.setPerson(archivedPerson, unarchivedPerson);
@@ -133,6 +137,53 @@ public class UnarchiveCommandTest {
         // Out-of-bound index in filtered list should fail
         UnarchiveCommand unarchiveCommand = new UnarchiveCommand(Index.fromOneBased(2));
         assertCommandFailure(unarchiveCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+    }
+
+    @Test
+    public void execute_validIndex_switchesViewToActiveList() throws Exception {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Person personToArchive = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person archivedPerson = personToArchive.archive();
+        model.setPerson(personToArchive, archivedPerson);
+
+        model.setCurrentFilter(Person::isArchived);
+        model.setViewingArchivedList(true);
+        model.updateFilteredPersonList(model.getCurrentFilter());
+
+        UnarchiveCommand unarchiveCommand = new UnarchiveCommand(INDEX_FIRST_PERSON);
+        Person unarchivedPerson = archivedPerson.unarchive();
+        String expectedMessage = String.format(
+                UnarchiveCommand.MESSAGE_UNARCHIVE_PERSON_SUCCESS,
+                Messages.format(unarchivedPerson)
+        );
+
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        expectedModel.setPerson(archivedPerson, unarchivedPerson);
+
+        expectedModel.setCurrentFilter(p -> !p.isArchived());
+        expectedModel.setViewingArchivedList(false);
+        expectedModel.updateFilteredPersonList(expectedModel.getCurrentFilter());
+
+        assertCommandSuccess(unarchiveCommand, model, expectedMessage, expectedModel);
+
+        assertFalse(model.isViewingArchivedList());
+        assertEquals(expectedModel.getFilteredPersonList(), model.getFilteredPersonList());
+    }
+
+    @Test
+    public void execute_invalidIndex_doesNotChangeView() {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
+        model.setCurrentFilter(Person::isArchived);
+        model.setViewingArchivedList(true);
+        model.updateFilteredPersonList(model.getCurrentFilter());
+
+        UnarchiveCommand unarchiveCommand = new UnarchiveCommand(Index.fromOneBased(1));
+
+        assertCommandFailure(unarchiveCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+
+        assertTrue(model.isViewingArchivedList());
+        assertEquals(0, model.getFilteredPersonList().size());
     }
 
     @Test
