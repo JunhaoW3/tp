@@ -1107,11 +1107,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ### Glossary
 
 * **Archive**: Clients who are archived are inactive, but not deleted
-* **Client**: Customer who has signed or is going to sign an insurance policy with the user
+* **Client**: Customer who has signed or may sign an insurance policy with the user
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
+* **Meeting note**: Linked to a specific client, a meeting note consists of a note and a timestamp
 * **Private contact detail**: A contact detail that is not meant to be shared with others
-* **Reminder**: A note linked to a specific client, with a message and due date
-* **User**: Insurance agent using the address book
+* **Reminder**: Linked to a specific client, a reminder consists of a headline and due date
+* **User**: Insurance agent using FinHub
 
 <br>
 
@@ -1263,7 +1264,7 @@ testers are expected to do more *exploratory* testing.
     * User Input: `note 1 Client is interested in the premium health policy`
     * Expected Outcome:
         * A meeting note {Client is interested in the premium health policy} is added to the top of the meeting note list of the client at index 1 .
-        * A success message is displayed: `Meeting note added to {Person's Name}: [date and time when note is created] CLient is interested in the premium health policy`
+        * A success message is displayed: `Meeting note added to {Person's Name}: [timestamp] CLient is interested in the premium health policy`
 
 &nbsp;
 
@@ -1298,7 +1299,7 @@ testers are expected to do more *exploratory* testing.
     * User Input: `nDelete 1 1`
     * Expected Outcome:
         * The first meeting note of the first client will be deleted.
-        * A success message is displayed: `Deleted Client {Person's Name}'s Meeting Note 1: [date and time when note is created] {Deleted Meeting Note}`
+        * A success message is displayed: `Deleted Client {Person's Name}'s Meeting Note 1: [timestamp] {Deleted Meeting Note}`
         * The meeting note list for the client at index 1 will not contain the {Deleted Meeting Note}.
 
 &nbsp;
