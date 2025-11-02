@@ -81,6 +81,13 @@ public class DeleteReminderCommand extends Command {
         model.setPerson(personToDeleteFrom, editedPerson);
         model.deleteGeneralReminder(personToDeleteFrom, reminderToDelete);
 
+        if (personToDeleteFrom.isArchived()) {
+            personToDeleteFrom.getReminders().forEach(reminder -> {
+                model.addGeneralReminder(personToDeleteFrom, reminder);
+            });
+            model.deleteGeneralReminder(personToDeleteFrom, reminderToDelete);
+        }
+
         model.setToActiveList();
         model.refreshFilteredPersonList();
 
