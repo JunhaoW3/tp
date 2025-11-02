@@ -40,7 +40,7 @@ public class UnarchiveCommand extends Command {
         requireNonNull(model);
 
         if (!model.isViewingArchivedList()) {
-            throw new CommandException("You must be viewing the archive list or general list to unarchive a person.");
+            throw new CommandException("You must be viewing the archive list to unarchive a person.");
         }
 
         List<Person> lastShownList = model.getFilteredPersonList();
