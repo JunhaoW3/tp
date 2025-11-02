@@ -23,6 +23,11 @@ each client. You also have the option to star or archive clients for better clie
 [Click Here for the Command Summary!](#command-summary)
 </box>
 
+<box type="note">
+
+**Note:** FinHub opens active list by default at start/restart.
+</box>
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## <font color=#3a5a40>Target User and Assumptions Made</font>
@@ -174,7 +179,7 @@ Format: `list`
 
 #### <font color=#5a9f68>2.1.3 Listing active clients : `activelist`</font>
 
-Displays a list of all active clients in FinHub.
+Displays a list of all active (currently contacting) clients in FinHub.
 
 Format: `activelist`
 
@@ -186,7 +191,7 @@ Format: `activelist`
 
 #### <font color=#5a9f68>2.1.4 Listing archive clients : `archivelist`</font>
 
-Displays a list of all archived clients in FinHub.
+Displays a list of all archived (not currently contacting) clients in FinHub.
 
 Format: `archivelist`
 
