@@ -464,7 +464,7 @@ Examples:
 <box type="success">
 
 **Assumptions:**
-1. Bernice Yu is the 2nd client in the displayed clients list
+1. Bernice Yu is the 2nd client in the displayed clients list.
 2. Meeting on Friday, due by 2026-04-24 16:00 is the first reminder in her list.
 
 **Expected Output Message:** Deleted Client Bernice Yu's Reminder 1: Meeting on Friday, due by 2026-04-24 16:00
@@ -504,7 +504,7 @@ reminders list of the 2nd client in the displayed clients list to "Meeting on Fr
 <box type="success">
 
 **Assumptions:**
-1. Bernice Yu is the 2nd client in the displayed clients list
+1. Bernice Yu is the 2nd client in the displayed clients list.
 2. Call to confirm appointment, due by 2027-11-03 14:00 is the first reminder in her list.
 
 **Expected Output Message:** Edited Client Bernice Yu's Reminder 1: from Call to confirm appointment, due by 
