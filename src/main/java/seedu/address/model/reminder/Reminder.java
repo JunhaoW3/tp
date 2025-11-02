@@ -6,6 +6,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
 import java.util.Objects;
 
 /**
@@ -17,7 +18,7 @@ public class Reminder {
     public static final String VALIDATION_REGEX = "[^\\s].*";
     public static final String HEADER_MESSAGE_CONSTRAINTS = "Reminder can take any value but cannot be blank.";
 
-    public static final String DATE_INPUT_PATTERN = "yyyy-MM-dd HH:mm";
+    public static final String DATE_INPUT_PATTERN = "uuuu-MM-dd HH:mm";
     public static final String DEADLINE_MESSAGE_CONSTRAINTS = "Deadline should be in the following format: "
             + DATE_INPUT_PATTERN;
 
@@ -50,7 +51,8 @@ public class Reminder {
      */
     public static boolean isValidDeadline(String test) {
         try {
-            LocalDateTime.parse(test, DateTimeFormatter.ofPattern(DATE_INPUT_PATTERN));
+            LocalDateTime.parse(test,
+                    DateTimeFormatter.ofPattern(DATE_INPUT_PATTERN).withResolverStyle(ResolverStyle.STRICT));
         } catch (DateTimeException e) {
             return false;
         }
