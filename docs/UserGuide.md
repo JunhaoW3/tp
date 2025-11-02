@@ -128,7 +128,7 @@ Our target users are insurance agents who:
 
 ## <font color=#3a5a40>2. Features</font>
 
-<box type="info>
+<box type="info">
 
 **General remarks about the command formats:**<br>
 
@@ -150,11 +150,11 @@ Our target users are insurance agents who:
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines
   as space characters surrounding line-breaks may be omitted when copied over to the application.
-  </box>
 
 * Any indices i.e. `CLIENT_INDEX`, `REMINDER_INDEX` and `MEETING_NOTE_INDEX`
   **must be positive integers** 1, 2, 3, …​
-
+  
+</box>
 
 ### <font color=#588157>2.1 General Commands</font>
 
