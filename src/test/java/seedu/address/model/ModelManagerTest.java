@@ -99,6 +99,45 @@ public class ModelManagerTest {
     }
 
     @Test
+    public void setToArchiveList_showsOnlyArchivedPersons() {
+        modelManager.addPerson(ALICE);
+        modelManager.addPerson(BENSON.archive());
+
+        modelManager.setToArchiveList();
+        modelManager.updateFilteredPersonList(modelManager.getCurrentFilter());
+
+        assertEquals(1, modelManager.getFilteredPersonList().size());
+        assertTrue(modelManager.getFilteredPersonList().contains(BENSON));
+        assertFalse(modelManager.getFilteredPersonList().contains(ALICE));
+    }
+
+    @Test
+    public void setToActiveList_showsOnlyActivePersons() {
+        modelManager.addPerson(ALICE);
+        modelManager.addPerson(BENSON.archive());
+
+        modelManager.setToActiveList();
+        modelManager.updateFilteredPersonList(modelManager.getCurrentFilter());
+
+        assertEquals(1, modelManager.getFilteredPersonList().size());
+        assertFalse(modelManager.getFilteredPersonList().contains(BENSON));
+        assertTrue(modelManager.getFilteredPersonList().contains(ALICE));
+    }
+
+    @Test
+    public void setToGeneralList_showsAllPersons() {
+        modelManager.addPerson(ALICE.archive());
+
+        modelManager.setToGeneralList();
+
+        assertFalse(modelManager.isViewingArchivedList());
+        modelManager.updateFilteredPersonList(modelManager.getCurrentFilter());
+
+        assertEquals(1, modelManager.getFilteredPersonList().size());
+        assertTrue(modelManager.getFilteredPersonList().contains(ALICE));
+    }
+
+    @Test
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredPersonList().remove(0));
     }
@@ -106,6 +145,25 @@ public class ModelManagerTest {
     @Test
     public void getArchivedPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> modelManager.getArchivedPersonList().remove(0));
+    }
+
+    @Test
+    public void refreshFilteredPersonList_updatesBasedOnViewingState() {
+        modelManager.addPerson(ALICE);
+        modelManager.addPerson(BENSON.archive());
+
+        modelManager.setToActiveList();
+        modelManager.refreshFilteredPersonList();
+
+        assertEquals(1, modelManager.getFilteredPersonList().size());
+        assertTrue(modelManager.getFilteredPersonList().contains(ALICE));
+        assertFalse(modelManager.getFilteredPersonList().contains(BENSON));
+
+        modelManager.setToArchiveList();
+        modelManager.refreshFilteredPersonList();
+
+        assertEquals(1, modelManager.getFilteredPersonList().size());
+        assertTrue(modelManager.getFilteredPersonList().contains(BENSON));
     }
 
     @Test
