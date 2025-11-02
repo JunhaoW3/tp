@@ -163,7 +163,7 @@ This section describes some noteworthy details on how certain features are imple
 ### Reminders Feature
 
 #### Challenge
-* Reminders was the first feature that we deemed as important for MVP - as we decided that reminders will be stored as an `ArrayList<Reminder>` for each `Person`, we needed to expand the current model, logic and storage to include it.
+* Reminders was the first feature that we deemed as important for MVP - as we decided that reminders will be stored as an `ArrayList<Reminder>` for each `Person`, we needed to expand the current model, logic and storage to include it - the challenge lies in the integration.
 
 #### Implementation Details
 
