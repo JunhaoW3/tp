@@ -68,13 +68,11 @@ deactivate filteredPersons
 DeleteMeetingNoteCommand -> personToDeleteFrom : getMeetingNotes()
 activate personToDeleteFrom
 personToDeleteFrom --> DeleteMeetingNoteCommand : meetingNotes
+
+DeleteMeetingNoteCommand -> personToDeleteFrom : removeMeetingNote(meetingNoteToDelete)
+
+personToDeleteFrom --> DeleteMeetingNoteCommand : editedPerson
 deactivate personToDeleteFrom
-
-DeleteMeetingNoteCommand -> personToEdit : removeMeetingNote(meetingNoteToDelete)
-activate personToEdit
-
-personToEdit --> DeleteMeetingNoteCommand : editedPerson
-deactivate personToEdit
 
 DeleteMeetingNoteCommand -> Model : setPerson(personToDeleteFrom, editedPerson)
 activate Model

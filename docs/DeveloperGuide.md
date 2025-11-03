@@ -244,7 +244,7 @@ The `add`, `delete` and `edit` reminders commands are then designed as separate 
 
 Meeting Notes are set up as a `MeetingNote.java` class with two key internal fields.
 * `String` TEXT
-* `LocalDateTime` date and time at which the meeting note was created.
+* `LocalDateTime` timestamp at which the meeting note was created.
 
 <br>
 
@@ -268,6 +268,12 @@ The `add` and `delete` meeting note commands are then designed as separate comma
 
 <br>
 
+The following is an activity diagram for the execution of `note CLIENT_INDEX TEXT`,
+
+<puml src="diagrams/AddMeetingNoteActivityDiagram.puml" alt="Activity Diagram for the execution of `note CLIENT_INDEX TEXT`"></puml>
+
+<br>
+
 --------------------------------------------------------------------------------------------------------------------
 
 * ###### Delete Meeting Note
@@ -282,6 +288,12 @@ The `add` and `delete` meeting note commands are then designed as separate comma
   <br>
 
     * Upon execution of the `DeleteMeetingNoteCommand`, the method `Person#removeMeetingNote` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the `MeetingNote.java` at the `MEETING_NOTE_INDEX` of the `Person`'s `ArrayList<MeetingNote>` as parameter. This initialises a new `ArrayList<MeetingNote>` with the `MeetingNote.java` removed from the previous `ArrayList<MeetingNote>`, returning a new `Person` object with the updated `ArrayList<MeetingNote>`.
+
+<br>
+
+The following is a sequence diagram for the execution of `nDelete 1 1`,
+
+<puml src="diagrams/DeleteMeetingNoteSequenceDiagram.puml" alt="Interactions Inside the Logic Component for the `nDelete 1 1` Command"></puml>
 
 <br>
 
