@@ -5,7 +5,7 @@ skinparam classAttributeFontColor #FFFFFF
 skinparam arrowThickness 1.1
 skinparam arrowColor MODEL_COLOR
 skinparam classBackgroundColor MODEL_COLOR
-skinparam classAttributeFontSize 18
+skinparam classAttributeFontSize 40
 show members
 hide empty members
 
