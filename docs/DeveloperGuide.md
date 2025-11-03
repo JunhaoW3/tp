@@ -1307,7 +1307,6 @@ testers are expected to do more *exploratory* testing.
 
 <br>
 
-
 ### Adding a client (with insurance policy field)
 * Prerequisites: -
 
@@ -1359,7 +1358,7 @@ Example: add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #0
 and must include at least one letter or digit.`.
 
 <br>
-
+    
 --------------------------------------------------------------------------------------------------------------------
 
 ### Archiving a client
