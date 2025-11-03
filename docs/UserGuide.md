@@ -227,7 +227,7 @@ Format: `clear`
 This action will **permanently erase all data** in FinHub and cannot be undone. Make sure to back up any important information before proceeding.
 </box>
 
-<box type="success" class="success-box">
+<box type="success">
 
 **Expected Output Message:**
 FinHub has been cleared!
@@ -379,7 +379,7 @@ Examples:
 * `list` followed by `unstar 2` removes star status from the 2nd client in the currently displayed clients list.
 * `find Alex` followed by `unstar 1` removes star status from the 1st client in the results of the `find` command.
 
-<box type="success" class="success-box">
+<box type="success">
 
 **Assumption:**
 1. Alex Yeoh is the 1st client in the currently displayed clients list.
