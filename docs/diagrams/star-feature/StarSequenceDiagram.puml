@@ -18,9 +18,13 @@ end box
 
 box Model MODEL_COLOR_T1
 participant "m:Model" as Model MODEL_COLOR
-participant "oldPerson:Person" as oldPerson MODEL_COLOR
+participant "personToStar:Person" as personToStar MODEL_COLOR
 participant "starredPerson:Person" as starredPerson MODEL_COLOR
 end box
+
+box #6CA6CD
+participant "lastShownList:List<Person>" as lastShownList #6CA6CD
+endbox
 
 User -> CommandBox : enterCommand("star 1")
 activate CommandBox
@@ -62,33 +66,33 @@ activate StarCommand
 
 StarCommand -> Model : getFilteredPersonList()
 activate Model
-Model --> StarCommand : List<Person>
+Model --> StarCommand : lastShownList
 deactivate Model
 
-StarCommand -> Model : get(index=0)
-activate Model
-Model --> StarCommand : oldPerson
-deactivate Model
+StarCommand -> lastShownList : get(index=0)
+activate lastShownList
+lastShownList --> StarCommand : personToStar
+deactivate lastShownList
 
-StarCommand -> oldPerson : isStarred()
-activate oldPerson
-oldPerson --> StarCommand : false
-deactivate oldPerson
+StarCommand -> personToStar : isStarred()
+activate personToStar
+personToStar --> StarCommand : false
+deactivate personToStar
 
-StarCommand -> oldPerson : rebuildWithStarredStatus(true)
-activate oldPerson
+StarCommand -> personToStar : rebuildWithStarredStatus(true)
+activate personToStar
 
 create starredPerson
-oldPerson -> starredPerson
+personToStar -> starredPerson
 activate starredPerson
 
-starredPerson --> oldPerson
+starredPerson --> personToStar
 deactivate starredPerson
 
-oldPerson --> StarCommand : starredPerson
-deactivate oldPerson
+personToStar --> StarCommand : starredPerson
+deactivate personToStar
 
-StarCommand -> Model : setPerson(oldPerson, starredPerson)
+StarCommand -> Model : setPerson(personToStar, starredPerson)
 activate Model
 Model --> StarCommand
 deactivate Model

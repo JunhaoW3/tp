@@ -1328,8 +1328,33 @@ testers are expected to do more *exploratory* testing.
 <br>
 
 
-### Adding a client (with insurance policy field)
+### Adding a client
 * Prerequisites: -
+
+&nbsp;
+
+* Test Case: Add a client
+    * Assumption: Both the phone number `98765432` and email `johnd@example.com` does not exist in FinHub
+    * Input: `add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 ip/AIB Overall Lifeshield Plan t/friends`
+    * Expected Outcome:
+        * The client, John Doe, is added.
+        * A success message is displayed: `New client added: John Doe; Phone: 98765432; Email: johnd@example.com; Address: 311, Clementi Ave 2, #02-25; Insurance Policy: AIB Overall Lifeshield Plan; Tags: [friends]`.
+
+&nbsp;
+
+* Test Case: Add a client with a phone number that exists in FinHub
+    * Assumption: The phone number `99272758` already exist in FinHub
+    * Input: `add n/John Doe p/99272758 e/johnd123@example.com a/311, Clementi Ave 2, #02-25 ip/AIB Overall Lifeshield Plan t/friends`
+    * Expected Outcome:
+        * A failure message is displayed: `This client's phone number or email already exists in FinHub`.
+
+&nbsp;
+
+* Test Case: Add a client with an email that exists in FinHub
+    * Assumption: The email `berniceyu@example.com` already exist in FinHub
+    * Input: `add n/John Doe p/99776442 e/berniceyu@example.com a/311, Clementi Ave 2, #02-25 ip/AIB Overall Lifeshield Plan t/friends`
+    * Expected Outcome:
+        * A failure message is displayed: `This client's phone number or email already exists in FinHub`.
 
 &nbsp;
 
@@ -1358,8 +1383,42 @@ Example: add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #0
 
 <br>
 
-### Editing a client's insurance policy field
+### Editing a client
 * Prerequisites: The client has already been added.
+
+&nbsp;
+
+* Test Case: Edit a client with a new valid phone number
+    * Assumption: The new phone number does not exist in FinHub, and **Alex Yeoh** (client with index 1) is displayed in the list with details as defined in the sample data.
+    * Input: `edit 1 p/82339844`
+    * Expected Outcome:
+        * Client 1's phone number is updated to `82339844`
+        * A success message is displayed: `Edited Client: Alex Yeoh; Phone: 82339844; Email: alexyeoh@example.com; Address: Blk 30 Geylang Street 29, #06-40; Insurance Policy: AIB HealthShield Gold Max; Tags: [friends]`.
+
+&nbsp;
+
+* Test Case: Edit a client with an existing phone number
+    * Assumption: The phone number `99272758` exist in FinHub
+    * Input: `edit 1 p/99272758`
+    * Expected Outcome:
+        * A failure message is displayed: `This client's phone number or email already exists in FinHub.`.
+
+&nbsp;
+
+* Test Case: Edit a client with a new valid email
+    * Assumption: The new email does not exist in FinHub, and **Alex Yeoh** (client with index 1) is displayed in the list with details as defined in the sample data.
+    * Input: `edit 1 e/AlexYeoh6767@gmail.com`
+    * Expected Outcome:
+        * Client 1's email is updated to `AlexYeoh6767@gmail.com`
+        * A success message is displayed: `Edited Client: Alex Yeoh; Phone: 87438807; Email: AlexYeoh6767@gmail.com; Address: Blk 30 Geylang Street 29, #06-40; Insurance Policy: AIB HealthShield Gold Max; Tags: [friends]`.
+
+&nbsp;
+
+* Test Case: Edit a client with an existing email
+    * Assumption: The email `berniceyu@example.com` exist in FinHub
+    * Input: `edit 1 e/berniceyu@example.com`
+    * Expected Outcome:
+        * A failure message is displayed: `This client's phone number or email already exists in FinHub.`.
 
 &nbsp;
 
@@ -1367,7 +1426,7 @@ Example: add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #0
     * Input: `edit 1 ip/AIB LifePlan`
     * Expected Outcome:
         * Client 1, Alex's insurance policy is now AIB LifePlan
-        * A success message is displayed: `Edited CLient: Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com; Address: Blk 30 Geylang Street 29, #06-40; Insurance Policy: AIB LifePlan; Tags: [friends]`.
+        * A success message is displayed: `Edited Client: Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com; Address: Blk 30 Geylang Street 29, #06-40; Insurance Policy: AIB LifePlan; Tags: [friends]`.
 
 &nbsp;
 
