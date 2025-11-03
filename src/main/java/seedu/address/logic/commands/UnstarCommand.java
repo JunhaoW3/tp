@@ -69,7 +69,6 @@ public class UnstarCommand extends Command {
 
         assert unstarredPerson != null : "Unstarred person should not be null after removing star status";
         assert !unstarredPerson.isStarred() : "Newly unstarred person must have isStarred = false";
-
         model.setPerson(personToUnstar, unstarredPerson);
         model.sortPersons(STARRED_STATUS_COMPARATOR);
         model.refreshFilteredPersonList();
