@@ -16,7 +16,9 @@ participant "personToEdit:Person" as personToEdit MODEL_COLOR
 participant "editedPerson:Person" as editedPerson MODEL_COLOR
 end box
 
-participant "filteredPersons:FilteredList<Person>" as filteredPersons #green
+box #6CA6CD
+participant "filteredPersons:FilteredList<Person>" as filteredPersons #6CA6CD
+end box
 
 [-> LogicManager : execute\n("reminder 2 h/Meeting on Friday d/2026-04-24 16:00")
 activate LogicManager
@@ -56,7 +58,7 @@ activate AddReminderCommand
 AddReminderCommand -> Model : getFilteredPersonList()
 activate Model
 
-Model --> AddReminderCommand : ObservableList<Person>
+Model --> AddReminderCommand : filteredPersons
 deactivate Model
 
 AddReminderCommand -> filteredPersons : get(1)
@@ -77,6 +79,7 @@ deactivate editedPerson
 
 personToEdit --> AddReminderCommand : editedPerson
 deactivate personToEdit
+destroy personToEdit
 
 AddReminderCommand -> Model : setPerson(personToEdit, editedPerson)
 activate Model
