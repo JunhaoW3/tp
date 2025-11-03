@@ -68,6 +68,13 @@ deactivate filteredPersons
 AddReminderCommand -> personToEdit : addReminder(reminder)
 activate personToEdit
 
+create editedPerson
+personToEdit -> editedPerson
+activate editedPerson
+
+editedPerson --> personToEdit : editedPerson
+deactivate editedPerson
+
 personToEdit --> AddReminderCommand : editedPerson
 deactivate personToEdit
 
