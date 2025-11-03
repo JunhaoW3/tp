@@ -259,15 +259,12 @@ public class Person implements Comparable<Person> {
                 && address.equals(otherPerson.address)
                 && tags.equals(otherPerson.tags)
                 && policy.equals(otherPerson.policy);
-        //TODO - Update to include reminders
-        //may not need to implement as reminders is not core identity of person
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
         return Objects.hash(name, phone, email, address, tags);
-        //TODO - Update to include reminders
     }
 
     @Override

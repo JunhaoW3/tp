@@ -56,10 +56,9 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited CLient: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.\n"
             + "Enter the command word again without any arguments to view the correct command format.";;
-    public static final String MESSAGE_DUPLICATE_PERSON = "This client's phone number or " +
-            "email already exists in FinHub.";
+    public static final String MESSAGE_DUPLICATE_PERSON = "This client's phone number or "
+            + "email already exists in FinHub.";
     public static final String MESSAGE_UNCHANGED_PERSON = "No changes detected. Please modify at least one field.";
-    
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
 
