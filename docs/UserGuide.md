@@ -361,13 +361,13 @@ Examples:
 
 <box type="success" class="success-box">
 
-**Assumption:** 
+**Assumption:**
 1. Alex Yeoh is the 1st client in the currently displayed clients list.
 2. Alex Yeoh is starred.
 
 <br>
 
-**Expected Output Message:** 
+**Expected Output Message:**
 Starred status removed from Client: Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com; Address: Blk 30 Geylang Street 29, #06-40; Insurance Policy: AIB HealthShield Gold Max; Tags: [friends]
 </box>
 

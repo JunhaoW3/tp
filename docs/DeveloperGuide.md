@@ -184,7 +184,7 @@ The `add`, `delete` and `edit` reminders commands are then designed as separate 
 <br>
 
   * A newly initialised `AddReminderCommand.java` will then have the fields before `AddReminderCommand#exceute` is called.
-    * `CLIENT_INDEX` 
+    * `CLIENT_INDEX`
     * and the previously initialised `Reminder.java`
 
 <br>
@@ -290,7 +290,7 @@ The `add` and `delete` meeting note commands are then designed as separate comma
 ### Star Client Feature
 
 #### Challenges
-* The goal was to provide an easy way for users to "star" clients. This would allow users to mark clients they want to highlight or prioritize, and later allow them to remove the starred status if needed. 
+* The goal was to provide an easy way for users to "star" clients. This would allow users to mark clients they want to highlight or prioritize, and later allow them to remove the starred status if needed.
 * There was some debate on whether to display starred clients in a separate list or to prioritize them within the existing list. We decided to integrate starred clients into the main list, sorting them to appear at the top, which required adding a sorting logic in `Person.java` too.
 
 #### Implementation Details
@@ -301,7 +301,7 @@ To implement the star client feature, we focus on the following areas:
 &nbsp;
 
 2. **Commands**: Two main commands are created:
-    - `StarCommand`: For marking a client as starred. 
+    - `StarCommand`: For marking a client as starred.
     - `UnstarCommand`: For removing the starred status of a client.
 
 &nbsp;
@@ -532,7 +532,7 @@ _{Explain here how the data archiving feature will be implemented}_
 * ##### Edit Client
     * The user will execute `edit CLIENT_INDEX ip/INSURANCE_POLICY`. `EditCommandParser.java` treats `ip/…` as an optional edited field; if present, it validates and sets the new `InsurancePolicy.java`.
       A new `Person` instance is created with the updated policy (immutability preserved), replacing the old one in `UniquePersonList.java`
-      
+
 --------------------------------------------------------------------------------------------------------------------
 ## **Documentation, logging, testing, configuration, dev-ops**
 
@@ -1325,15 +1325,14 @@ testers are expected to do more *exploratory* testing.
 * Test Case: Add a client with an invalid insurance policy (just whitespace)
     * Input: `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 ip/ `
     * Expected Outcome:
-        * A failure message is displayed: `Policy name may only contain letters, digits, spaces, and + / & ( ) ' . , - 
-and must include at least one letter or digit.`.
+        * A failure message is displayed: `Policy name may only contain letters, digits, spaces, and + / & ( ) ' . , - and must include at least one letter or digit.`.
 
 &nbsp;
 
 * Test Case: Try adding a client with invalid command format (no insurance policy)
     * Input: `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
     * Expected Outcome:
-        * A failure message is displayed: `Invalid command format! 
+        * A failure message is displayed: `Invalid command format!
 add: Adds a client to FinHub. Parameters: n/NAME p/PHONE e/EMAIL a/ADDRESS ip/INSURANCE_POLICY [t/TAG]...
 Example: add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 ip/AIB Overall Lifeshield Plan t/friends t/owesMoney`
 
@@ -1355,8 +1354,7 @@ Example: add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #0
 * Test Case: Edit a client with an invalid insurance policy (just whitespace)
     * Input: `edit 1 ip/ `
     * Expected Outcome:
-        * A failure message is displayed: `Policy name may only contain letters, digits, spaces, and + / & ( ) ' . , - 
-and must include at least one letter or digit.`.
+        * A failure message is displayed: `Policy name may only contain letters, digits, spaces, and + / & ( ) ' . , - and must include at least one letter or digit.`.
 
 <br>
 
@@ -1388,7 +1386,7 @@ Enter the command word again without any arguments to view the correct command f
 * Test Case: Try archiving with an invalid command (no index)
     * Input: `archive`
     * Expected Outcome:
-        * A failure message is displayed: `Invalid command format! 
+        * A failure message is displayed: `Invalid command format!
 archive: archives the client identified by the index number used in the displayed client list.
 Parameters: INDEX (must be a positive integer)`.
 
