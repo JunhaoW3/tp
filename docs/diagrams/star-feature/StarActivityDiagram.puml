@@ -4,22 +4,22 @@ skinparam ActivityFontSize 15
 skinparam ArrowFontSize 12
 start
 :User enters "star CLIENT_INDEX";
-:Model#getFilteredPersonList();
+:parse user input;
 
-if (Index out of bounds?) then (yes)
-    :Throw CommandException\n("Invalid person displayed index");
-    stop
-else (no)
-    :Retrieve Person at CLIENT_INDEX;
-    if (Person already starred?) then (yes)
-        :Throw CommandException\n("Chosen client is already starred");
-        stop
-    else (no)
-        :Rebuild Person with isStarred = true;
-        :Model#setPerson(oldPerson, newPerson);
-        :Model#sortPersons(STARRED_STATUS_COMPARATOR);
-        :Model#refreshFilteredPersonList();
-        :Return success message;
+if () then ([Index out of bounds])
+    :Displays error message;
+else ([else])
+    :Retrieve client at CLIENT_INDEX;
+    if () then ([client already starred])
+        :Displays error message;
+    else ([no])
+        :Rebuild client with isStarred = true;
+        :Replace old client with starred client;
+        :Sort clients;
+        :Refresh client list;
+        :Save AddressBook to
+        addressBookStateList;
+        :Displays success message;
     endif
 endif
 stop
