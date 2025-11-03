@@ -10,11 +10,11 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Name implements Comparable<Name> {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Names should contain at least one letter or digit, "
-                    + "and may include spaces, periods (.), apostrophes ('), hyphens (-), and parentheses (). ";
+            "Names should only contain alphanumeric characters, spaces, periods, apostrophes, hyphens, parentheses,"
+                    + " slashes, and commas, must not be blank, and must contain at least one letter.";
 
     public static final String VALIDATION_REGEX =
-            "^(?=.*[\\p{L}\\p{Nd}])[\\p{L}\\p{Nd} .'()\\-]+$";
+            "(?=.*[A-Za-z])[A-Za-z0-9 .'/()/-]*,?";
 
     public final String fullName;
 
