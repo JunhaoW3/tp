@@ -1,9 +1,6 @@
 @startuml
 !include ../style.puml
 skinparam ArrowFontStyle plain
-skinparam ParticipantFontSize 40
-skinparam ArrowFontSize 40
-skinparam GroupFontSize 45  ' Use GroupFontSize to adjust the font size of group labels
 
 actor User
 
