@@ -284,6 +284,92 @@ The `add` and `delete` meeting note commands are then designed as separate comma
     * Upon execution of the `DeleteMeetingNoteCommand`, the method `Person#removeMeetingNote` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the `MeetingNote.java` as parameter and initialises a new `ArrayList<MeetingNote>` with the `MeetingNote.java` removed from the previous `ArrayList<MeetingNote>` of the `Person` and returns a new `Person` object with the newly updated `ArrayList<MeetingNote>`.
 
 <br>
+--------------------------------------------------------------------------------------------------------------------
+
+### Archive Client Feature
+
+#### Challenges
+* We wanted FinHub to be able to archive clients that are not currently active. This means that we need to be able to
+* identify active and archived clients. To do this, we had to create new lists to check for active and archived clients.
+
+#### Implementation Details
+
+To implement the star client feature, we focus on the following areas:
+1. **Model**: Each `Person` object has a boolean field `isArchived` to mark whether a client is archived or not. The logic of archiving and unarchiving a client updates this field.
+
+&nbsp;
+
+2. **Commands**: Two main commands are created:
+    - `ArchiveCommand`: For archiving a client.
+    - `UnarchiveCommand`: For unarchiving a client.
+
+&nbsp;
+
+3. **Parser**: Command parsing logic to ensure that the user's input is valid and parsed correctly into command objects.
+<br>
+
+#### Command Implementation
+* ###### Archive Command
+    * **Objective**: Archives a `Person` (Client) based on their displayed index in the list.
+
+    &nbsp;
+
+    * **Command Syntax**: `archive CLIENT_INDEX`
+        * Parameters:
+            * `CLIENT_INDEX`: The index of the client (starts from 1 in the displayed list).
+        * Usage Example:
+            * `archive 1`: Archives the client at index 1
+
+    &nbsp;
+
+    * **Key Steps**
+        1. *Input parsing:*
+            * The `ArchiveCommandParser.java` parses the input string. If the input is empty, a ParseException is thrown.
+        
+        &nbsp;
+
+        2. *Update Archived Status:*
+            * If the client is unarchived, the command updates the client's archived status by calling the Person#archive() method. This method creates a new Person object with the updated archived status (set to `true`).
+            * The updated `Person` is saved back into the model using `Model#setPerson(Person target, Person editedPerson)`.
+
+        &nbsp;
+
+        3. *Return Command Result:*
+            * The command returns a `CommandResult` with a success message, confirming that the client has been archived.
+
+<br>
+
+--------------------------------------------------------------------------------------------------------------------
+
+* ###### Unarchive Command
+    * **Objective**: Unarchives a `Person` (Client) based on their displayed index in the list.
+
+  &nbsp;
+
+    * **Command Syntax**: `unarchive CLIENT_INDEX`
+        * Parameters:
+            * `CLIENT_INDEX`: The index of the client (starts from 1 in the displayed list).
+        * Usage Example:
+            * `unarchive 1`: Unarchives the client at index 1
+
+  &nbsp;
+
+    * **Key Steps**
+        1. *Input parsing:*
+            * The `UnarchiveCommandParser.java` parses the input string. If the input is empty, a ParseException is thrown.
+
+      &nbsp;
+
+        2. *Update Archived Status:*
+            * If the client is archived, the command updates the client's archived status by calling the Person#unarchive() method. This method creates a new Person object with the updated archived status (set to `false`).
+            * The updated `Person` is saved back into the model using `Model#setPerson(Person target, Person editedPerson)`.
+
+      &nbsp;
+
+        3. *Return Command Result:*
+            * The command returns a `CommandResult` with a success message, confirming that the client has been unarchived.
+
+<br>
 
 --------------------------------------------------------------------------------------------------------------------
 
