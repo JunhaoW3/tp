@@ -193,6 +193,12 @@ The `add`, `delete` and `edit` reminders commands are then designed as separate 
 
 <br>
 
+The following is a sequence diagram for the execution of `reminder 2 h/Meeting on Friday d/2026-04-24 16:00`,
+
+<puml src="diagrams/add-reminder/AddReminderSequenceDiagram.puml" alt="Interactions Inside the Logic Component for the `reminder 2 h/Meeting on Friday d/2026-04-24 16:00` Command"/>
+
+<br>
+
 --------------------------------------------------------------------------------------------------------------------
 
 * ###### Delete Reminder
@@ -207,6 +213,12 @@ The `add`, `delete` and `edit` reminders commands are then designed as separate 
     <br>
 
     * Upon execution of the `DeleteReminderCommand`, the method `Person#removeReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the `Reminder.java` at the `REMINDER_INDEX` of the `Person`'s `ArrayList<Reminder>` as parameter. This initialises a new `ArrayList<Reminder>` with the `Reminder.java` removed from the previous `ArrayList<Reminder>`, returning a new `Person` object with the updated `ArrayList<Reminder>`.
+
+<br>
+
+The following is a activity diagram for the execution of `rDelete CLIENT_INDEX REMINDER_INDEX`,
+
+<puml src="diagrams/add-reminder/AddReminderActivityDiagram.puml" alt="Activity Diagram for the execution of `rDelete CLIENT_INDEX REMINDER_INDEX`"/>
 
 <br>
 

@@ -1,0 +1,57 @@
+@startuml
+skin rose
+skinparam ActivityFontSize 15
+skinparam ArrowFontSize 12
+start
+:User executes "rDelete CLIENT_INDEX (One-Based) REMINDER_INDEX (One-Based)";
+
+:AddressBookParser parses "rDelete CLIENT_INDEX (One-Based) REMINDER_INDEX (One-Based)";
+
+:AddressBookParser gets commandWord "rDelete";
+
+:AddressBookParser gets arguments "CLIENT_INDEX (One-Based) REMINDER_INDEX (One-Based)";
+
+:DeleteReminderCommandParser parses "CLIENT_INDEX (One-Based) REMINDER_INDEX (One-Based)";
+
+if () then ([CLIENT_INDEX (One-Based) and REMINDER_INDEX (One-Based) are both valid positive integers])
+    :new DeleteReminderCommand created with CLIENT_INDEX (One-Based) and REMINDER_INDEX (One-Based);
+
+    :LogicManager executes DeleteReminderCommand using Model;
+
+    :DisplayedList in GUI returned from Model;
+
+    if () then ([CLIENT_INDEX (Zero-Based) < number of clients in DisplayedList])
+        :DisplayedList returns Person to have reminder deleted;
+
+        :Person returns their own ReminderList;
+
+        if () then ([REMINDER_INDEX (Zero-Based) < number of reminders in ReminderList])
+            :ReminderList returns Reminder to be deleted;
+
+            :new Person with deleted Reminder is initialised;
+
+            :Model replaces old Person with new Person that does not have the deleted Reminder;
+
+            :Model refreshes the GUI with the updated list;
+
+            :CommandResult thrown with success execution message;
+            stop
+
+        else ([else])
+            :CommandException thrown with error message;
+            stop
+        endif
+
+    else ([else])
+        :CommandException thrown with error message;
+        stop
+    endif
+
+
+else ([else])
+:ParseException thrown with error message;
+stop
+endif
+
+
+@enduml
