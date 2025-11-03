@@ -1667,3 +1667,14 @@ Parameters: INDEX (must be a positive integer).`
 - Agents can **trust** reminders (they won’t silently schedule in the past) and **keep** their old data through releases.
 - The UI supports **realistic, verbose notes** without breaking layout—a must for actual client work.
 - The codebase stays **evolvable**: one dataset, clear boundaries, adapters ready for schema growth.
+
+--------------------------------------------------------------------------------------------------------------------
+
+## Appendix: Planned Enhancements
+
+### Team size: 5
+
+### 1. **Allow editing of existing notes**
+Currently, if the user needs to edit an existing note, they would have to delete the existing note and then add a new 
+one. This might reduce efficiency. We plan to add an EditReminder command to allow users to directly edit existing notes. 
+Timestamps for such edited notes would also be updated accordingly. 
