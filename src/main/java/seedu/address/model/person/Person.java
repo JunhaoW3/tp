@@ -226,16 +226,15 @@ public class Person implements Comparable<Person> {
     }
 
     /**
-     * Returns true if both persons have the same name.
+     * Returns true if both persons have the same email or phone number.
      * This defines a weaker notion of equality between two persons.
      */
     public boolean isSamePerson(Person otherPerson) {
         if (otherPerson == this) {
             return true;
         }
-
         return otherPerson != null
-                && otherPerson.getName().equals(getName());
+                && (otherPerson.getEmail().equals(getEmail()) || otherPerson.getPhone().equals(getPhone()));
     }
 
     /**

@@ -56,8 +56,10 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited CLient: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.\n"
             + "Enter the command word again without any arguments to view the correct command format.";;
-    public static final String MESSAGE_DUPLICATE_PERSON = "This client already exists in FinHub.";
-
+    public static final String MESSAGE_DUPLICATE_PERSON = "This client's phone number or " +
+            "email already exists in FinHub.";
+    public static final String MESSAGE_UNCHANGED_PERSON = "No changes detected. Please modify at least one field.";
+    
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
 
@@ -85,7 +87,14 @@ public class EditCommand extends Command {
         Person personToEdit = lastShownList.get(index.getZeroBased());
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 
-        if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
+        if (personToEdit.equals(editedPerson)) {
+            throw new CommandException(MESSAGE_UNCHANGED_PERSON);
+        }
+        boolean duplicateExists = model.getFilteredPersonList().stream()
+                .anyMatch(p -> !p.equals(personToEdit)
+                        && (p.getEmail().equals(editedPerson.getEmail())
+                        || p.getPhone().equals(editedPerson.getPhone())));
+        if (duplicateExists) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
