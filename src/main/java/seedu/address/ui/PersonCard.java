@@ -10,6 +10,7 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
@@ -57,6 +58,8 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private FlowPane tags;
     @FXML
+    private ScrollPane leftScroll;
+    @FXML
     private VBox leftBox;
     @FXML
     private AnchorPane remindersPlaceholder;
@@ -87,6 +90,14 @@ public class PersonCard extends UiPart<Region> {
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+
+        leftScroll.setFitToHeight(true);
+        leftScroll.setFitToWidth(false);
+        leftScroll.viewportBoundsProperty().addListener((obs, oldBounds, newBounds) -> {
+            leftBox.setMinHeight(newBounds.getHeight());
+        });
+        leftScroll.prefWidthProperty().bind(leftBox.widthProperty());
+        leftScroll.setPrefViewportHeight(140);
 
         ObservableList<String> reminderTexts = deriveReminderTexts(person);
         ReminderListPanel reminderListPanel = new ReminderListPanel(reminderTexts);

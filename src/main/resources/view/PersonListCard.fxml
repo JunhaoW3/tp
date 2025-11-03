@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.ScrollPane?>
 <SplitPane id="cardPane" fx:id="cardPane"
            xmlns="http://javafx.com/javafx/17"
            xmlns:fx="http://javafx.com/fxml/1"
@@ -26,20 +27,24 @@
             </rowConstraints>
 
             <children>
-                <VBox fx:id="leftBox" spacing="6" prefWidth="300">
+                <ScrollPane fx:id="leftScroll" style="-fx-background-color: transparent; -fx-background:transparent;">
+                <content>
+                <VBox fx:id="leftBox" spacing="6">
                     <HBox spacing="8">
                         <Label fx:id="id" styleClass="cell_big_label"/>
-                        <Label fx:id="name" styleClass="cell_big_label" wrapText="false"/>
-                        <Label fx:id="isStarred" styleClass="cell_big_label" wrapText="true"/>
+                        <Label fx:id="isStarred" styleClass="cell_big_label"/>
+                        <Label fx:id="name" styleClass="cell_big_label"/>
                     </HBox>
 
                     <FlowPane fx:id="tags"/>
 
-          <Label fx:id="phone"   styleClass="cell_small_label" wrapText="true"/>
-          <Label fx:id="address" styleClass="cell_small_label" wrapText="true"/>
-          <Label fx:id="email"   styleClass="cell_small_label" wrapText="true"/>
-          <Label fx:id="policy"   styleClass="cell_small_label" wrapText="true"/>
+          <Label fx:id="phone"   styleClass="cell_small_label"/>
+          <Label fx:id="address" styleClass="cell_small_label"/>
+          <Label fx:id="email"   styleClass="cell_small_label"/>
+          <Label fx:id="policy"   styleClass="cell_small_label"/>
         </VBox>
+                </content>
+                </ScrollPane>
       </children>
 
             <padding>
