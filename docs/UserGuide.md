@@ -365,8 +365,16 @@ Format: `archive CLIENT_INDEX`
 
 Examples:
 
-* `list` followed by `archive 1` archives the 1st client in the displayed clients list.
-* `find Alex` followed by `archive 1` archives the 1st client in the results of the `find` command.
+* `activelist` followed by `archive 1` archives the 1st client in the displayed clients list.
+* `find Alex` followed by `archive 1` archives the 1st client in the results of the `find` command if he is not archived.
+
+<box type="success">
+
+**Assumption:** Alex is not archived.
+<br>
+**Expected Output Message:** Archive client successful!
+
+</box>
 
 <box type="tip" seamless>
 
@@ -392,7 +400,15 @@ Format: `unarchive CLIENT_INDEX`
 Examples:
 
 * `archivelist` followed by `unarchive 1` unarchives the 1st client in the displayed clients list
-* `find Alex` followed by `unarchive 1` unarchives the 1st client in the results of the `find` command.
+* `find Alex` followed by `unarchive 1` unarchives the 1st client in the results of the `find` command if he is archived.
+
+<box type="success">
+
+**Assumption:** Alex is archived.
+<br>
+**Expected Output Message:** Unarchive client successful!
+
+</box>
 
 <br>
 
