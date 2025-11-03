@@ -96,4 +96,5 @@ deactivate AddReminderCommand
 
 [<--LogicManager
 deactivate LogicManager
+
 @enduml
