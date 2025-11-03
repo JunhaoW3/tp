@@ -1674,7 +1674,13 @@ Parameters: INDEX (must be a positive integer).`
 
 ### Team size: 5
 
-### 1. **Allow editing of existing notes**
+### 1. Allow editing of existing notes
 Currently, if the user needs to edit an existing note, they would have to delete the existing note and then add a new 
-one. This might reduce efficiency. We plan to add an EditReminder command to allow users to directly edit existing notes. 
-Timestamps for such edited notes would also be updated accordingly. 
+one. This might reduce efficiency. We plan to add an `EditReminder` command to allow users to directly edit existing 
+notes. Timestamps for such edited notes would also be updated accordingly. 
+
+### 2. Allow multiple phone numbers per client
+Currently, only one phone number can be added per client, and it can only consist of numbers. Since it is possible for 
+an individual to have more than one phone numbers such as for mobile, home and office numbers, we plan to update `Phone` 
+to `LabelledPhone` which consists of a phone number and a label, and for each `Person` to have a `Set<LabelledPhone>`. 
+`AddCommandParser` and `EditCommandParser` will also allow the parsing of multiple labelled phone numbers. 
