@@ -501,6 +501,15 @@ Examples:
 
 * `list` followed by `note 2 Client wants to renew policy` adds the meeting note "Client wants to renew policy" to the
   2nd client in the displayed clients list.
+
+<box type="success">
+
+**Assumptions:**
+1. Bernice Yu is the 2nd client in the displayed clients list.
+
+**Expected Output Message:** Meeting note added to Bernice Yu: [timestamp] Client wants to renew policy
+</box>
+
 * `find alex` followed by `note 1 Client wants to know about policy 2` adds the meeting note "Client wants to
   know more about policy 2" to the 1st client in the result of the `find` command.
 
@@ -529,6 +538,17 @@ displayed meeting notes list.
 Examples:
 
 * `list` followed by `nDelete 2 1` deletes the 1st meeting note in the displayed meeting notes list of the 2nd client in the displayed clients list.
+
+<box type="success">
+
+**Assumptions:**
+1. Bernice Yu is the 2nd client in the displayed clients list.
+2. [2025-09-30 09:30] Planned to introduce new product line next quarter is the first note in her list.
+
+**Expected Output Message:** Deleted Client Bernice Yu's Meeting note 1: [2025-09-30 09:30] Planned to introduce new product line next quarter.
+
+</box>
+
 * `find alex` followed by `nDelete 1 1` deletes the 1st meeting note in the displayed meeting notes list of the 1st client in the results of the `find`
   command.
 
