@@ -146,7 +146,7 @@ Our target users are insurance agents who:
 
 * Any indices i.e. `CLIENT_INDEX`, `REMINDER_INDEX` and `MEETING_NOTE_INDEX`
   **must be positive integers** 1, 2, 3, …​
-
+</box>
 
 ### <font color=#588157>2.1 General Commands</font>
 
@@ -165,9 +165,12 @@ Format: `help`
 
 #### <font color=#5a9f68>2.1.2 Listing all clients : `list`</font>
 
-Displays a complete list of every client in the FinHub system, including both active and archived clients.
+Displays a complete list of all clients in the FinHub system, including both active and archived clients.
 
 Format: `list`
+
+Below is an image showing what you should expect to see after running the list command with sample data.
+![all list](images/list.png)
 
 <br>
 
@@ -178,6 +181,13 @@ Format: `list`
 Displays only the active clients currently in the FinHub system.
 
 Format: `activelist`
+
+<box type="info">
+
+The image below displays the list of active clients after Bernice and Charlotte were archived from the sample data.
+</box>
+
+![active list](images/activelist.png)
 
 <br>
 
@@ -190,6 +200,13 @@ Format: `activelist`
 Displays all clients who have been archived in the FinHub system, meaning they are no longer active.
 
 Format: `archivelist`
+
+<box type="info">
+
+The clients shown in the image below are those you have archived. This example shows Bernice and Charlotte from the sample data.
+</box>
+
+![archived list](images/archivedlist.png)
 
 <br>
 
