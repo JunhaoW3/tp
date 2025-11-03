@@ -168,3 +168,13 @@ h5,
 h6 {
   color: #e46c0a;
 }
+
+.warning-box {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+}
+
+.success-box {
+    background-color: #e0f7e0;
+    border: 1px solid #d3f1d3;
+}
