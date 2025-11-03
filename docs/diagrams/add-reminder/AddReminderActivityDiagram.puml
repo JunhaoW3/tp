@@ -47,10 +47,8 @@ if () then ([CLIENT_INDEX (One-Based) and REMINDER_INDEX (One-Based) are both va
         stop
     endif
 
-
 else ([else])
 :ParseException thrown with error message;
 stop
 endif
-
 @enduml
