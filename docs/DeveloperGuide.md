@@ -1320,6 +1320,7 @@ testers are expected to do more *exploratory* testing.
 
 <br>
 
+--------------------------------------------------------------------------------------------------------------------
 
 ### Adding a client (with insurance policy field)
 * Prerequisites: -
@@ -1351,6 +1352,8 @@ add: Adds a client to FinHub. Parameters: n/NAME p/PHONE e/EMAIL a/ADDRESS ip/IN
 Example: add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 ip/AIB Overall Lifeshield Plan t/friends t/owesMoney`
 
 <br>
+
+--------------------------------------------------------------------------------------------------------------------
 
 ### Editing a client's insurance policy field
 * Prerequisites: The client has already been added.
@@ -1526,6 +1529,67 @@ Parameters: INDEX (must be a positive integer).`
 <br>
 
 --------------------------------------------------------------------------------------------------------------------
+
+### Finding for a client
+* Prerequisites: If the displayed list of clients is filtered using `activelist` or `archivelist`, make sure that the client to be searched for is present in the filtered list.
+
+&nbsp;
+
+* Test Case: Find a client using a full word
+    * Assumption: A client named Alex Yeoh exists in the displayed list.
+    * Input: `find alex`
+    * Expected Outcome:
+        * All clients whose name contains the string "Alex" (case-insensitive) are displayed as a list.
+        * A success message is displayed: `x clients listed!`, where x is the number of matches found.
+
+&nbsp;
+
+* Test Case: Find a client using a full name
+    * Assumption: A client named Alex Yeoh exists in the displayed list.
+    * Input: `find Alex Yeoh`
+    * Expected Outcome:
+        * All clients whose name contains the string "Alex" or "Yeoh" (case-insensitive) are displayed as a list.
+        * A success message is displayed: `x clients listed!`, where x is the number of matches found.
+
+&nbsp;
+
+* Test Case: Find a client using a partial name
+    * Assumption: A client named Alex Yeoh exists in the displayed list.
+    * Input: `find ale`
+    * Expected Outcome:
+        * All clients whose name contains the substring "ale" (case-insensitive) are displayed as a list.
+        * A success message is displayed: `x clients listed!`, where x is the number of matches found.
+
+&nbsp;
+
+* Test Case: Find clients using multiple keywords
+    * Assumption: Clients named Alex Yeoh and Bernice Yu exist in the displayed list.
+    * Input: `find alex yu`
+    * Expected Outcome:
+        * All clients whose name contains the string "alex" or "yu" (case-insensitive) are displayed as a list.
+        * A success message is displayed: `x clients listed!`, where x is the number of matches found.
+
+&nbsp;
+
+* Test Case: Find a client using non-matching keyword
+    * Assumption: There are no clients whose name contains the "xyz" substring
+    * Input: `find xyz`
+    * Expected Outcome:
+        * No clients are displayed in the list
+        * A message is displayed: `0 clients listed!`
+
+&nbsp;
+
+* Test Case: Find a client using an empty keyword
+    * Input: `find`
+    * Expected Outcome:
+        * No clients are displayed in the list
+        * A failure message is displayed: `Invalid command format! 
+find: Finds all clients whose names contain any of the specified keywords (case-insensitive) and displays them as a list with index numbers.
+Parameters: KEYWORD [MORE_KEYWORDS]...
+Example: find alice bob charlie`
+
+<br>
 
 ## Appendix: Effort
 
