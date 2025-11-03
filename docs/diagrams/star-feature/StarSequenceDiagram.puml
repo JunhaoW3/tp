@@ -1,70 +1,132 @@
 @startuml
-!include style.puml
+!include ../style.puml
 skinparam ArrowFontStyle plain
+skinparam ParticipantFontSize 40
+skinparam ArrowFontSize 40
+skinparam GroupFontSize 45  ' Use GroupFontSize to adjust the font size of group labels
+
+actor User
+
+box UI UI_COLOR_T1
+participant ":CommandBox" as CommandBox UI_COLOR
+end box
 
 box Logic LOGIC_COLOR_T1
 participant ":LogicManager" as LogicManager LOGIC_COLOR
 participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
-participant ":DeleteCommandParser" as DeleteCommandParser LOGIC_COLOR
-participant "d:DeleteCommand" as DeleteCommand LOGIC_COLOR
+participant ":StarCommandParser" as StarCommandParser LOGIC_COLOR
+participant "s:StarCommand" as StarCommand LOGIC_COLOR
 participant "r:CommandResult" as CommandResult LOGIC_COLOR
 end box
 
 box Model MODEL_COLOR_T1
 participant "m:Model" as Model MODEL_COLOR
+participant "oldPerson:Person" as oldPerson MODEL_COLOR
+participant "starredPerson:Person" as starredPerson MODEL_COLOR
 end box
 
-[-> LogicManager : execute("delete 1")
+User -> CommandBox : enterCommand("star 1")
+activate CommandBox
+
+CommandBox -> LogicManager : execute("star 1")
 activate LogicManager
 
-LogicManager -> AddressBookParser : parseCommand("delete 1")
+LogicManager -> AddressBookParser : parseCommand("star 1")
 activate AddressBookParser
 
-create DeleteCommandParser
-AddressBookParser -> DeleteCommandParser
-activate DeleteCommandParser
+create StarCommandParser
+AddressBookParser -> StarCommandParser
+activate StarCommandParser
 
-DeleteCommandParser --> AddressBookParser
-deactivate DeleteCommandParser
+StarCommandParser --> AddressBookParser
+deactivate StarCommandParser
 
-AddressBookParser -> DeleteCommandParser : parse("1")
-activate DeleteCommandParser
+AddressBookParser -> StarCommandParser : parse("1")
+activate StarCommandParser
 
-create DeleteCommand
-DeleteCommandParser -> DeleteCommand
-activate DeleteCommand
+create StarCommand
+StarCommandParser -> StarCommand
+activate StarCommand
 
-DeleteCommand --> DeleteCommandParser :
-deactivate DeleteCommand
+StarCommand --> StarCommandParser
+deactivate StarCommand
 
-DeleteCommandParser --> AddressBookParser : d
-deactivate DeleteCommandParser
-'Hidden arrow to position the destroy marker below the end of the activation bar.
-DeleteCommandParser -[hidden]-> AddressBookParser
-destroy DeleteCommandParser
+StarCommandParser --> AddressBookParser : s
+deactivate StarCommandParser
+' Hidden arrow to position destroy marker below activation bar
+StarCommandParser -[hidden]-> AddressBookParser
+destroy StarCommandParser
 
-AddressBookParser --> LogicManager : d
+AddressBookParser --> LogicManager : s
 deactivate AddressBookParser
 
-LogicManager -> DeleteCommand : execute(m)
-activate DeleteCommand
+LogicManager -> StarCommand : execute(m)
+activate StarCommand
 
-DeleteCommand -> Model : deletePerson(1)
+StarCommand -> Model : getFilteredPersonList()
 activate Model
+Model --> StarCommand : List<Person>
+deactivate Model
 
-Model --> DeleteCommand
+StarCommand -> Model : get(index=0)
+activate Model
+Model --> StarCommand : oldPerson
+deactivate Model
+
+StarCommand -> oldPerson : isStarred()
+activate oldPerson
+oldPerson --> StarCommand : false
+deactivate oldPerson
+
+StarCommand -> oldPerson : rebuildWithStarredStatus(true)
+activate oldPerson
+
+create starredPerson
+oldPerson -> starredPerson
+activate starredPerson
+
+starredPerson --> oldPerson
+deactivate starredPerson
+
+oldPerson --> StarCommand : starredPerson
+deactivate oldPerson
+
+StarCommand -> Model : setPerson(oldPerson, starredPerson)
+activate Model
+Model --> StarCommand
+deactivate Model
+
+StarCommand -> Model : sortPersons(STARRED_STATUS_COMPARATOR)
+activate Model
+Model --> StarCommand
+deactivate Model
+
+StarCommand -> Model : refreshFilteredPersonList()
+activate Model
+Model --> StarCommand
 deactivate Model
 
 create CommandResult
-DeleteCommand -> CommandResult
+StarCommand -> CommandResult
 activate CommandResult
 
-CommandResult --> DeleteCommand
+CommandResult --> StarCommand : r
 deactivate CommandResult
 
-DeleteCommand --> LogicManager : r
-deactivate DeleteCommand
+StarCommand --> LogicManager : r
+deactivate StarCommand
 
-[<--LogicManager
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+StarCommand -[hidden]-> LogicManager
+destroy StarCommand
+
+LogicManager --> CommandBox : CommandResult
 deactivate LogicManager
+
+CommandBox --> User : display success message
+deactivate CommandBox
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+CommandResult -[hidden]-> LogicManager
+destroy CommandResult
+
 @enduml
