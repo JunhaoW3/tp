@@ -300,8 +300,8 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 Examples:
 
 * `find ale` returns `Alex Yeoh`.
-* `find Yu Ber` returns `Bernice Yu`
-* `find Alex David` returns `Alex Yeoh`, `David Li`<br>
+* `find Yu Ber` returns `Bernice Yu`.
+* `find Alex David` returns `Alex Yeoh`, `David Li`.<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
 <br>
@@ -414,8 +414,8 @@ Format: `reminder CLIENT_INDEX h/HEADER d/DEADLINE`
 * `DEADLINE` should be in the format: `yyyy-MM-dd HH:mm`
 * `CLIENT_INDEX` refers to the index number of the client shown in the displayed clients list.
 * Both `HEADER` and `DEADLINE` must be provided.
-* Only one reminder can be added at a time.
-* More than one reminder can be added to each client.
+* You can only add one reminder at a time.
+* You can add more than one reminder to each client.
 
 Examples:
 
@@ -455,7 +455,7 @@ Format: `rDelete CLIENT_INDEX REMINDER_INDEX`
 * `CLIENT_INDEX` refers to the index number of the client shown in the displayed clients list.
 * `REMINDER_INDEX` refers to the index number of the reminder shown in the specified client's displayed reminders list.
 * Both `CLIENT_INDEX` and `REMINDER_INDEX` must be provided.
-* Only one reminder can be deleted at a time.
+* You can only delete one reminder at a time.
 
 Examples:
 
@@ -534,13 +534,22 @@ Format: `note CLIENT_INDEX TEXT`
 * `CLIENT_INDEX` refers to the index number of the client shown in the displayed clients list.
 * `TEXT` refers to the content of the meeting note that you want to add to the specified client.
 * `TEXT` cannot be empty.
-* Only one meeting note can be added at a time.
-* More than one meeting note can be added to each client.
+* You can only add one meeting note at a time.
+* You can add more than one meeting note to each client.
 
 Examples:
 
 * `list` followed by `note 2 Client wants to renew policy` adds the meeting note "Client wants to renew policy" to the
   2nd client in the displayed clients list.
+
+<box type="success">
+
+**Assumptions:**
+1. Bernice Yu is the 2nd client in the displayed clients list.
+
+**Expected Output Message:** Meeting note added to Bernice Yu: [timestamp] Client wants to renew policy
+</box>
+
 * `find alex` followed by `note 1 Client wants to know about policy 2` adds the meeting note "Client wants to
   know more about policy 2" to the 1st client in the result of the `find` command.
 
@@ -564,11 +573,22 @@ Format: `nDelete CLIENT_INDEX MEETING_NOTE_INDEX`
 * `MEETING_NOTE_INDEX` refers to the index number of the meeting note shown in the specified client's
 displayed meeting notes list.
 * Both `CLIENT_INDEX` and `MEETING_NOTE_INDEX` must be provided.
-* Only one meeting note can be deleted at a time.
+* You can only delete one meeting note at a time.
 
 Examples:
 
 * `list` followed by `nDelete 2 1` deletes the 1st meeting note in the displayed meeting notes list of the 2nd client in the displayed clients list.
+
+<box type="success">
+
+**Assumptions:**
+1. Bernice Yu is the 2nd client in the displayed clients list.
+2. [2025-09-30 09:30] Planned to introduce new product line next quarter is the first note in her list.
+
+**Expected Output Message:** Deleted Client Bernice Yu's Meeting note 1: [2025-09-30 09:30] Planned to introduce new product line next quarter.
+
+</box>
+
 * `find alex` followed by `nDelete 1 1` deletes the 1st meeting note in the displayed meeting notes list of the 1st client in the results of the `find`
   command.
 
