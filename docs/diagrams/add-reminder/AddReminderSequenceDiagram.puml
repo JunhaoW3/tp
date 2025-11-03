@@ -79,7 +79,6 @@ deactivate editedPerson
 
 personToEdit --> AddReminderCommand : editedPerson
 deactivate personToEdit
-destroy personToEdit
 
 AddReminderCommand -> Model : setPerson(personToEdit, editedPerson)
 activate Model
@@ -93,7 +92,6 @@ activate Model
 Model --> AddReminderCommand
 deactivate Model
 
-
 create CommandResult
 AddReminderCommand -> CommandResult
 activate CommandResult
@@ -103,6 +101,7 @@ deactivate CommandResult
 
 AddReminderCommand --> LogicManager : r
 deactivate AddReminderCommand
+destroy personToEdit
 
 [<--LogicManager
 deactivate LogicManager
