@@ -281,7 +281,7 @@ The `add` and `delete` meeting note commands are then designed as separate comma
 
   <br>
 
-    * Upon execution of the `DeleteMeetingNoteCommand`, the method `Person#removeMeetingNote` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the `MeetingNote.java` as parameter and initialises a new `ArrayList<MeetingNote>` with the `MeetingNote.java` removed from the previous `ArrayList<MeetingNote>` of the `Person` and returns a new `Person` object with the newly updated `ArrayList<MeetingNote>`.
+    * Upon execution of the `DeleteMeetingNoteCommand`, the method `Person#removeMeetingNote` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the `MeetingNote.java` at the `MEETING_NOTE_INDEX` of the `Person`'s `ArrayList<MeetingNote>` as parameter. This initialises a new `ArrayList<MeetingNote>` with the `MeetingNote.java` removed from the previous `ArrayList<MeetingNote>`, returning a new `Person` object with the updated `ArrayList<MeetingNote>`.
 
 <br>
 
