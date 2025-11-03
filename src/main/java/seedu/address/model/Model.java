@@ -125,6 +125,9 @@ public interface Model {
      */
     void clearGeneralReminderList();
 
+    /**
+     * Edits GeneralReminderList to use the new Person instead of the Person before edit
+     */
     void editPersonGeneralReminderList(Person toEdit, Person editedPerson);
 
     /**
