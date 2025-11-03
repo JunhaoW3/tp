@@ -495,7 +495,7 @@ Format: `rEdit CLIENT_INDEX REMINDER_INDEX h/HEADER d/DEADLINE`
 * `CLIENT_INDEX` refers to the index number of the client shown in the displayed clients list.
 * `REMINDER_INDEX` refers to the index number of the reminder shown in the specified client's displayed reminders list.
 * Both `CLIENT_INDEX` and `REMINDER_INDEX` must be provided.
-* Only one reminder will be replaced by the new reminder at a time.
+* You can only replace one reminder with a new reminder at a time.
 
 Examples:
 * `list` followed by `rEdit 2 1 h/Meeting on Friday d/2026-04-24 16:00` edits the 1st reminder in the displayed 
