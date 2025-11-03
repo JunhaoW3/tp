@@ -22,7 +22,7 @@ public class UnarchiveCommand extends Command {
             + "Parameters: INDEX (must be positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_UNARCHIVE_PERSON_SUCCESS = "Unarchived Client: %1$s";
+    public static final String MESSAGE_UNARCHIVE_PERSON_SUCCESS = "Client unarchived: %1$s";
     public static final String MESSAGE_NOT_ARCHIVED = "This client is not archived";
 
     private final Index targetIndex;

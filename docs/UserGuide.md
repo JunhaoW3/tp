@@ -368,12 +368,16 @@ Examples:
 * `activelist` followed by `archive 1` archives the 1st client in the displayed clients list.
 * `find Alex` followed by `archive 1` archives the 1st client in the results of the `find` command if he is not archived.
 
-<box type="success">
+<box type="success" class="success-box">
 
-**Assumption:** Alex is not archived.
+**Assumption:**
+1. Alex Yeoh is the 1st client in the currently displayed clients list.
+2. Alex Yeoh is not archived.
+
 <br>
-**Expected Output Message:** Archive client successful!
 
+**Expected Output Message:**
+Client archived: Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com; Address: Blk 30 Geylang Street 29, #06-40; Insurance Policy: AIB HealthShield Gold Max; Tags: [friends]
 </box>
 
 <box type="tip" seamless>
@@ -402,12 +406,23 @@ Examples:
 * `archivelist` followed by `unarchive 1` unarchives the 1st client in the displayed clients list
 * `find Alex` followed by `unarchive 1` unarchives the 1st client in the results of the `find` command if he is archived.
 
-<box type="success">
+<box type="success" class="success-box">
 
-**Assumption:** Alex is archived.
+**Assumption:**
+1. Alex Yeoh is the 1st client in the currently displayed clients list.
+2. Alex Yeoh is archived.
+
 <br>
-**Expected Output Message:** Unarchive client successful!
 
+**Expected Output Message:**
+Client unarchived: Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com; Address: Blk 30 Geylang Street 29, #06-40; Insurance Policy: AIB HealthShield Gold Max; Tags: [friends]
+</box>
+
+</box>
+
+<box type="note">
+
+**Note:** You have to be in `archivelist` to unarchive clients.
 </box>
 
 <br>
