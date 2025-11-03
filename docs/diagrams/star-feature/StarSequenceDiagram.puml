@@ -124,6 +124,10 @@ destroy StarCommand
 LogicManager --> CommandBox : CommandResult
 deactivate LogicManager
 
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+personToStar -[hidden]-> LogicManager
+destroy personToStar
+
 CommandBox --> User : display success message
 deactivate CommandBox
 'Hidden arrow to position the destroy marker below the end of the activation bar.
