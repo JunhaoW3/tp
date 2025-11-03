@@ -130,8 +130,5 @@ destroy personToStar
 
 CommandBox --> User : display success message
 deactivate CommandBox
-'Hidden arrow to position the destroy marker below the end of the activation bar.
-CommandResult -[hidden]-> LogicManager
-destroy CommandResult
 
 @enduml
