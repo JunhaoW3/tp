@@ -34,7 +34,7 @@ Our target users are insurance agents who:
 - need to keep track of a huge amount of client information.
 - have client of different priorities.
 - can type fast and prefer typing commands to interacting with UI.
-- are equipped with basic CLI knowledge
+- are equipped with basic CLI knowledge.
 
 <br>
 
@@ -292,8 +292,8 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 Examples:
 
 * `find ale` returns `Alex Yeoh`.
-* `find Yu Ber` returns `Bernice Yu`
-* `find Alex David` returns `Alex Yeoh`, `David Li`<br>
+* `find Yu Ber` returns `Bernice Yu`.
+* `find Alex David` returns `Alex Yeoh`, `David Li`. g<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
 <br>
