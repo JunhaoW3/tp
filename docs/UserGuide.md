@@ -34,7 +34,8 @@ Our target users are insurance agents who:
 - need to keep track of a huge amount of client information.
 - have client of different priorities.
 - can type fast and prefer typing commands to interacting with UI.
-- are equipped with basic CLI knowledge
+- are equipped with basic CLI knowledge.
+- have Singaporean clients with English names.
 
 <br>
 
@@ -147,6 +148,27 @@ Our target users are insurance agents who:
 * Any indices i.e. `CLIENT_INDEX`, `REMINDER_INDEX` and `MEETING_NOTE_INDEX`
   **must be positive integers** 1, 2, 3, …​
 
+* `NAME` should only contain alphanumeric characters, spaces, periods, apostrophes, hyphens, parentheses,"
+  slashes, and commas, must not be blank, and must contain at least one letter.
+
+* `PHONE_NUMBER` should only contain numbers, and it should be at least 3 digits long.
+
+* `EMAIL` should be of the format local-part@domain and adhere to the following constraints:
+  + The local-part should only contain alphanumeric characters and these special characters, excluding the parentheses, (+_.-). 
+  + The local-part may not start or end with any special characters.
+  + This is followed by a '@' and then a domain name. 
+  + The domain name is made up of domain labels separated by periods.
+  + The domain name must:
+    + end with a domain label at least 2 characters long.
+    + have each domain label start and end with alphanumeric characters.
+    + have each domain label consist of alphanumeric characters, separated only by hyphens, if any.
+
+* `ADDRESS` can take any values, and it should not be blank.
+
+* `INSURANCE_POLICY` may only contain letters, digits, spaces, and + / & ( ) ' . , - "
+and must include at least one letter or digit.
+
+* `TAG ` should be alphanumeric.
 
 ### <font color=#588157>2.1 General Commands</font>
 
@@ -403,6 +425,7 @@ Format: `reminder CLIENT_INDEX h/HEADER d/DEADLINE`
 
 * Adds a reminder to the client at the specified `CLIENT_INDEX`.
 * A reminder consists of a `HEADER` which describes the task or event, and a `DEADLINE` which indicates when it's due.
+* `HEADER` cannot be empty.
 * `DEADLINE` should be in the format: `yyyy-MM-dd HH:mm`
 * `CLIENT_INDEX` refers to the index number of the client shown in the displayed clients list.
 * Both `HEADER` and `DEADLINE` must be provided.
