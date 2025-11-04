@@ -101,8 +101,15 @@ deactivate CommandResult
 
 AddReminderCommand --> LogicManager : r
 deactivate AddReminderCommand
-destroy personToEdit
+
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+AddReminderCommand -[hidden]-> LogicManager
+destroy AddReminderCommand
 
 [<--LogicManager
 deactivate LogicManager
+
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+personToStar -[hidden]-> LogicManager
+destroy personToEdit
 @enduml
