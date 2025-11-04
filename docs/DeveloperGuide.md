@@ -268,7 +268,7 @@ The `add` and `delete` meeting note commands are then designed as separate comma
 
 <br>
 
-The following is an activity diagram for the execution of `note CLIENT_INDEX TEXT`,
+The following is an activity diagram for the execution of `note CLIENT_INDEX TEXT`. Due to the diagram's detailed nature, it may appear small. If it's unclear, zooming in will provide better clarity of the individual components and interactions.
 
 <puml src="diagrams/AddMeetingNoteActivityDiagram.puml" alt="Activity Diagram for the execution of `note CLIENT_INDEX TEXT`"></puml>
 
@@ -291,7 +291,7 @@ The following is an activity diagram for the execution of `note CLIENT_INDEX TEX
 
 <br>
 
-The following is a sequence diagram for the execution of `nDelete 1 1`,
+The following is a sequence diagram for the execution of `nDelete 1 1`:
 
 <puml src="diagrams/DeleteMeetingNoteSequenceDiagram.puml" alt="Interactions Inside the Logic Component for the `nDelete 1 1` Command"></puml>
 
