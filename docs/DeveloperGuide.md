@@ -313,12 +313,13 @@ To implement the star client feature, we focus on the following areas:
 &nbsp;
 
 4. **Sorting**: We need to ensure that when clients are starred or unstarred, the list is updated accordingly (both in terms of the internal storage and the displayed user interface).
-   <br>
+
+<br>
 
 ##### Command Implementation
 * ###### Star Command
-    * **Objective**: Marks a `Person` (Client) as starred based on their displayed index in the list.
-
+    * **Objective**: Marks a `Person` (Client) as starred based on their displayed index in the list. 
+  
   &nbsp;
 
     * **Command Syntax**: `star CLIENT_INDEX`
@@ -327,32 +328,32 @@ To implement the star client feature, we focus on the following areas:
         * Usage Example:
             *  `star 1`: Stars the client at index 1.
 
-  &nbsp;
+    &nbsp;
 
     * **Key Steps**:
         1. *Input parsing:*
             * The `StarCommandParser.java` parses the input string. If the input is empty, a `ParseException` is thrown.
             * The `ParserUtil#parseIndex(String args)` method is used to parse the client index, which is logged for debugging.
 
-      &nbsp;
+        &nbsp;
 
         2. *Check if Already Starred:*
             * The command retrieves the `Person` object using the parsed index.
             * The `Person#isStarred()` method checks if the client is already starred.
             * If the client is already starred, a `CommandException` is thrown with the message "Chosen client is already starred."
 
-      &nbsp;
+        &nbsp;
 
         3. *Update Starred Status:*
             * If the client is unstarred, The command updates the client's starred status by calling the `Person#rebuildWithStarredStatus(boolean isStarred)` method. This method creates a new Person object with the updated starred status (set to `true`).
             * The updated `Person` is saved back into the model using `Model#setPerson(Person target, Person editedPerson)`.
 
-      &nbsp;
+        &nbsp;
 
         4. *Re-sort the Client List:*
             * After starring a client, the list of clients is re-sorted by calling `Model#sortPersons(Comparator<Person> comparator)`. This ensures that all starred clients are prioritized and appear at the top of the list.
 
-      &nbsp;
+        &nbsp;
 
         5. *Return Command Result:*
             * The command returns a `CommandResult` with a success message, confirming that the client has been starred.
@@ -362,7 +363,7 @@ To implement the star client feature, we focus on the following areas:
 * ###### Unstar Command
     * **Objective**: Removes the starred status of a `Person` (Client), based on their displayed index in the list.
 
-  &nbsp;
+    &nbsp;
 
     * **Command Syntax**: `unstar CLIENT_INDEX`
         * Parameters:
@@ -370,32 +371,32 @@ To implement the star client feature, we focus on the following areas:
         * Usage Example:
             *  `unstar 1`: Removes star status from the client at index 1.
 
-  &nbsp;
+    &nbsp;
 
     * **Key Steps**:
         1. *Input parsing:*
             * The `UnstarCommandParser.java` parses the input string. If the input is empty, a `ParseException` is thrown.
             * The `ParserUtil#parseIndex(String args)` method is used to parse the client index, which is logged for debugging.
 
-      &nbsp;
+        &nbsp;
 
         2. *Check if Already Unstarred:*
             * The command retrieves the `Person` object using the parsed index.
             * The `Person#isStarred()` method checks if the client is already unstarred.
             * If the client is already unstarred, a `CommandException` is thrown with the message "Chosen client is not starred."
 
-      &nbsp;
+        &nbsp;
 
         3. *Update Starred Status:*
             * If the client is starred, The command updates the client's starred status by calling the `Person#rebuildWithStarredStatus(boolean isStarred)` method. This method creates a new Person object with the updated starred status (set to `false`).
             * The updated `Person` is saved back into the model using `Model#setPerson(Person target, Person editedPerson)`.
 
-      &nbsp;
+        &nbsp;
 
         4. *Re-sort the Client List:*
             * After unstarring a client, the list of clients is re-sorted by calling `Model#sortPersons(Comparator<Person> comparator)`. This ensures that the unstarred client is moved to its appropriate position in the list.
 
-      &nbsp;
+        &nbsp;
 
         5. *Return Command Result:*
             * The command returns a `CommandResult` with a success message, confirming that the starred status has been removed from the client.
