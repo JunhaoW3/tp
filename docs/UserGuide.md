@@ -164,7 +164,7 @@ Format: `help`
 <br>
 
 --------------------------------------------------------------------------------------------------------------------
-<!-- @@author Aloysius Pek Yong Jun -->
+<!-- @@author aloy-pek -->
 
 #### <font color=#5a9f68>2.1.2 Listing all clients : `list`</font>
 
@@ -336,7 +336,7 @@ Examples:
 <div style="page-break-after: always;"></div>
 
 --------------------------------------------------------------------------------------------------------------------
-<!-- @@author Aloysius Pek Yong Jun -->
+<!-- @@author aloy-pek -->
 #### <font color=#5a9f68>2.2.5 Starring a client : `star`</font>
 
 Stars the specified client in FinHub. Starred clients will have a star displayed next to their name, and will be bumped
@@ -676,7 +676,7 @@ Restore a backup of that file or delete it to regenerate sample data. Try to avo
 <br>
 
 --------------------------------------------------------------------------------------------------------------------
-<!-- @@author Aloysius Pek Yong Jun -->
+<!-- @@author aloy-pek -->
 
 ## <font color=##3a5a40>6. Command Summary</font>
 
