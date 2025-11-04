@@ -194,7 +194,8 @@ The `add`, `delete` and `edit` reminders commands are then designed as separate 
 
 <br>
 
-The following is a sequence diagram for the execution of `reminder 2 h/Meeting on Friday d/2026-04-24 16:00`,
+The following is a sequence diagram for the execution of `reminder 2 h/Meeting on Friday d/2026-04-24 16:00`:
+(Due to the diagram's detailed nature, it may appear small. If it's unclear, zooming in will provide better clarity of the individual components and interactions.)
 
 <puml src="diagrams/add-reminder/AddReminderSequenceDiagram.puml" alt="Interactions Inside the Logic Component for the `reminder 2 h/Meeting on Friday d/2026-04-24 16:00` Command"/>
 
@@ -217,7 +218,7 @@ The following is a sequence diagram for the execution of `reminder 2 h/Meeting o
 
 <br>
 
-The following is a activity diagram for the execution of `rDelete CLIENT_INDEX REMINDER_INDEX`,
+The following is a activity diagram for the execution of `rDelete CLIENT_INDEX REMINDER_INDEX`:
 
 <puml src="diagrams/add-reminder/AddReminderActivityDiagram.puml" alt="Activity Diagram for the execution of `rDelete CLIENT_INDEX REMINDER_INDEX`"/>
 
