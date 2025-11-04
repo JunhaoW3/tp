@@ -313,7 +313,7 @@ Address: Blk 30 Lorong 3 Serangoon Gardens, #07-18; Insurance Policy: Health pol
 
 </box>
 
-* `find alvin` followed by `edit 2 n/Alex Tan t/` changes the name of the second client in the results of the `find` command to `Alex Tan` and clears all his existing tags.
+* `find alex yeoh` followed by `edit 1 n/Alex Tan t/` changes the name of the first client in the results of the `find` command to `Alex Tan` and clears all his existing tags.
 
 <br>
 
@@ -337,7 +337,7 @@ Examples:
 <box type="success">
 
 **Assumptions:**
-1. There are 2 clients with name containing "ale"
+1. There are 2 clients whose name contains "ale"
 
 **Expected Output Message: 2 persons listed!
 
