@@ -133,7 +133,7 @@ public class ModelManager implements Model {
     @Override
     public void setPerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
-
+        this.editPersonGeneralReminderList(target, editedPerson);
         addressBook.setPerson(target, editedPerson);
     }
 
@@ -217,6 +217,19 @@ public class ModelManager implements Model {
     @Override
     public ObservableList<Pair<Person, Reminder>> getGeneralReminderList() {
         return this.generalReminderList;
+    }
+
+    @Override
+    public void clearGeneralReminderList() {
+        this.generalReminderList.clear();
+    }
+
+    @Override
+    public void editPersonGeneralReminderList(Person toEdit, Person editedPerson) {
+        toEdit.getReminders().forEach(r -> {
+            this.deleteGeneralReminder(toEdit, r);
+            this.addGeneralReminder(editedPerson, r);
+        });
     }
 
     @Override

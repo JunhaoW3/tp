@@ -4,6 +4,7 @@
   pageNav: 3
 ---
 
+
 # FinHub Developer Guide
 
 <!-- * Table of Contents -->
@@ -36,7 +37,7 @@ Given below is a quick overview of main components and how they interact with ea
 **Main components of the architecture**
 
 **`Main`** (consisting of classes [`Main`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
-* At app launch, it initializes the other components in the correct sequence, and connects them up with each other.
+* At app launch, it initialises the other components in the correct sequence, and connects them up with each other.
 * At shut down, it shuts down the other components and invokes cleanup methods where necessary.
 
 The bulk of the app's work is done by the following four components:
@@ -126,7 +127,7 @@ The `Model` component,
 * stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
 * stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
-* does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
+* does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components).
 
 <box type="info" seamless>
 
@@ -163,7 +164,7 @@ This section describes some noteworthy details on how certain features are imple
 ### Reminders Feature
 
 #### Challenge
-* Reminders was the first feature that we deemed as important for MVP - as we decided that reminders will be stored as an `ArrayList<Reminder>` for each `Person`, we needed to expand the current model, logic and storage to include it.
+* Reminders was the first feature that we deemed as important for MVP - as we decided that reminders will be stored as an `ArrayList<Reminder>` for each `Person`, we needed to expand the current model, logic and storage to include it - the challenge lies in the integration.
 
 #### Implementation Details
 
@@ -179,34 +180,47 @@ The `add`, `delete` and `edit` reminders commands are then designed as separate 
 
 ##### Command Implementation
 * ###### Add Reminder
-  * The user will execute `reminder CLIENT_INDEX h/HEADER d/yyyy-MM-dd HH:mm` which initialises a new `Reminder.java` with the given header and deadline after parsing of the user input is done by `AddReminderCommandParser.java` and validation of header and deadline by `Reminder.java`.
+    * The user will execute `reminder CLIENT_INDEX h/HEADER d/yyyy-MM-dd HH:mm` which initialises a new `Reminder.java` with the given header and deadline after parsing of the user input is done by `AddReminderCommandParser.java` and validation of header and deadline by `Reminder.java`.
+
+    <br>
+
+    * A newly initialised `AddReminderCommand.java` will then have the fields before `AddReminderCommand#exceute` is called.
+      * `CLIENT_INDEX` 
+      * and the previously initialised `Reminder.java`
+
+    <br>
+
+    * Upon execution of the `AddReminderCommand`, the method `Person#addReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the new `Reminder.java` as parameter and initialises a new `ArrayList<Reminder>` with the `Reminder.java` added to the previous `ArrayList<Reminder>`, returning a new `Person` object with the newly updated `ArrayList<Reminder>`.
 
 <br>
 
-  * A newly initialised `AddReminderCommand.java` will then have the fields before `AddReminderCommand#exceute` is called.
-    * `CLIENT_INDEX`
-    * and the previously initialised `Reminder.java`
+The following is a sequence diagram for the execution of `reminder 2 h/Meeting on Friday d/2026-04-24 16:00`:
+(Due to the diagram's detailed nature, it may appear small. If it's unclear, zooming in will provide better clarity of the individual components and interactions.)
 
-<br>
-
-  * Upon execution of the `AddReminderCommand`, the method `Person#addReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the new `Reminder.java` as parameter and initialises a new `ArrayList<Reminder>` with the `Reminder.java` added to the previous `ArrayList<Reminder>` of the `Person` and returns a new `Person` object with the newly updated `ArrayList<Reminder>`
+<puml src="diagrams/add-reminder/AddReminderSequenceDiagram.puml" alt="Interactions Inside the Logic Component for the `reminder 2 h/Meeting on Friday d/2026-04-24 16:00` Command"/>
 
 <br>
 
 --------------------------------------------------------------------------------------------------------------------
 
 * ###### Delete Reminder
-  * The user will execute `rDelete CLIENT_INDEX REMINDER_INDEX` which are based on the indexes on the displayed GUI after parsing of the user input is done by `DeleteReminderCommandParser.java`.
+    * The user will execute `rDelete CLIENT_INDEX REMINDER_INDEX` which are based on the indexes on the displayed GUI after parsing of the user input is done by `DeleteReminderCommandParser.java`.
+
+    <br>
+
+    * This initialises a new `DeleteReminderCommand.java` with two fields before `DeleteReminderCommand#exceute` is called.
+      * `CLIENT_INDEX`
+      * `REMINDER_INDEX`
+      
+    <br>
+
+    * Upon execution of the `DeleteReminderCommand`, the method `Person#removeReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the `Reminder.java` at the `REMINDER_INDEX` of the `Person`'s `ArrayList<Reminder>` as parameter. This initialises a new `ArrayList<Reminder>` with the `Reminder.java` removed from the previous `ArrayList<Reminder>`, returning a new `Person` object with the updated `ArrayList<Reminder>`.
 
 <br>
 
-  * This initialises a new `DeleteReminderCommand.java` with two fields before `DeleteReminderCommand#exceute` is called.
-    * `CLIENT_INDEX`
-    * `REMINDER_INDEX`
+The following is a activity diagram for the execution of `rDelete CLIENT_INDEX REMINDER_INDEX`:
 
-<br>
-
-  * Upon execution of the `DeleteReminderCommand`, the method `Person#removeReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the `Reminder.java` as parameter and initialises a new `ArrayList<Reminder>` with the `Reminder.java` removed from the previous `ArrayList<Reminder>` of the `Person` and returns a new `Person` object with the newly updated `ArrayList<Reminder>`
+<puml src="diagrams/add-reminder/AddReminderActivityDiagram.puml" alt="Activity Diagram for the execution of `rDelete CLIENT_INDEX REMINDER_INDEX`"/>
 
 <br>
 
@@ -215,21 +229,21 @@ The `add`, `delete` and `edit` reminders commands are then designed as separate 
 * ###### Edit Reminder
   * The user will execute `rEdit CLIENT_INDEX REMINDER_INDEX h/HEADER d/yyyy-MM-dd HH:mm` which initialises a new `Reminder.java` with the given header and deadline after parsing of the user input is done by `EditReminderCommandParser.java` and validation of header and deadline by `Reminder.java`.
 
-<br>
+    <br>
 
-  * This initialises a new `EditReminderCommand.java` with three fields before `EditReminderCommand#execute` is called.
-    * `CLIENT_INDEX`
-    * `REMINDER_INDEX` which is the index of the reminder to be edited.
-    * `EDITED_REMINDER` which is the new `Reminder.java` as parsed and initialised before.
+    * This initialises a new `EditReminderCommand.java` with three fields before `EditReminderCommand#execute` is called.
+      * `CLIENT_INDEX`
+      *  the index of the reminder to be edited `REMINDER_INDEX`
+      * `EDITED_REMINDER` which is the new `Reminder.java`
 
-<br>
+    <br>
 
-  * Upon execution of the `EditReminderCommand`
-    1. The method `Person#removeReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which utilises `REMINDER_INDEX` to locate the `Reminder.java` in the `Person` and removes the reminder similar to how `DeleteReminderCommand` is implemented.
-
-<br>
-
-    2. The method `Person#addReminder` is then called on the `Person` with the given `ClIENT_INDEX` in the model which takes in `EDITED_REMINDER` as parameter and adds it to the `Person` similar to how `AddReminderCommand` is implemented.
+    * Upon execution of the `EditReminderCommand`,
+      1. The method `Person#removeReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which utilises `REMINDER_INDEX` to locate the `Reminder.java` in the `Person` and removes the reminder similar to how `DeleteReminderCommand` is implemented.
+    
+      <br>
+    
+      2. The method `Person#addReminder` is then called on the `Person` with the given `ClIENT_INDEX` in the model which takes in `EDITED_REMINDER` as parameter and adds it to the `Person` similar to how `AddReminderCommand` is implemented.
 
 <br>
 
@@ -237,14 +251,14 @@ The `add`, `delete` and `edit` reminders commands are then designed as separate 
 
 ### Meeting Notes Feature
 
-#### Challenges
+#### Challenge
 * Next, we wanted a convenient way for users to record and review key discussions with clients in a simple yet efficient way. We needed to decide what order to store and display meeting notes — whether to prioritise a simple internal logic or a more intuitive user interface.
 
 #### Implementation Details
 
 Meeting Notes are set up as a `MeetingNote.java` class with two key internal fields.
 * `String` TEXT
-* `LocalDateTime` date and time at which the meeting note was created.
+* `LocalDateTime` timestamp at which the meeting note was created.
 
 <br>
 
@@ -268,6 +282,12 @@ The `add` and `delete` meeting note commands are then designed as separate comma
 
 <br>
 
+The following is an activity diagram for the execution of `note CLIENT_INDEX TEXT`:
+
+<puml src="diagrams/AddMeetingNoteActivityDiagram.puml" alt="Activity Diagram for the execution of `note CLIENT_INDEX TEXT`"></puml>
+
+<br>
+
 --------------------------------------------------------------------------------------------------------------------
 
 * ###### Delete Meeting Note
@@ -281,7 +301,14 @@ The `add` and `delete` meeting note commands are then designed as separate comma
 
   <br>
 
-    * Upon execution of the `DeleteMeetingNoteCommand`, the method `Person#removeMeetingNote` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the `MeetingNote.java` as parameter and initialises a new `ArrayList<MeetingNote>` with the `MeetingNote.java` removed from the previous `ArrayList<MeetingNote>` of the `Person` and returns a new `Person` object with the newly updated `ArrayList<MeetingNote>`.
+    * Upon execution of the `DeleteMeetingNoteCommand`, the method `Person#removeMeetingNote` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the `MeetingNote.java` at the `MEETING_NOTE_INDEX` of the `Person`'s `ArrayList<MeetingNote>` as parameter. This initialises a new `ArrayList<MeetingNote>` with the `MeetingNote.java` removed from the previous `ArrayList<MeetingNote>`, returning a new `Person` object with the updated `ArrayList<MeetingNote>`.
+
+<br>
+
+The following is a sequence diagram for the execution of `nDelete 1 1`:
+(Due to the diagram's detailed nature, it may appear small. If it's unclear, zooming in will provide better clarity of the individual components and interactions.)
+
+<puml src="diagrams/DeleteMeetingNoteSequenceDiagram.puml" alt="Interactions Inside the Logic Component for the `nDelete 1 1` Command"></puml>
 
 <br>
 --------------------------------------------------------------------------------------------------------------------
@@ -395,6 +422,7 @@ and updating the model accordingly. If successful, the system returns a success 
 <br>
 
 --------------------------------------------------------------------------------------------------------------------
+<!-- @@author aloy-pek -->
 
 ### Star Client Feature
 
@@ -420,13 +448,14 @@ To implement the star client feature, we focus on the following areas:
 &nbsp;
 
 4. **Sorting**: We need to ensure that when clients are starred or unstarred, the list is updated accordingly (both in terms of the internal storage and the displayed user interface).
+
 <br>
 
 ##### Command Implementation
 * ###### Star Command
-    * **Objective**: Marks a `Person` (Client) as starred based on their displayed index in the list.
-
-    &nbsp;
+    * **Objective**: Marks a `Person` (Client) as starred based on their displayed index in the list. 
+  
+  &nbsp;
 
     * **Command Syntax**: `star CLIENT_INDEX`
         * Parameters:
@@ -470,43 +499,63 @@ To implement the star client feature, we focus on the following areas:
 * ###### Unstar Command
     * **Objective**: Removes the starred status of a `Person` (Client), based on their displayed index in the list.
 
-  &nbsp;
+    &nbsp;
 
     * **Command Syntax**: `unstar CLIENT_INDEX`
         * Parameters:
             * `CLIENT_INDEX`: The index of the client (starts from 1 in the displayed list).
         * Usage Example:
-            *  `unstar 1`: Stars the client at index 1.
+            *  `unstar 1`: Removes star status from the client at index 1.
 
-  &nbsp;
+    &nbsp;
 
     * **Key Steps**:
         1. *Input parsing:*
             * The `UnstarCommandParser.java` parses the input string. If the input is empty, a `ParseException` is thrown.
             * The `ParserUtil#parseIndex(String args)` method is used to parse the client index, which is logged for debugging.
 
-      &nbsp;
+        &nbsp;
 
         2. *Check if Already Unstarred:*
             * The command retrieves the `Person` object using the parsed index.
             * The `Person#isStarred()` method checks if the client is already unstarred.
             * If the client is already unstarred, a `CommandException` is thrown with the message "Chosen client is not starred."
 
-      &nbsp;
+        &nbsp;
 
         3. *Update Starred Status:*
             * If the client is starred, The command updates the client's starred status by calling the `Person#rebuildWithStarredStatus(boolean isStarred)` method. This method creates a new Person object with the updated starred status (set to `false`).
             * The updated `Person` is saved back into the model using `Model#setPerson(Person target, Person editedPerson)`.
 
-      &nbsp;
+        &nbsp;
 
         4. *Re-sort the Client List:*
             * After unstarring a client, the list of clients is re-sorted by calling `Model#sortPersons(Comparator<Person> comparator)`. This ensures that the unstarred client is moved to its appropriate position in the list.
 
-      &nbsp;
+        &nbsp;
 
         5. *Return Command Result:*
             * The command returns a `CommandResult` with a success message, confirming that the starred status has been removed from the client.
+
+<br>
+
+#### Sequence Diagram
+The sequence diagram below illustrates the flow of interactions when the user enters the `star 1` command. It shows how the command is parsed, the person at the specified index is retrieved, and the starred status is updated in the model. Key components include the `CommandBox`, `LogicManager`, `StarCommandParser`, and `Model`. Due to the diagram's detailed nature, it may appear small. If it's unclear, zooming in will provide better clarity of the individual components and interactions.
+
+<puml src="diagrams/star-feature/StarSequenceDiagram.puml" alt="Interactions for the `star 1` Command" />
+
+
+<br>
+<br>
+
+#### Activity Diagram
+The activity diagram outlines the detailed workflow that happens when the `star 1` command is executed. It shows the decision points for validating the index, checking if the person is already starred, and updating the model accordingly. If successful, the system returns a success message.
+
+<puml src="diagrams/star-feature/StarActivityDiagram.puml"/>
+
+<!-- @@author-->
+
+<br>
 <br>
 
 --------------------------------------------------------------------------------------------------------------------
@@ -525,7 +574,7 @@ These operations are exposed in the `Model` interface as `Model#commitAddressBoo
 
 Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
 
-Step 1. The user launches the application for the first time. The `VersionedAddressBook` will be initialized with the initial address book state, and the `currentStatePointer` pointing to that single address book state.
+Step 1. The user launches the application for the first time. The `VersionedAddressBook` will be initialised with the initial address book state, and the `currentStatePointer` pointing to that single address book state.
 
 <puml src="diagrams/UndoRedoState0.puml" alt="UndoRedoState0" />
 
@@ -585,7 +634,7 @@ Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Sinc
 
 <puml src="diagrams/UndoRedoState5.puml" alt="UndoRedoState5" />
 
-The following activity diagram summarizes what happens when a user executes a new command:
+The following activity diagram summarises what happens when a user executes a new command:
 
 <puml src="diagrams/CommitActivityDiagram.puml" width="250" />
 
@@ -671,40 +720,41 @@ _{Explain here how the data archiving feature will be implemented}_
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                | I want to …​                                                          | So that I can…​                                                                                                                                    |
-|----------|------------------------|-----------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| `* * *`  | user                   | save the data I input                                                 | not have to input them again on start-up                                                                                                           |
-| `* * *`  | user                   | search clients by name                                                | easily find a specific client’s information                                                                                                        |
-| `* * *`  | user                   | delete reminders                                                      | remove any outdated/non-necessary/wrongly set-up reminders                                                                                         |
-| `* * *`  | user                   | add a new client's contact                                            | keep track of his information                                                                                                                      |
-| `* * *`  | user                   | delete a client's contact                                             | keep my contacts clean                                                                                                                             |
-| `* * *`  | user                   | set reminders for policy renewal dates, birthdays, or important dates | maintain strong client relationships and be reminded to follow up                                                                                  |
-| `* * *`  | user                   | use CLI                                                               | easily find what I am looking for rather than navigating a GUI                                                                                     |
-| `* * *`  | user                   | record clients' insurance policy                                      | easily review what coverage your clients already have and identify gaps or overlaps.                                                               |
-| `* *`    | user                   | search clients by phone number                                        | find specific clients through their phone number                                                                                                   |
-| `* *`    | user                   | search clients by email                                               | find specific clients through their email                                                                                                          |
-| `* *`    | user                   | mark my client as completed                                           | easily keep track of which clients are already onboarded and who is yet to be onboarded                                                            |
-| `* *`    | user                   | receive alerts                                                        | maintain regular engagement                                                                                                                        |
-| `* *`    | user                   | see upcoming policy renewal dates                                     | proactively reach out to clients before policy expires                                                                                             |
-| `* *`    | user                   | keep track of my client's deadline that is coming soon                | better prioritise and manage my time                                                                                                               |
-| `* *`    | forgetful user         | be alerted when I try to add a duplicate client                       | keep my contacts organised                                                                                                                         |
-| `* *`    | user                   | edit a client's information                                           | update changing information                                                                                                                        |
-| `* *`    | user                   | record client meeting notes                                           | remember key discussion points with each client                                                                                                    |
-| `* *`    | user                   | view revenue/profit per client                                        | identify my most valuable clients.                                                                                                                 |
-| `* *`    | user                   | record client preferences for preferred communication channel         | contact them in the best way possible                                                                                                              |
-| `* *`    | user                   | group my clients by policy type                                       | quickly filter relevant contacts                                                                                                                   |
-| `* *`    | user                   | edit reminders                                                        | make changes to reminders when I change my mind                                                                                                    |
-| `*`      | user                   | be able to tag a client with a custom label                           | customize the grouping of clients                                                                                                                  |
-| `*`      | user                   | bookmark “star clients” for quick access                              | jump to top clients immediately                                                                                                                    |
-| `*`      | user                   | assign priority levels to tasks                                       | manage time more efficiently                                                                                                                       |
-| `*`      | user                   | view a client history timeline                                        | see a chronological record of interactions                                                                                                         |
-| `*`      | user                   | see in-app tutorials                                                  | easily familiarise with FinHub's features                                                                                                          |
-| `*`      | user with many clients | save the data I enter                                                 | save time re-entering all data each time I open the app                                                                                            |
-| `*`      | user                   | view a dashboard summary of activities                                | get an overview of my workload                                                                                                                     |
-| `*`      | user                   | keep track of insurance claims requested by clients                   | easily see what claims are made for the different clients, as well as when the claim has been requested                                            |
-| `*`      | user                   | archive inactive clients                                              | keep my workspace uncluttered                                                                                                                      |
-| `*`      | user                   | export data as a spreadsheet                                          | view it more easily                                                                                                                                |
-| `*`      | user                   | access FinHub with a password                                         | keep my client's information confidential                                                                                                          |
+| Priority | As a …​                | I want to …​                                                          | So that I can…​                                                                                           |
+|----------|------------------------|-----------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| `* * *`  | user                   | save the data I input                                                 | not have to input them again on start-up                                                                  |
+| `* * *`  | user                   | search clients by name                                                | easily find a specific client’s information                                                               |
+| `* * *`  | user                   | delete reminders                                                      | remove any outdated/non-necessary/wrongly set-up reminders                                                |
+| `* * *`  | user                   | add a new client's contact                                            | keep track of his information                                                                             |
+| `* * *`  | user                   | delete a client's contact                                             | keep my contacts clean                                                                                    |
+| `* * *`  | user                   | set reminders for policy renewal dates, birthdays, or important dates | maintain strong client relationships and be reminded to follow up                                         |
+| `* * *`  | user                   | use CLI                                                               | easily find what I am looking for rather than navigating a GUI                                            |
+| `* * *`  | user                   | record clients' insurance policy                                      | easily review what coverage your clients already have and identify gaps or overlaps.                      |
+| `* * *`  | user                   | record client meeting notes                                           | remember key discussion points with each client                                                           |
+| `* * *`  | user                   | delete client meeting notes                                           | remove any outdated/unnecessary notes and keep my database clean                                          |
+| `* *`    | user                   | search clients by phone number                                        | find specific clients through their phone number                                                          |
+| `* *`    | user                   | search clients by email                                               | find specific clients through their email                                                                 |
+| `* *`    | user                   | mark my client as onboarded                                           | easily keep track of which clients are already onboarded and who is yet to be onboarded                   |
+| `* *`    | user                   | receive alerts                                                        | maintain regular engagement                                                                               |
+| `* *`    | user                   | see upcoming policy renewal dates                                     | proactively reach out to clients before policy expires                                                    |
+| `* *`    | user                   | keep track of my client's deadline that is coming soon                | better prioritise and manage my time                                                                      |
+| `* *`    | forgetful user         | be alerted when I try to add a duplicate client                       | keep my contacts organised                                                                                |
+| `* *`    | user                   | edit a client's information                                           | update changing information                                                                               |
+| `* *`    | user                   | view revenue/profit per client                                        | identify my most valuable clients.                                                                        |
+| `* *`    | user                   | record client preferences for preferred communication channel         | contact them in the best way possible                                                                     |
+| `* *`    | user                   | group my clients by policy type                                       | quickly filter relevant contacts                                                                          |
+| `* *`    | user                   | edit reminders                                                        | make changes to reminders when I change my mind                                                           |
+| `*`      | user                   | be able to tag a client with a custom label                           | customize the grouping of clients                                                                         |
+| `*`      | user                   | bookmark “star clients” for quick access                              | jump to top clients immediately                                                                           |
+| `*`      | user                   | assign priority levels to tasks                                       | manage time more efficiently                                                                              |
+| `*`      | user                   | view a client history timeline                                        | see a chronological record of interactions                                                                |
+| `*`      | user                   | see in-app tutorials                                                  | easily familiarise with FinHub's features                                                                 |
+| `*`      | user with many clients | save the data I enter                                                 | save time re-entering all data each time I open the app                                                   |
+| `*`      | user                   | view a dashboard summary of activities                                | get an overview of my workload                                                                            |
+| `*`      | user                   | keep track of insurance claims requested by clients                   | easily see what claims are made for the different clients, as well as when the claim has been requested   |
+| `*`      | user                   | archive inactive clients                                              | keep my workspace uncluttered                                                                             |
+| `*`      | user                   | export data as a spreadsheet                                          | view it more easily                                                                                       |
+| `*`      | user                   | access FinHub with a password                                         | keep my client's information confidential                                                                 |
 
 
 ### Use cases
@@ -809,10 +859,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  The user enters the client's details (name, telephone number, email address, insurance policy).
+1.  The user enters the client's details (name, telephone number, email address, address, insurance policy).
 2.  FinHub validates the input.
-3.  FinHub adds the new client into the address book.
-4.  FinHub displays a confirmation message.
+3.  FinHub adds the new client.
+4.  FinHub displays a success message.
 
     Use case ends.
 
@@ -820,6 +870,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 2a. The user enters invalid/missing inputs.
     * 2a1. FinHub prompts the user to enter the correct details.
+  
+      Step 2a1 is repeated until all correct details have been entered.
 
       Use case resumes at step 1.
 
@@ -837,7 +889,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1.  The user <u>searches for the client to delete by their name (UC01)</u>.
 2.  The user selects the client to be deleted.
-3.  FinHub removes the client from the address book.
+3.  FinHub removes the client.
 4.  FinHub displays a success message.
 
     Use case ends.
@@ -869,15 +921,24 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 2a. The user selects an invalid client.
     * 2a1. FinHub warns that an invalid client has been selected, and prompts the user to select again.
 
-      Step 2a1 is repeated until a correct client has been selected.
+      Step 2a1 is repeated until a valid client has been selected.
 
-      Use case resumes at step 3
+      Use case resumes at step 3.
 
 
 * 2b. The user enters invalid fields.
     * 2b1. FinHub prompts the user to enter the correct details.
+  
+      Step 2b1 is repeated until correct details have been entered.
 
-      Use case resumes at step 2.
+      Use case resumes at step 3.
+
+* 2c. The user does not enter any fields to update. 
+    * 2c1. FinHub prompts the user to enter at least one field to update. 
+        
+      Step 2c1 is repeated until at least updated field is entered. 
+
+      Use case resumes at step 3.
 
 **Use case: UC08 - Delete reminder**
 
@@ -1033,14 +1094,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 2a. The user selects an invalid client.
     * 2a1. FinHub warns that user does not exist and prompts the user to select again.
 
-      Step 2a1 is repeated until a correct selection.
+      Step 2a1 is repeated until a valid client has been selected.
 
       Use case resumes at step 3.
 
 * 2b. The user enters an invalid note.
     * 2b1. FinHub warns that the note entered is invalid and prompts the user to enter again.
 
-      Step 2b1 is repeated until a valid note.
+      Step 2b1 is repeated until a valid note is entered.
 
       Use case resumes at step 3.
 
@@ -1062,14 +1123,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 2a. The user selects an invalid client.
     * 2a1. FinHub warns that user does not exist and prompts the user to select again.
 
-      Step 2a1 is repeated until a correct selection.
+      Step 2a1 is repeated until a valid client has been selected.
 
       Use case resumes at step 3.
 
-* 2a. The user enters an invalid meeting note.
-    * 23a1. FinHub warns that the meeting note is invalid and prompts the user to enter another note.
+* 2b. The user selects an invalid meeting note.
+    * 2b1. FinHub warns that the meeting note is invalid and prompts the user to enter another note.
 
-      Step 3a1 is repeated until a correct selection.
+      Step 2b1 is repeated until a valid note is selected.
 
       Use case resumes at step 4.
 
@@ -1192,26 +1253,26 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
 2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-4. The product should be for a single user
+4. The product should be for a single user.
 5. The data should be stored locally and should be in a human editable text file, instead of a database management system.
 6. The software should work without requiring an installer.
 7. The GUI should work well (i.e., should not cause any resolution-related inconveniences to the user) for standard screen resolutions 1920x1080 and higher, and for screen scales 100% and 125%.
 8. The GUI should be usable (i.e., all functions can be used even if the user experience is not optimal) for resolutions 1280x720 and higher, and for screen scales 150%.
-9. The product should be packaged into a `.jar` file
+9. The product should be packaged into a `.jar` file.
 10. The product file size should be reasonable and should not exceed 100Mb.
 11. The product is not required to cover communication with clients from the app, policy and financial calculation and payment and billing system.
 
 ### Glossary
 
-* **Archive**: Clients who are archived are inactive, but not deleted
-* **Client**: Customer who has signed or is going to sign an insurance policy with the user
+* **Archive**: Clients who are archived are inactive, but not deleted.
+* **Client**: Customer who has signed or may sign an insurance policy with the user.
 * **Insurance Policy**: A client field to record insurance policies they hold.
-* **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Meeting Note**: A short record of discussions with a client, stored along with the date and time it was added.
-* **Private contact detail**: A contact detail that is not meant to be shared with others
-* **Reminder**: A task or deadline linked to a specific client, with a header and due date
+* **Mainstream OS**: Windows, Linux, Unix, MacOS.
+* **Meeting note**: Linked to a specific client, a meeting note consists of a note and a timestamp.
+* **Private contact detail**: A contact detail that is not meant to be shared with others.
+* **Reminder**: Linked to a specific client, a reminder consists of a header and due date.
 * **Star**: Important clients can be starred to keep track of them.
-* **User**: Insurance agent using the address book.
+* **User**: Insurance agent using FinHub.
 
 <br>
 
@@ -1363,7 +1424,7 @@ testers are expected to do more *exploratory* testing.
     * User Input: `note 1 Client is interested in the premium health policy`
     * Expected Outcome:
         * A meeting note {Client is interested in the premium health policy} is added to the top of the meeting note list of the client at index 1 .
-        * A success message is displayed: `Meeting note added to {Person's Name}: [date and time when note is created] CLient is interested in the premium health policy`
+        * A success message is displayed: `Meeting note added to {Person's Name}: [timestamp] CLient is interested in the premium health policy`
 
 &nbsp;
 
@@ -1398,7 +1459,7 @@ testers are expected to do more *exploratory* testing.
     * User Input: `nDelete 1 1`
     * Expected Outcome:
         * The first meeting note of the first client will be deleted.
-        * A success message is displayed: `Deleted Client {Person's Name}'s Meeting Note 1: [date and time when note is created] {Deleted Meeting Note}`
+        * A success message is displayed: `Deleted Client {Person's Name}'s Meeting Note 1: [timestamp] {Deleted Meeting Note}`
         * The meeting note list for the client at index 1 will not contain the {Deleted Meeting Note}.
 
 &nbsp;
@@ -1419,9 +1480,35 @@ testers are expected to do more *exploratory* testing.
 
 <br>
 
+--------------------------------------------------------------------------------------------------------------------
 
-### Adding a client (with insurance policy field)
+### Adding a client
 * Prerequisites: -
+
+&nbsp;
+
+* Test Case: Add a client
+    * Assumption: Both the phone number `98765432` and email `johnd@example.com` does not exist in FinHub
+    * Input: `add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 ip/AIB Overall Lifeshield Plan t/friends`
+    * Expected Outcome:
+        * The client, John Doe, is added.
+        * A success message is displayed: `New client added: John Doe; Phone: 98765432; Email: johnd@example.com; Address: 311, Clementi Ave 2, #02-25; Insurance Policy: AIB Overall Lifeshield Plan; Tags: [friends]`.
+
+&nbsp;
+
+* Test Case: Add a client with a phone number that exists in FinHub
+    * Assumption: The phone number `99272758` already exist in FinHub
+    * Input: `add n/John Doe p/99272758 e/johnd123@example.com a/311, Clementi Ave 2, #02-25 ip/AIB Overall Lifeshield Plan t/friends`
+    * Expected Outcome:
+        * A failure message is displayed: `This client's phone number or email already exists in FinHub`.
+
+&nbsp;
+
+* Test Case: Add a client with an email that exists in FinHub
+    * Assumption: The email `berniceyu@example.com` already exist in FinHub
+    * Input: `add n/John Doe p/99776442 e/berniceyu@example.com a/311, Clementi Ave 2, #02-25 ip/AIB Overall Lifeshield Plan t/friends`
+    * Expected Outcome:
+        * A failure message is displayed: `This client's phone number or email already exists in FinHub`.
 
 &nbsp;
 
@@ -1437,8 +1524,7 @@ testers are expected to do more *exploratory* testing.
 * Test Case: Add a client with an invalid insurance policy (just whitespace)
     * Input: `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 ip/ `
     * Expected Outcome:
-        * A failure message is displayed: `Policy name may only contain letters, digits, spaces, and + / & ( ) ' . , -
-and must include at least one letter or digit.`.
+        * A failure message is displayed: `Policy name may only contain letters, digits, spaces, and + / & ( ) ' . , - and must include at least one letter or digit.`.
 
 &nbsp;
 
@@ -1451,8 +1537,44 @@ Example: add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #0
 
 <br>
 
-### Editing a client's insurance policy field
+--------------------------------------------------------------------------------------------------------------------
+
+### Editing a client
 * Prerequisites: The client has already been added.
+
+&nbsp;
+
+* Test Case: Edit a client with a new valid phone number
+    * Assumption: The new phone number does not exist in FinHub, and **Alex Yeoh** (client with index 1) is displayed in the list with details as defined in the sample data.
+    * Input: `edit 1 p/82339844`
+    * Expected Outcome:
+        * Client 1's phone number is updated to `82339844`
+        * A success message is displayed: `Edited Client: Alex Yeoh; Phone: 82339844; Email: alexyeoh@example.com; Address: Blk 30 Geylang Street 29, #06-40; Insurance Policy: AIB HealthShield Gold Max; Tags: [friends]`.
+
+&nbsp;
+
+* Test Case: Edit a client with an existing phone number
+    * Assumption: The phone number `99272758` exist in FinHub
+    * Input: `edit 1 p/99272758`
+    * Expected Outcome:
+        * A failure message is displayed: `This client's phone number or email already exists in FinHub.`.
+
+&nbsp;
+
+* Test Case: Edit a client with a new valid email
+    * Assumption: The new email does not exist in FinHub, and **Alex Yeoh** (client with index 1) is displayed in the list with details as defined in the sample data.
+    * Input: `edit 1 e/AlexYeoh6767@gmail.com`
+    * Expected Outcome:
+        * Client 1's email is updated to `AlexYeoh6767@gmail.com`
+        * A success message is displayed: `Edited Client: Alex Yeoh; Phone: 87438807; Email: AlexYeoh6767@gmail.com; Address: Blk 30 Geylang Street 29, #06-40; Insurance Policy: AIB HealthShield Gold Max; Tags: [friends]`.
+
+&nbsp;
+
+* Test Case: Edit a client with an existing email
+    * Assumption: The email `berniceyu@example.com` exist in FinHub
+    * Input: `edit 1 e/berniceyu@example.com`
+    * Expected Outcome:
+        * A failure message is displayed: `This client's phone number or email already exists in FinHub.`.
 
 &nbsp;
 
@@ -1460,15 +1582,14 @@ Example: add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #0
     * Input: `edit 1 ip/AIB LifePlan`
     * Expected Outcome:
         * Client 1, Alex's insurance policy is now AIB LifePlan
-        * A success message is displayed: `Edited CLient: Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com; Address: Blk 30 Geylang Street 29, #06-40; Insurance Policy: AIB LifePlan; Tags: [friends]`.
+        * A success message is displayed: `Edited Client: Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com; Address: Blk 30 Geylang Street 29, #06-40; Insurance Policy: AIB LifePlan; Tags: [friends]`.
 
 &nbsp;
 
 * Test Case: Edit a client with an invalid insurance policy (just whitespace)
     * Input: `edit 1 ip/ `
     * Expected Outcome:
-        * A failure message is displayed: `Policy name may only contain letters, digits, spaces, and + / & ( ) ' . , -
-and must include at least one letter or digit.`.
+        * A failure message is displayed: `Policy name may only contain letters, digits, spaces, and + / & ( ) ' . , - and must include at least one letter or digit.`.
 
 <br>
 
@@ -1603,7 +1724,7 @@ Parameters: INDEX (must be a positive integer)`.
     * Input: `unstar 0`
     * Expected Outcome:
         * A failure message is displayed: `Any indices provided should be positive integers.
-Enter the command word again without any arguments to view the correct command format.`
+Enter the command word again without any arguments to view the correct command format`.
 
 &nbsp;
 
@@ -1620,11 +1741,74 @@ Enter the command word again without any arguments to view the correct command f
     * Expected Outcome:
         * A failure message is displayed: `Invalid command format!
 unstar: Removes starred status of the client identified by the index number used in the displayed client list.
-Parameters: INDEX (must be a positive integer).`
+Parameters: INDEX (must be a positive integer)`.
 
 <br>
 
+<!-- @@author -->
+
 --------------------------------------------------------------------------------------------------------------------
+
+### Finding for a client
+* Prerequisites: If the displayed list of clients is filtered using `activelist` or `archivelist`, make sure that the client to be searched for is present in the filtered list.
+
+&nbsp;
+
+* Test Case: Find a client using a full word
+    * Assumption: A client named Alex Yeoh exists in the displayed list.
+    * Input: `find alex`
+    * Expected Outcome:
+        * All clients whose name contains the string "Alex" (case-insensitive) are displayed as a list.
+        * A success message is displayed: `x clients listed!`, where x is the number of matches found.
+
+&nbsp;
+
+* Test Case: Find a client using a full name
+    * Assumption: A client named Alex Yeoh exists in the displayed list.
+    * Input: `find Alex Yeoh`
+    * Expected Outcome:
+        * All clients whose name contains the string "Alex" or "Yeoh" (case-insensitive) are displayed as a list.
+        * A success message is displayed: `x clients listed!`, where x is the number of matches found.
+
+&nbsp;
+
+* Test Case: Find a client using a partial name
+    * Assumption: A client named Alex Yeoh exists in the displayed list.
+    * Input: `find ale`
+    * Expected Outcome:
+        * All clients whose name contains the substring "ale" (case-insensitive) are displayed as a list.
+        * A success message is displayed: `x clients listed!`, where x is the number of matches found.
+
+&nbsp;
+
+* Test Case: Find clients using multiple keywords
+    * Assumption: Clients named Alex Yeoh and Bernice Yu exist in the displayed list.
+    * Input: `find alex yu`
+    * Expected Outcome:
+        * All clients whose name contains the string "alex" or "yu" (case-insensitive) are displayed as a list.
+        * A success message is displayed: `x clients listed!`, where x is the number of matches found.
+
+&nbsp;
+
+* Test Case: Find a client using non-matching keyword
+    * Assumption: There are no clients whose name contains the "xyz" substring
+    * Input: `find xyz`
+    * Expected Outcome:
+        * No clients are displayed in the list
+        * A message is displayed: `0 clients listed!`
+
+&nbsp;
+
+* Test Case: Find a client using an empty keyword
+    * Input: `find`
+    * Expected Outcome:
+        * No clients are displayed in the list
+        * A failure message is displayed: `Invalid command format! 
+find: Finds all clients whose names contain any of the specified keywords (case-insensitive) and displays them as a list with index numbers.
+Parameters: KEYWORD [MORE_KEYWORDS]...
+Example: find alice bob charlie`
+
+<br>
 
 ## Appendix: Effort
 
@@ -1771,12 +1955,25 @@ Parameters: INDEX (must be a positive integer).`
 
 ## Appendix: Planned Enhancements
 
-### 1. Allow unarchiving of clients on general list
+### Team size: 5
+
+### 1. Allow editing of existing notes
+Currently, if the user needs to edit an existing note, they would have to delete the existing note and then add a new 
+one. This might reduce efficiency. We plan to add an `EditReminder` command to allow users to directly edit existing 
+notes. Timestamps for such edited notes would also be updated accordingly. 
+
+### 2. Allow multiple phone numbers per client
+Currently, only one phone number can be added per client, and it can only consist of numbers. Since it is possible for 
+an individual to have more than one phone numbers such as for mobile, home and office numbers, we plan to update `Phone` 
+to `LabelledPhone` which consists of a phone number and a label, and for each `Person` to have a `Set<LabelledPhone>`. 
+`AddCommandParser` and `EditCommandParser` will also allow the parsing of multiple labelled phone numbers.
+
+### 3. Allow unarchiving of clients on general list
 Currently, the user is only able to unarchive client if he is in `archivelist`.
 This might cause some inconvenience if the user knows a person is archived in general list and wants to unarchive them.
 We plan to add on to `UnarchiveCommand` to allow users to directly unarchive clients from general list.
 
-### 2. Display archive status for clients in general list
+### 4. Display archive status for clients in general list
 Currently, when the user is viewing `list`, it is hard to tell between active clients and archived clients,
 unless they go back to `activelist` or `archivelist`.
 We plan to add on to `list` GUI an active and archive tag next to the client's name,
