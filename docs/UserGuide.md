@@ -387,7 +387,7 @@ Client archived: Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com; Addres
 
 <box type="note" seamless>
 
-**Note:**: Edits made to any client will automatically unarchive them.
+**Note:**: Edits made to any archived client will automatically unarchive them.
 </box>
 
 <br>
