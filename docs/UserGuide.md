@@ -361,7 +361,7 @@ Format: `archive CLIENT_INDEX`
 
 * Archives the client at the specified `CLIENT_INDEX`.
 * `CLIENT_INDEX` refers to the index number of the client shown in the displayed clients list.
-* Only one client can be archived at a time.
+* You can only archive one client at a time.
 
 Examples:
 
@@ -385,6 +385,11 @@ Client archived: Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com; Addres
 **Tip:** Temporarily archive inactive clients to de-clutter your active clients list!
 </box>
 
+<box type="note" seamless>
+
+**Note:**: Edits made to any client will automatically unarchive them.
+</box>
+
 <br>
 
 <div style="page-break-after: always;"></div>
@@ -399,7 +404,7 @@ Format: `unarchive CLIENT_INDEX`
 
 * Unarchives the client at the specified `CLIENT_INDEX`
 * `CLIENT_INDEX` refers to the index number of the client shown in the archived clients list.
-* Only one client can be unarchived at a time.
+* You can only unarchive one client at a time.
 
 Examples:
 
@@ -420,7 +425,7 @@ Client unarchived: Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com; Addr
 
 </box>
 
-<box type="note">
+<box type="note" seamless>
 
 **Note:** You have to be in `archivelist` to unarchive clients.
 </box>
