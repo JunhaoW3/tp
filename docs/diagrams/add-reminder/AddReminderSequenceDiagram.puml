@@ -110,6 +110,6 @@ destroy AddReminderCommand
 deactivate LogicManager
 
 'Hidden arrow to position the destroy marker below the end of the activation bar.
-personToStar -[hidden]-> LogicManager
+personToEdit -[hidden]-> LogicManager
 destroy personToEdit
 @enduml

@@ -559,6 +559,58 @@ The activity diagram outlines the detailed workflow that happens when the `star 
 <br>
 
 --------------------------------------------------------------------------------------------------------------------
+### Insurance Policy Feature
+
+#### Challenge
+* We introduced an **`INSURANCE_POLICY`** field that must behave like other AB3-style value objects (trimmed, validated, immutable), while also:
+    - Integrating with **Add**/**Edit** client flows (parsing, error messages).
+    - Rendering consistently in the UI without breaking existing cards/layouts.
+
+#### Implementation Details
+
+To implement the insurance policy feature, we focus on the following areas:
+
+1. **Model**: Each `Person` object has a compulsory `InsurancePolicy` field. An `InsurancePolicy` contains a String value to store the insurance policy a client has.
+
+   &nbsp;
+
+2. **Commands**: Two main commands are edited:
+    - `AddCommand`: For adding a client with insurance policy. InsurancePolicy is made a compulsory field.
+    - `EditCommand`: For editing the insurance policy of a client. InsurancePolicy is made an optional field.
+
+    &nbsp;
+
+3. **Parser**: Command parsing logic to ensure that the user's input is valid and parsed correctly into command objects. 
+Parser prefix `ip/` is integrated into AddCommandParser and EditCommandParser.
+
+   &nbsp;
+
+4. **Constraints:**
+    * Must contain **at least one** letter or digit.
+    * Allowed characters: letters, digits, spaces, and these symbols: `+ / & ( ) ' . , -`
+    * Leading/trailing spaces are **trimmed** before validation.
+
+    <br>
+
+##### Command Implementation
+* ###### Add Client
+    * The user will execute `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS ip/INSURANCE_POLICY [t/TAG]…​`. `AddCommandParser.java` extracts `ip/…` and calls `ParserUtil.parseInsurancePolicy(...)`, which constructs `InsurancePolicy.java` or throws with MESSAGE_CONSTRAINTS.
+      `Person` is built with the validated and non-optional `InsurancePolicy` field and added to the clients list.
+
+The following high-level sequence diagram shows how an add operation goes through the Logic component for `add n/John Doe p/98765432 e/johnd@example.com\na/John street, block 123, #01-01 ip/AIB LifePlan`:
+<puml src="diagrams/AddSequenceDiagram - Logic.puml" alt="High-level Logic Sequence for `add n/John Doe p/98765432 e/johnd@example.com\na/John street, block 123, #01-01 ip/AIB LifePlan` Command"/>
+
+<br>
+
+This diagram below zooms into what happens inside AddCommandParser.parse(...) when building the Person with the InsurancePolicy:
+<puml src="diagrams/AddSequenceDiagram - Model.puml" alt="Parser detail: constructing InsurancePolicy and Person"/>
+
+--------------------------------------------------------------------------------------------------------------------
+* ##### Edit Client
+    * The user will execute `edit CLIENT_INDEX ip/INSURANCE_POLICY`. `EditCommandParser.java` treats `ip/…` as an optional edited field; if present, it validates and sets the new `InsurancePolicy.java`.
+      A new `Person` instance is created with the updated policy (immutability preserved), replacing the old one in `UniquePersonList.java`
+
+--------------------------------------------------------------------------------------------------------------------
 
 ### \[Proposed\] Undo/redo feature
 
@@ -659,37 +711,6 @@ _{Explain here how the data archiving feature will be implemented}_
 
 
 <br>
-
---------------------------------------------------------------------------------------------------------------------
-### Insurance Policy Feature
-
-#### Challenge
-* We introduced an **`InsurancePolicy`** field that must behave like other AB3-style value objects (trimmed, validated, immutable), while also:
-    - Integrating with **Add**/**Edit** client flows (parsing, error messages).
-    - Rendering consistently in the UI without breaking existing cards/layouts.
-
-#### Implementation Details
-
-`InsurancePolicy` is implemented as a value object:
-
-- **Class:** `InsurancePolicy.java`
-- **Internal field:**
-    * `String value` (trimmed in the constructor, guaranteed valid thereafter)
-
-- **Constraints:**
-    * Must contain **at least one** letter or digit.
-    * Allowed characters: letters, digits, spaces, and these symbols: `+ / & ( ) ' . , -`
-    * Leading/trailing spaces are **trimmed** before validation.
-
-##### Command Integration
-* ###### Add Client
-    * The user will execute `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS ip/INSURANCE_POLICY [t/TAG]…​`. `AddCommandParser.java` extracts `ip/…` and calls `ParserUtil.parseInsurancePolicy(...)`, which constructs `InsurancePolicy.java` or throws with MESSAGE_CONSTRAINTS.
-      `Person` is built with the validated and non-optional `InsurancePolicy` field and added to the clients list.
-
---------------------------------------------------------------------------------------------------------------------
-* ##### Edit Client
-    * The user will execute `edit CLIENT_INDEX ip/INSURANCE_POLICY`. `EditCommandParser.java` treats `ip/…` as an optional edited field; if present, it validates and sets the new `InsurancePolicy.java`.
-      A new `Person` instance is created with the updated policy (immutability preserved), replacing the old one in `UniquePersonList.java`
 
 --------------------------------------------------------------------------------------------------------------------
 ## **Documentation, logging, testing, configuration, dev-ops**
@@ -1592,7 +1613,7 @@ Example: add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #0
         * A failure message is displayed: `Policy name may only contain letters, digits, spaces, and + / & ( ) ' . , - and must include at least one letter or digit.`.
 
 <br>
-
+    
 --------------------------------------------------------------------------------------------------------------------
 
 ### Archiving a client
@@ -1978,3 +1999,9 @@ Currently, when the user is viewing `list`, it is hard to tell between active cl
 unless they go back to `activelist` or `archivelist`.
 We plan to add on to `list` GUI an active and archive tag next to the client's name,
 so that it is easier for the user to tell which clients are active or archived.
+`AddCommandParser` and `EditCommandParser` will also allow the parsing of multiple labelled phone numbers. 
+
+### 5. Allow names with foreign accents and of different languages
+Currently, we only allow English name inputs with ASCII characters as our target audience are insurance agents that have 
+Singaporean clients with English names. Since it is possible for an individual to have only non-English name and names
+with accents, such as 习近平 and Müller we plan to update `VALIDATION_REGEX` of  `NAME` to include such possibilities .
