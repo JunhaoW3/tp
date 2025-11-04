@@ -238,6 +238,17 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS ip/INSURANCE_POLICY [t/TAG]
 Examples:
 
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 ip/AIB Premium Plan`
+
+<box type="success">
+
+**Assumptions:**
+1. There isn't another client added with the same phone number or email as John Doe.
+
+**Expected Output Message:** New client added: John Doe; Phone: 98765432; Email: johnd@example.com;
+Address: John street, block 123, #01-01; Insurance Policy: AIB Premium Plan; Tags:
+
+</box>
+
 * `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Palace street, block 456, #03-03 p/1234567 t/classmate ip/AIB LifePlan`
 
 <br>
@@ -251,11 +262,22 @@ Deletes a specified client from FinHub.
 Format: `delete CLIENT_INDEX`
 
 * Deletes the client at the specified `CLIENT_INDEX`.
-* `CLIENT_INDEX` refers to the index number of the client shown in the displayed clients list.
+* `CLIENT_INDEX` refers to the index number of the client shown in the currently displayed clients list.
 
 Examples:
 
-* `activelist` followed by `delete 2` deletes the 2nd client in the displayed clients list.
+* `activelist` followed by `delete 2` deletes the 2nd client in the currently displayed clients list.
+
+<box type="success">
+
+**Assumptions:**
+1. Alex Yeoh is the second client in the currently displayed clients list.
+
+**Expected Output Message:** Deleted Client: Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com;
+Address: Blk 30 Geylang Street 29, #06-40; Insurance Policy: AIB HealthShield Gold Max; Tags: [friends]
+
+</box>
+
 * `find alex` followed by `delete 1` deletes the 1st client in the results of the `find` command.
 
 <br>
@@ -278,9 +300,20 @@ Format: `edit CLIENT_INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…�
 * You can remove all the client’s tags by typing `t/` without specifying any tags after it.
 
 Examples:
-* `edit 1 p/91234567 ip/Health policy` Changes the 1st client’s `PHONE` to `91234567`
-  and `INSURANCE_POLICY` to `Health policy` respectively.
-* `edit 2 n/Alex Tan t/` Changes the 2nd client’s name to `Alex Tan` and clears all their existing tags.
+* `activelist` followed by `edit 1 p/91234567 ip/Health policy` changes the 1st client’s `PHONE` to `91234567`
+  and `INSURANCE_POLICY` to `Health policy` respectively in the currently displayed client list.
+
+<box type="success">
+
+**Assumptions:**
+1. The first client of the currently displayed list is Bernice Yu.
+
+**Expected Output Message:** Edited Client: Bernice Yu; Phone: 91234567; Email: berniceyu@example.com;
+Address: Blk 30 Lorong 3 Serangoon Gardens, #07-18; Insurance Policy: Health policy; Tags: [colleagues][friends]
+
+</box>
+
+* `find alex yeoh` followed by `edit 1 n/Alex Tan t/` changes the name of the first client in the results of the `find` command to `Alex Tan` and clears all his existing tags.
 
 <br>
 
@@ -300,6 +333,16 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 Examples:
 
 * `find ale` returns `Alex Yeoh`.
+
+<box type="success">
+
+**Assumptions:**
+1. There are 2 clients whose name contains "ale".
+
+**Expected Output Message: 2 persons listed!
+
+</box>
+
 * `find Yu Ber` returns `Bernice Yu`.
 * `find Alex David` returns `Alex Yeoh`, `David Li`.<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
