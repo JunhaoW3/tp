@@ -16,7 +16,7 @@ tasks done faster than traditional GUI apps.
 each client. You also have the option to star or archive clients for better client organisation.
 </box>
 
-<box type="tip">
+<box type="tip" seamless>
 
 **Tips:** 
 <br>
@@ -55,7 +55,7 @@ Our target users are insurance agents who:
     * [2.1.1 Viewing Help : `help`](#2-1-1-viewing-help-help)
     * [2.1.2 Listing all Clients : `list`](#2-1-2-listing-all-clients-list)
     * [2.1.3 Listing all active Clients : `activelist`](#2-1-3-listing-active-clients-activelist)
-    * [2.1.4 Listing all archived Clients : `archivelist`](#2-1-4-listing-archive-clients-archivelist)
+    * [2.1.4 Listing all archived Clients : `archivelist`](#2-1-4-listing-archived-clients-archivelist)
     * [2.1.5 Clear all Entries : `clear`](#2-1-5-clearing-all-entries-clear)
     * [2.1.6 Exiting the Program : `exit`](#2-1-6-exiting-the-program-exit)
   * [2.2 Managing Clients](#2-2-managing-clients)
@@ -153,7 +153,9 @@ Our target users are insurance agents who:
 
 * Any indices i.e. `CLIENT_INDEX`, `REMINDER_INDEX` and `MEETING_NOTE_INDEX`
   **must be positive integers** 1, 2, 3, …​
-  
+
+* The `PHONE_NUMBER` and `EMAIL` of a client must be unique. Any duplicate entries during the add or edit client process will be rejected.
+
 </box>
 
 ### <font color=#588157>2.1 General Commands</font>
@@ -169,12 +171,16 @@ Format: `help`
 <br>
 
 --------------------------------------------------------------------------------------------------------------------
+<!-- @@author aloy-pek -->
 
 #### <font color=#5a9f68>2.1.2 Listing all clients : `list`</font>
 
-Displays a list of all clients in FinHub.
+Displays a complete list of all clients in the FinHub system, including both active and archived clients.
 
 Format: `list`
+
+Below is an image showing what you should expect to see after running the list command with sample data.
+![all list](images/list.png)
 
 <br>
 
@@ -182,9 +188,16 @@ Format: `list`
 
 #### <font color=#5a9f68>2.1.3 Listing active clients : `activelist`</font>
 
-Displays a list of all active clients in FinHub.
+Displays only the active clients currently in the FinHub system.
 
 Format: `activelist`
+
+<box type="info">
+
+The image below displays the list of active clients after Bernice and Charlotte were archived from the sample data.
+</box>
+
+![active list](images/activelist.png)
 
 <br>
 
@@ -192,11 +205,18 @@ Format: `activelist`
 
 --------------------------------------------------------------------------------------------------------------------
 
-#### <font color=#5a9f68>2.1.4 Listing archive clients : `archivelist`</font>
+#### <font color=#5a9f68>2.1.4 Listing archived clients : `archivelist`</font>
 
-Displays a list of all archived clients in FinHub.
+Displays all clients who have been archived in the FinHub system, meaning they are no longer active.
 
 Format: `archivelist`
+
+<box type="info">
+
+The clients shown in the image below are those you have archived. This example shows Bernice and Charlotte from the sample data.
+</box>
+
+![archived list](images/archivedlist.png)
 
 <br>
 
@@ -204,11 +224,25 @@ Format: `archivelist`
 
 #### <font color=#5a9f68>2.1.5 Clearing all entries : `clear`</font>
 
-Clears all entries in FinHub.
+Clears all entries in FinHub, including client data, records, and any stored information.
 
 Format: `clear`
 
+<box type="warning" class="warning-box">
+
+**Warning:**
+This action will **permanently erase all data** in FinHub and cannot be undone. Make sure to back up any important information before proceeding.
+</box>
+
+<box type="success">
+
+**Expected Output Message:**
+FinHub has been cleared!
+</box>
+
 <br>
+
+<!-- @@author -->
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -352,7 +386,7 @@ Examples:
 <div style="page-break-after: always;"></div>
 
 --------------------------------------------------------------------------------------------------------------------
-
+<!-- @@author aloy-pek -->
 #### <font color=#5a9f68>2.2.5 Starring a client : `star`</font>
 
 Stars the specified client in FinHub. Starred clients will have a star displayed next to their name, and will be bumped
@@ -361,13 +395,13 @@ to the top of the displayed clients lists along with other starred clients.
 Format: `star CLIENT_INDEX`
 
 * Stars the client at the specified `CLIENT_INDEX`.
-* `CLIENT_INDEX` refers to the index number of the client shown in the displayed clients list.
-* Only one client can be starred at a time.
+* `CLIENT_INDEX` refers to the index number of the client shown in the currently displayed clients list.
+* You can only star one client at a time.
 
 Examples:
 
-* `list` followed by `star 1` stars the 1st client in the displayed clients list
-* `list` followed by `star 2` stars the 2nd client in the displayed clients list
+* `activelist` followed by `star 1` stars the 1st client in the currently displayed clients list.
+* `activelist` followed by `star 2` stars the 2nd client in the currently displayed clients list.
 * `find Alex` followed by `star 1` stars the 1st client in the results of the `find` command.
 
 <box type="tip" seamless>
@@ -386,18 +420,31 @@ Removes the starred status of a specified client in FinHub.
 Format: `unstar CLIENT_INDEX`
 
 * Removes the starred status of the client at the specified `CLIENT_INDEX`.
-* `CLIENT_INDEX` refers to the index number of the client shown in the displayed clients list.
+* `CLIENT_INDEX` refers to the index number of the client shown in the currently displayed clients list.
 * You can only remove the star status from one client at a time.
 
 Examples:
 
-* `list` followed by `unstar 1` removes star status from the 1st client in the displayed clients list
-* `list` followed by `unstar 2` removes star status from the 2nd client in the displayed clients list
+* `activelist` followed by `unstar 1` removes star status from the 1st client in the currently displayed clients list.
+* `activelist` followed by `unstar 2` removes star status from the 2nd client in the currently displayed clients list.
 * `find Alex` followed by `unstar 1` removes star status from the 1st client in the results of the `find` command.
+
+<box type="success">
+
+**Assumption:**
+1. Alex Yeoh is the 1st client in the currently displayed clients list.
+2. Alex Yeoh is starred.
+
+<br>
+
+**Expected Output Message:**
+Starred status removed from Client: Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com; Address: Blk 30 Geylang Street 29, #06-40; Insurance Policy: AIB HealthShield Gold Max; Tags: [friends]
+</box>
 
 <br>
 
 --------------------------------------------------------------------------------------------------------------------
+<!-- @@author-->
 
 #### <font color=#5a9f68>2.2.7 Archiving a client : `archive`</font>
 
@@ -731,31 +778,32 @@ Restore a backup of that file or delete it to regenerate sample data. Try to avo
 <br>
 
 --------------------------------------------------------------------------------------------------------------------
+<!-- @@author aloy-pek -->
 
 ## <font color=##3a5a40>6. Command Summary</font>
 
-| Action                                                        | Format, Examples                                                                                                                                                                              |
-|---------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [**Help**](#2-1-1-viewing-help-help)                          | `help`                                                                                                                                                                                        |
-| [**List**](#2-1-2-listing-all-clients-list)                   | `list`                                                                                                                                                                                        |
-| [**activelist**](#2-1-3-listing-active-clients-activelist)    | `activelist`                                                                                                                                                                                  |
-| [**archivelist**](#2-1-4-listing-archive-clients-archivelist) | `archivelist`                                                                                                                                                                                 |
-| [**Clear**](#2-1-5-clearing-all-entries-clear)                | `clear`                                                                                                                                                                                       |
-| [**Add**](#2-2-1-adding-a-client-add)                         | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS ip/INSURANCE_POLICY [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`  |
-| [**Delete**](#2-2-2-deleting-a-client-delete)                 | `delete CLIENT_INDEX`<br> e.g., `delete 3`                                                                                                                                                    |
-| [**Edit**](#2-2-3-editing-a-client-edit)                      | `edit CLIENT_INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [ip/INSURANCE_POLICY] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                   |g
-| [**Find**](#2-2-4-locating-clients-by-name-find)              | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                                                    |
-| [**Star**](#2-2-5-starring-a-client-star)                     | `star CLIENT_INDEX`<br> e.g., `star 1`                                                                                                                                                        |
-| [**Unstar**](#2-2-6-removing-star-status-of-a-client-unstar)  | `unstar CLIENT_INDEX`<br> e.g., `unstar 1`                                                                                                                                                    |
-| [**Archive**](#2-2-7-archiving-a-client-archive)              | `archive CLIENT_INDEX`<br> e.g., `archive 1`                                                                                                                                                  |
-| [**Unarchive**](#2-2-8-unarchiving-a-client-unarchive)        | `unarchive CLIENT_INDEX`<br> e.g., `unarchive 1`                                                                                                                                              |
-| [**Reminder**](#2-3-1-adding-a-reminder-reminder)             | `reminder CLIENT_INDEX h/HEADER d/DEADLINE`<br> e.g., `reminder 1 h/Meeting on Friday d/2026-04-24 16:00`                                                                                     |  
-| [**rDelete**](#2-3-2-deleting-a-reminder-rdelete)             | `rDelete CLIENT_INDEX REMINDER_INDEX`<br> e.g., `rDelete 2 1`                                                                                                                                 |
-| [**rEdit**](#2-3-3-editing-a-reminder-redit)                  | `rEdit CLIENT_INDEX REMINDER_INDEX h/HEADER d/DEADLINE`<br> e.g., `rEdit 1 1 h/Meeting on Friday d/2026-04-24 16:00`                                                                          |
-| [**Note**](#2-4-1-adding-a-meeting-note-note)                 | `note CLIENT_INDEX TEXT`<br> e.g., `note 1 Client wants to know about policy abc`                                                                                                             |
-| [**nDelete**](#2-4-2-deleting-a-meeting-note-ndelete)         | `nDelete CLIENT_INDEX MEETING_NOTE_INDEX`<br> e.g., `nDelete 1 1`                                                                                                                             |
+| Action                                                         | Format, Examples                                                                                                                                                                          |
+|----------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [**Help**](#2-1-1-viewing-help-help)                           | `help`                                                                                                                                                                                    |
+| [**List**](#2-1-2-listing-all-clients-list)                    | `list`                                                                                                                                                                                    |
+| [**activelist**](#2-1-3-listing-active-clients-activelist)     | `activelist`                                                                                                                                                                              |
+| [**archivelist**](#2-1-4-listing-archived-clients-archivelist) | `archivelist`                                                                                                                                                                             |
+| [**Clear**](#2-1-5-clearing-all-entries-clear)                 | `clear`                                                                                                                                                                                   |
+| [**Add**](#2-2-1-adding-a-client-add)                          | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS ip/INSURANCE_POLICY [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` |
+| [**Delete**](#2-2-2-deleting-a-client-delete)                  | `delete CLIENT_INDEX`<br> e.g., `delete 3`                                                                                                                                                |
+| [**Edit**](#2-2-3-editing-a-client-edit)                       | `edit CLIENT_INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [ip/INSURANCE_POLICY] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                  |g
+| [**Find**](#2-2-4-locating-clients-by-name-find)               | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                                                |
+| [**Star**](#2-2-5-starring-a-client-star)                      | `star CLIENT_INDEX`<br> e.g., `star 1`                                                                                                                                                    |
+| [**Unstar**](#2-2-6-removing-star-status-of-a-client-unstar)   | `unstar CLIENT_INDEX`<br> e.g., `unstar 1`                                                                                                                                                |
+| [**Archive**](#2-2-7-archiving-a-client-archive)               | `archive CLIENT_INDEX`<br> e.g., `archive 1`                                                                                                                                              |
+| [**Unarchive**](#2-2-8-unarchiving-a-client-unarchive)         | `unarchive CLIENT_INDEX`<br> e.g., `unarchive 1`                                                                                                                                          |
+| [**Reminder**](#2-3-1-adding-a-reminder-reminder)              | `reminder CLIENT_INDEX h/HEADER d/DEADLINE`<br> e.g., `reminder 1 h/Meeting on Friday d/2026-04-24 16:00`                                                                                 |  
+| [**rDelete**](#2-3-2-deleting-a-reminder-rdelete)              | `rDelete CLIENT_INDEX REMINDER_INDEX`<br> e.g., `rDelete 2 1`                                                                                                                             |
+| [**rEdit**](#2-3-3-editing-a-reminder-redit)                   | `rEdit CLIENT_INDEX REMINDER_INDEX h/HEADER d/DEADLINE`<br> e.g., `rEdit 1 1 h/Meeting on Friday d/2026-04-24 16:00`                                                                      |
+| [**Note**](#2-4-1-adding-a-meeting-note-note)                  | `note CLIENT_INDEX TEXT`<br> e.g., `note 1 Client wants to know about policy abc`                                                                                                         |
+| [**nDelete**](#2-4-2-deleting-a-meeting-note-ndelete)          | `nDelete CLIENT_INDEX MEETING_NOTE_INDEX`<br> e.g., `nDelete 1 1`                                                                                                                         |
 
-
+<!-- @@author -->
 ## <font color=##3a5a40>7. Glossary</font>
 
 | Term / Command                               | Meaning                                                                                                                               |
