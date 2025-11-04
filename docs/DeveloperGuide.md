@@ -439,10 +439,12 @@ Parser prefix `ip/` is integrated into AddCommandParser and EditCommandParser.
     * The user will execute `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS ip/INSURANCE_POLICY [t/TAG]…​`. `AddCommandParser.java` extracts `ip/…` and calls `ParserUtil.parseInsurancePolicy(...)`, which constructs `InsurancePolicy.java` or throws with MESSAGE_CONSTRAINTS.
       `Person` is built with the validated and non-optional `InsurancePolicy` field and added to the clients list.
 
-The following are sequence diagrams for the execution of `add n/John Doe p/98765432 e/johnd@example.com\na/John street, block 123, #01-01 ip/AIB LifePlan`,
-
-
+The following high-level sequence diagram shows how an add operation goes through the Logic component for `add n/John Doe p/98765432 e/johnd@example.com\na/John street, block 123, #01-01 ip/AIB LifePlan`:
 <puml src="diagrams/AddSequenceDiagram - Logic.puml" alt="High-level Logic Sequence for `add n/John Doe p/98765432 e/johnd@example.com\na/John street, block 123, #01-01 ip/AIB LifePlan` Command"/>
+
+<br>
+
+This diagram below zooms into what happens inside AddCommandParser.parse(...) when building the Person with the InsurancePolicy:
 <puml src="diagrams/AddSequenceDiagram - Model.puml" alt="Parser detail: constructing InsurancePolicy and Person"/>
 
 --------------------------------------------------------------------------------------------------------------------

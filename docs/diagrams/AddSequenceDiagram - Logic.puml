@@ -52,7 +52,7 @@ activate Model
 Model --> AddCommand
 deactivate Model
 
-AddCommand --> LogicManager : new CommandResult("New person added: John Doe")
+AddCommand --> LogicManager : new CommandResult("New client added: John Doe ...\n Insurance Policy: AIB LifePlan; Tags:")
 deactivate AddCommand
 
 [<-- LogicManager
