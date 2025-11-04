@@ -1118,13 +1118,13 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Glossary
 
-* **Archive**: Clients who are archived are inactive, but not deleted
-* **Client**: Customer who has signed or may sign an insurance policy with the user
-* **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Meeting note**: Linked to a specific client, a meeting note consists of a note and a timestamp
-* **Private contact detail**: A contact detail that is not meant to be shared with others
-* **Reminder**: Linked to a specific client, a reminder consists of a headline and due date
-* **User**: Insurance agent using FinHub
+* **Archive**: Clients who are archived are inactive, but not deleted.
+* **Client**: Customer who has signed or may sign an insurance policy with the user.
+* **Mainstream OS**: Windows, Linux, Unix, MacOS.
+* **Meeting note**: Linked to a specific client, a meeting note consists of a note and a timestamp.
+* **Private contact detail**: A contact detail that is not meant to be shared with others.
+* **Reminder**: Linked to a specific client, a reminder consists of a headline and due date.
+* **User**: Insurance agent using FinHub.
 
 <br>
 
