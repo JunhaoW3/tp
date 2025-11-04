@@ -1,0 +1,25 @@
+@startuml
+skin rose
+skinparam ActivityFontSize 15
+skinparam ArrowFontSize 12
+start
+:User enters "archive CLIENT_INDEX";
+:parse user input;
+
+if () then ([Index out of bounds])
+    :Displays error message;
+else ([else])
+    :Retrieve client at CLIENT_INDEX;
+    if () then ([client already archived])
+        :Displays error message;
+    else ([no])
+        :Create new client with isArchived = true;
+        :Replace old client with new archived client;
+        :Refresh client list;
+        :Save AddressBook to
+        addressBookStateList;
+        :Displays success message;
+    endif
+endif
+stop
+@enduml
