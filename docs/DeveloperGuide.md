@@ -195,6 +195,7 @@ The `add`, `delete` and `edit` reminders commands are then designed as separate 
 <br>
 
 The following is a sequence diagram for the execution of `reminder 2 h/Meeting on Friday d/2026-04-24 16:00`:
+
 (Due to the diagram's detailed nature, it may appear small. If it's unclear, zooming in will provide better clarity of the individual components and interactions.)
 
 <puml src="diagrams/add-reminder/AddReminderSequenceDiagram.puml" alt="Interactions Inside the Logic Component for the `reminder 2 h/Meeting on Friday d/2026-04-24 16:00` Command"/>
@@ -306,6 +307,7 @@ The following is an activity diagram for the execution of `note CLIENT_INDEX TEX
 <br>
 
 The following is a sequence diagram for the execution of `nDelete 1 1`:
+
 (Due to the diagram's detailed nature, it may appear small. If it's unclear, zooming in will provide better clarity of the individual components and interactions.)
 
 <puml src="diagrams/DeleteMeetingNoteSequenceDiagram.puml" alt="Interactions Inside the Logic Component for the `nDelete 1 1` Command"></puml>
