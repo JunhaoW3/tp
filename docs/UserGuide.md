@@ -255,7 +255,7 @@ Format: `delete CLIENT_INDEX`
 
 Examples:
 
-* `list` followed by `delete 2` deletes the 2nd client in the displayed clients list.
+* `activelist` followed by `delete 2` deletes the 2nd client in the displayed clients list.
 * `find alex` followed by `delete 1` deletes the 1st client in the results of the `find` command.
 
 <br>
@@ -419,7 +419,7 @@ Format: `reminder CLIENT_INDEX h/HEADER d/DEADLINE`
 
 Examples:
 
-* `list` followed by `reminder 2 h/Meeting on Friday d/2026-04-24 16:00` adds the reminder "Meeting on Friday, due by
+* `activelist` followed by `reminder 2 h/Meeting on Friday d/2026-04-24 16:00` adds the reminder "Meeting on Friday, due by
 2026-04-24 16:00" to the 2nd client in the displayed clients list.
 
 <box type="success">
@@ -459,7 +459,7 @@ Format: `rDelete CLIENT_INDEX REMINDER_INDEX`
 
 Examples:
 
-* `list` followed by `rDelete 2 1` deletes the 1st reminder in the displayed reminders list of the 2nd client in the displayed clients list.
+* `activelist` followed by `rDelete 2 1` deletes the 1st reminder in the displayed reminders list of the 2nd client in the displayed clients list.
 
 <box type="success">
 
@@ -539,7 +539,7 @@ Format: `note CLIENT_INDEX TEXT`
 
 Examples:
 
-* `list` followed by `note 2 Client wants to renew policy` adds the meeting note "Client wants to renew policy" to the
+* `activelist` followed by `note 2 Client wants to renew policy` adds the meeting note "Client wants to renew policy" to the
   2nd client in the displayed clients list.
 
 <box type="success">
@@ -577,7 +577,7 @@ displayed meeting notes list.
 
 Examples:
 
-* `list` followed by `nDelete 2 1` deletes the 1st meeting note in the displayed meeting notes list of the 2nd client in the displayed clients list.
+* `activelist` followed by `nDelete 2 1` deletes the 1st meeting note in the displayed meeting notes list of the 2nd client in the displayed clients list.
 
 <box type="success">
 
