@@ -46,7 +46,7 @@ Our target users are insurance agents who:
 <br>
 
 --------------------------------------------------------------------------------------------------------------------
-
+<!-- @@author oyanzhi -->
 <!-- * Table of Contents -->
 ## <font color=#3a5a40>Table of Contents</font>
 * [1. Quick Start](#1-quick-start)
@@ -84,7 +84,7 @@ Our target users are insurance agents who:
 * [7. Glossary](#7-glossary)
 
 <br>
-
+<!-- @@author -->
 --------------------------------------------------------------------------------------------------------------------
 
 ## <font color=#3a5a40>1. Quick Start</font>
@@ -238,6 +238,17 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS ip/INSURANCE_POLICY [t/TAG]
 Examples:
 
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 ip/AIB Premium Plan`
+
+<box type="success">
+
+**Assumptions:**
+1. There isn't another client added with the same phone number or email as John Doe.
+
+**Expected Output Message:** New client added: John Doe; Phone: 98765432; Email: johnd@example.com;
+Address: John street, block 123, #01-01; Insurance Policy: AIB Premium Plan; Tags:
+
+</box>
+
 * `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Palace street, block 456, #03-03 p/1234567 t/classmate ip/AIB LifePlan`
 
 <br>
@@ -251,11 +262,22 @@ Deletes a specified client from FinHub.
 Format: `delete CLIENT_INDEX`
 
 * Deletes the client at the specified `CLIENT_INDEX`.
-* `CLIENT_INDEX` refers to the index number of the client shown in the displayed clients list.
+* `CLIENT_INDEX` refers to the index number of the client shown in the currently displayed clients list.
 
 Examples:
 
-* `list` followed by `delete 2` deletes the 2nd client in the displayed clients list.
+* `activelist` followed by `delete 2` deletes the 2nd client in the currently displayed clients list.
+
+<box type="success">
+
+**Assumptions:**
+1. Alex Yeoh is the second client in the currently displayed clients list.
+
+**Expected Output Message:** Deleted Client: Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com;
+Address: Blk 30 Geylang Street 29, #06-40; Insurance Policy: AIB HealthShield Gold Max; Tags: [friends]
+
+</box>
+
 * `find alex` followed by `delete 1` deletes the 1st client in the results of the `find` command.
 
 <br>
@@ -278,9 +300,20 @@ Format: `edit CLIENT_INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…�
 * You can remove all the client’s tags by typing `t/` without specifying any tags after it.
 
 Examples:
-* `edit 1 p/91234567 ip/Health policy` Changes the 1st client’s `PHONE` to `91234567`
-  and `INSURANCE_POLICY` to `Health policy` respectively.
-* `edit 2 n/Alex Tan t/` Changes the 2nd client’s name to `Alex Tan` and clears all their existing tags.
+* `activelist` followed by `edit 1 p/91234567 ip/Health policy` changes the 1st client’s `PHONE` to `91234567`
+  and `INSURANCE_POLICY` to `Health policy` respectively in the currently displayed client list.
+
+<box type="success">
+
+**Assumptions:**
+1. The first client of the currently displayed list is Bernice Yu.
+
+**Expected Output Message:** Edited Client: Bernice Yu; Phone: 91234567; Email: berniceyu@example.com;
+Address: Blk 30 Lorong 3 Serangoon Gardens, #07-18; Insurance Policy: Health policy; Tags: [colleagues][friends]
+
+</box>
+
+* `find alex yeoh` followed by `edit 1 n/Alex Tan t/` changes the name of the first client in the results of the `find` command to `Alex Tan` and clears all his existing tags.
 
 <br>
 
@@ -300,6 +333,16 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 Examples:
 
 * `find ale` returns `Alex Yeoh`.
+
+<box type="success">
+
+**Assumptions:**
+1. There are 2 clients whose name contains "ale".
+
+**Expected Output Message: 2 persons listed!
+
+</box>
+
 * `find Yu Ber` returns `Bernice Yu`.
 * `find Alex David` returns `Alex Yeoh`, `David Li`.<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
@@ -400,7 +443,7 @@ Examples:
 <br>
 
 --------------------------------------------------------------------------------------------------------------------
-
+<!-- @@author oyanzhi -->
 ### <font color=#588157>2.3 Reminders</font>
 
 #### <font color=#5a9f68>2.3.1 Adding a reminder : `reminder`</font>
@@ -412,19 +455,19 @@ Format: `reminder CLIENT_INDEX h/HEADER d/DEADLINE`
 * Adds a reminder to the client at the specified `CLIENT_INDEX`.
 * A reminder consists of a `HEADER` which describes the task or event, and a `DEADLINE` which indicates when it's due.
 * `DEADLINE` should be in the format: `yyyy-MM-dd HH:mm`
-* `CLIENT_INDEX` refers to the index number of the client shown in the displayed clients list.
+* `CLIENT_INDEX` refers to the index number of the client shown in the currently displayed clients list.
 * Both `HEADER` and `DEADLINE` must be provided.
 * You can only add one reminder at a time.
 * You can add more than one reminder to each client.
 
 Examples:
 
-* `list` followed by `reminder 2 h/Meeting on Friday d/2026-04-24 16:00` adds the reminder "Meeting on Friday, due by
-2026-04-24 16:00" to the 2nd client in the displayed clients list.
+* `activelist` followed by `reminder 2 h/Meeting on Friday d/2026-04-24 16:00` adds the reminder "Meeting on Friday, due by
+2026-04-24 16:00" to the 2nd client in the currently displayed clients list.
 
 <box type="success">
 
-**Assumption:** Bernice Yu is the 2nd client in the displayed clients list.
+**Assumption:** Bernice Yu is the 2nd client in the currently displayed clients list.
 <br>
 **Expected Output Message:** Reminder added to Bernice Yu: Meeting on Friday, due by 2026-04-24 16:00
 
@@ -452,26 +495,26 @@ Deletes a reminder from a specified client in FinHub.
 Format: `rDelete CLIENT_INDEX REMINDER_INDEX`
 
 * Deletes the reminder at the specified `REMINDER_INDEX` of the specified client at `CLIENT_INDEX`.
-* `CLIENT_INDEX` refers to the index number of the client shown in the displayed clients list.
-* `REMINDER_INDEX` refers to the index number of the reminder shown in the specified client's displayed reminders list.
+* `CLIENT_INDEX` refers to the index number of the client shown in the currently displayed clients list.
+* `REMINDER_INDEX` refers to the index number of the reminder shown in the specified client's currently displayed reminders list.
 * Both `CLIENT_INDEX` and `REMINDER_INDEX` must be provided.
 * You can only delete one reminder at a time.
 
 Examples:
 
-* `list` followed by `rDelete 2 1` deletes the 1st reminder in the displayed reminders list of the 2nd client in the displayed clients list.
+* `activelist` followed by `rDelete 2 1` deletes the 1st reminder in the currently displayed reminders list of the 2nd client in the currently displayed clients list.
 
 <box type="success">
 
 **Assumptions:**
-1. Bernice Yu is the 2nd client in the displayed clients list.
+1. Bernice Yu is the 2nd client in the currently displayed clients list.
 2. Meeting on Friday, due by 2026-04-24 16:00 is the first reminder in her list.
 
 **Expected Output Message:** Deleted Client Bernice Yu's Reminder 1: Meeting on Friday, due by 2026-04-24 16:00
 
 </box>
 
-* `find alex` followed by `rDelete 1 1` deletes the 1st reminder in the displayed reminders list of the 1st client in the results of the `find`
+* `find alex` followed by `rDelete 1 1` deletes the 1st reminder in the currently displayed reminders list of the 1st client in the results of the `find`
   command.
 
 <box type="tip">
@@ -492,19 +535,19 @@ Format: `rEdit CLIENT_INDEX REMINDER_INDEX h/HEADER d/DEADLINE`
 * Edits the reminder at the specified `REMINDER_INDEX` of the specified client at `CLIENT_INDEX`.
 * `h/HEADER` refers to the header of the edited reminder.
 * `d/DEADLINE` refers to the deadline of the edited reminder.
-* `CLIENT_INDEX` refers to the index number of the client shown in the displayed clients list.
-* `REMINDER_INDEX` refers to the index number of the reminder shown in the specified client's displayed reminders list.
+* `CLIENT_INDEX` refers to the index number of the client shown in the currently displayed clients list.
+* `REMINDER_INDEX` refers to the index number of the reminder shown in the specified client's currently displayed reminders list.
 * Both `CLIENT_INDEX` and `REMINDER_INDEX` must be provided.
 * You can only replace one reminder with a new reminder at a time.
 
 Examples:
-* `list` followed by `rEdit 2 1 h/Meeting on Friday d/2026-04-24 16:00` edits the 1st reminder in the displayed 
-reminders list of the 2nd client in the displayed clients list to "Meeting on Friday, due by 2026-04-24 16:00".
+* `activelist` followed by `rEdit 2 1 h/Meeting on Friday d/2026-04-24 16:00` edits the 1st reminder in the currently displayed 
+reminders list of the 2nd client in the currently displayed clients list to "Meeting on Friday, due by 2026-04-24 16:00".
 
 <box type="success">
 
 **Assumptions:**
-1. Bernice Yu is the 2nd client in the displayed clients list.
+1. Bernice Yu is the 2nd client in the currently displayed clients list.
 2. Call to confirm appointment, due by 2027-11-03 14:00 is the first reminder in her list.
 
 **Expected Output Message:** Edited Client Bernice Yu's Reminder 1: from Call to confirm appointment, due by 
@@ -512,11 +555,11 @@ reminders list of the 2nd client in the displayed clients list to "Meeting on Fr
 
 </box>
 
-* `find alex` followed by `rEdit 1 1 h/Meeting on Friday d/2026-04-24 16:00` edits the 1st reminder in the displayed
+* `find alex` followed by `rEdit 1 1 h/Meeting on Friday d/2026-04-24 16:00` edits the 1st reminder in the currently displayed
 reminders list of the 1st client in the results of the `find` command to "Meeting on Friday, due by 2026-04-24 16:00".
 
 <br>
-
+<!-- @@author -->
 <div style="page-break-after: always;"></div>
 
 --------------------------------------------------------------------------------------------------------------------
