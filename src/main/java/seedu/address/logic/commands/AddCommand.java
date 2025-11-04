@@ -39,7 +39,8 @@ public class AddCommand extends Command {
             + PREFIX_TAG + "owesMoney";
 
     public static final String MESSAGE_SUCCESS = "New client added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This client already exists in FinHub";
+    public static final String MESSAGE_DUPLICATE_PERSON = "This client's phone number or "
+            + "email already exists in FinHub";
 
     private final Person toAdd;
 
