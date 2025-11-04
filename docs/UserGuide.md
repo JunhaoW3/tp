@@ -10,7 +10,7 @@ FinHub is a **desktop app for insurance agents to manage clients. It helps them 
 still having the benefits of a Graphical User Interface (GUI). If you can type fast, FinHub can get your client management
 tasks done faster than traditional GUI apps.
 
-<box type="tip">
+<box type="tip" seamless>
 
 **Tip:** In addition to managing standard contact fields, FinHub also allows you to add reminders and meeting notes to
 each client. You also have the option to star or archive clients for better client organisation.
@@ -222,7 +222,7 @@ Adds a client to FinHub.
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS ip/INSURANCE_POLICY [t/TAG]…​`
 
-<box type="tip">
+<box type="tip" seamless>
 
 **Tip:** A client can have any number of tags (including 0)
 </box>
@@ -416,7 +416,7 @@ Examples:
 * `find alex` followed by `reminder 1 h/Meeting on Saturday d/2026-06-24 18:00` adds the reminder "Meeting on Saturday,
 * due by 2026-06-24 18:00" to the 1st client in the results of the `find` command.
 
-<box type="tip">
+<box type="tip" seamless>
 
 **Tip:** You can use reminders to stay on top of important client events, renewals, or follow-ups — never miss a key
 date again!
@@ -446,7 +446,7 @@ Examples:
 * `find alex` followed by `rDelete 1 1` deletes the 1st reminder in the displayed reminders list of the 1st client in the results of the `find`
   command.
 
-<box type="tip">
+<box type="tip" seamless>
 
 **Tip:** Regularly delete overdue reminders to maintain a clean and organised workspace!
 </box>
