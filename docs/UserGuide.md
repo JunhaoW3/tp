@@ -18,9 +18,16 @@ each client. You also have the option to star or archive clients for better clie
 
 <box type="tip">
 
-**Tip:** Want to skip straight to the available commands?
+**Tips:** 
 <br>
-[Click Here for the Command Summary!](#command-summary)
+Want to skip straight to the available commands?
+<br>
+[Click Here for the Command Summary!](#6-command-summary)
+
+or need some definitions?
+<br>
+[Click Here for the Glossary!](#7-glossary)
+
 </box>
 
 --------------------------------------------------------------------------------------------------------------------
@@ -60,7 +67,7 @@ Our target users are insurance agents who:
     * [2.2.6 Removing Star of a Client : `unstar`](#2-2-6-removing-star-status-of-a-client-unstar)
     * [2.2.7 Archiving a Client : `archive`](#2-2-7-archiving-a-client-archive)
     * [2.2.8 Unarchiving a Client : `unarchive`](#2-2-8-unarchiving-a-client-unarchive)
-  * [2.3 Reminders](#2-2-3-reminders)
+  * [2.3 Reminders](#2-3-reminders)
     * [2.3.1 Adding a Reminder : `reminder`](#2-3-1-adding-a-reminder-reminder)
     * [2.3.2 Deleting a Reminder : `rDelete`](#2-3-2-deleting-a-reminder-rdelete)
     * [2.3.3 Editing a Reminder : `rEdit`](#2-3-3-editing-a-reminder-redit)
@@ -74,6 +81,7 @@ Our target users are insurance agents who:
 * [4. FAQ](#4-faq)
 * [5. Known Issues](#5-known-issues)
 * [6. Command Summary](#6-command-summary)
+* [7. Glossary](#7-glossary)
 
 <br>
 
@@ -120,7 +128,7 @@ Our target users are insurance agents who:
 
 ## <font color=#3a5a40>2. Features</font>
 
-<box type="info>
+<box type="info">
 
 **General remarks about the command formats:**<br>
 
@@ -142,11 +150,11 @@ Our target users are insurance agents who:
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines
   as space characters surrounding line-breaks may be omitted when copied over to the application.
-  </box>
 
 * Any indices i.e. `CLIENT_INDEX`, `REMINDER_INDEX` and `MEETING_NOTE_INDEX`
   **must be positive integers** 1, 2, 3, …​
-
+  
+</box>
 
 ### <font color=#588157>2.1 General Commands</font>
 
@@ -293,7 +301,7 @@ Examples:
 
 * `find ale` returns `Alex Yeoh`.
 * `find Yu Ber` returns `Bernice Yu`.
-* `find Alex David` returns `Alex Yeoh`, `David Li`. g<br>
+* `find Alex David` returns `Alex Yeoh`, `David Li`.<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
 <br>
@@ -406,15 +414,24 @@ Format: `reminder CLIENT_INDEX h/HEADER d/DEADLINE`
 * `DEADLINE` should be in the format: `yyyy-MM-dd HH:mm`
 * `CLIENT_INDEX` refers to the index number of the client shown in the displayed clients list.
 * Both `HEADER` and `DEADLINE` must be provided.
-* Only one reminder can be added at a time.
-* More than one reminder can be added to each client.
+* You can only add one reminder at a time.
+* You can add more than one reminder to each client.
 
 Examples:
 
 * `list` followed by `reminder 2 h/Meeting on Friday d/2026-04-24 16:00` adds the reminder "Meeting on Friday, due by
 2026-04-24 16:00" to the 2nd client in the displayed clients list.
+
+<box type="success">
+
+**Assumption:** Bernice Yu is the 2nd client in the displayed clients list.
+<br>
+**Expected Output Message:** Reminder added to Bernice Yu: Meeting on Friday, due by 2026-04-24 16:00
+
+</box>
+
 * `find alex` followed by `reminder 1 h/Meeting on Saturday d/2026-06-24 18:00` adds the reminder "Meeting on Saturday,
-* due by 2026-06-24 18:00" to the 1st client in the results of the `find` command.
+due by 2026-06-24 18:00" to the 1st client in the results of the `find` command.
 
 <box type="tip">
 
@@ -438,11 +455,22 @@ Format: `rDelete CLIENT_INDEX REMINDER_INDEX`
 * `CLIENT_INDEX` refers to the index number of the client shown in the displayed clients list.
 * `REMINDER_INDEX` refers to the index number of the reminder shown in the specified client's displayed reminders list.
 * Both `CLIENT_INDEX` and `REMINDER_INDEX` must be provided.
-* Only one reminder can be deleted at a time.
+* You can only delete one reminder at a time.
 
 Examples:
 
 * `list` followed by `rDelete 2 1` deletes the 1st reminder in the displayed reminders list of the 2nd client in the displayed clients list.
+
+<box type="success">
+
+**Assumptions:**
+1. Bernice Yu is the 2nd client in the displayed clients list.
+2. Meeting on Friday, due by 2026-04-24 16:00 is the first reminder in her list.
+
+**Expected Output Message:** Deleted Client Bernice Yu's Reminder 1: Meeting on Friday, due by 2026-04-24 16:00
+
+</box>
+
 * `find alex` followed by `rDelete 1 1` deletes the 1st reminder in the displayed reminders list of the 1st client in the results of the `find`
   command.
 
@@ -467,13 +495,25 @@ Format: `rEdit CLIENT_INDEX REMINDER_INDEX h/HEADER d/DEADLINE`
 * `CLIENT_INDEX` refers to the index number of the client shown in the displayed clients list.
 * `REMINDER_INDEX` refers to the index number of the reminder shown in the specified client's displayed reminders list.
 * Both `CLIENT_INDEX` and `REMINDER_INDEX` must be provided.
-* Only one reminder will be replaced by the new reminder at a time.
+* You can only replace one reminder with a new reminder at a time.
 
 Examples:
-* `list` followed by `rEdit 2 1 h/Meeting on Friday d/2026-04-24 16:00` edits the 1st reminder in the displayed reminders list of the 2nd client in
-  the displayed clients list to "Meeting on Friday, due by 2026-04-24 16:00".
-* `find alex` followed by `rEdit 1 1 h/Meeting on Friday d/2026-04-24 16:00` edits the 1st reminder in the displayed reminders list of the 1st client
-  in the results of the `find` command to "Meeting on Friday, due by 2026-04-24 16:00".
+* `list` followed by `rEdit 2 1 h/Meeting on Friday d/2026-04-24 16:00` edits the 1st reminder in the displayed 
+reminders list of the 2nd client in the displayed clients list to "Meeting on Friday, due by 2026-04-24 16:00".
+
+<box type="success">
+
+**Assumptions:**
+1. Bernice Yu is the 2nd client in the displayed clients list.
+2. Call to confirm appointment, due by 2027-11-03 14:00 is the first reminder in her list.
+
+**Expected Output Message:** Edited Client Bernice Yu's Reminder 1: from Call to confirm appointment, due by 
+2027-11-03 14:00 to Meeting on Friday, due by 2026-04-24 16:00
+
+</box>
+
+* `find alex` followed by `rEdit 1 1 h/Meeting on Friday d/2026-04-24 16:00` edits the 1st reminder in the displayed
+reminders list of the 1st client in the results of the `find` command to "Meeting on Friday, due by 2026-04-24 16:00".
 
 <br>
 
@@ -494,13 +534,22 @@ Format: `note CLIENT_INDEX TEXT`
 * `CLIENT_INDEX` refers to the index number of the client shown in the displayed clients list.
 * `TEXT` refers to the content of the meeting note that you want to add to the specified client.
 * `TEXT` cannot be empty.
-* Only one meeting note can be added at a time.
-* More than one meeting note can be added to each client.
+* You can only add one meeting note at a time.
+* You can add more than one meeting note to each client.
 
 Examples:
 
 * `list` followed by `note 2 Client wants to renew policy` adds the meeting note "Client wants to renew policy" to the
   2nd client in the displayed clients list.
+
+<box type="success">
+
+**Assumptions:**
+1. Bernice Yu is the 2nd client in the displayed clients list.
+
+**Expected Output Message:** Meeting note added to Bernice Yu: [timestamp] Client wants to renew policy
+</box>
+
 * `find alex` followed by `note 1 Client wants to know about policy 2` adds the meeting note "Client wants to
   know more about policy 2" to the 1st client in the result of the `find` command.
 
@@ -524,11 +573,22 @@ Format: `nDelete CLIENT_INDEX MEETING_NOTE_INDEX`
 * `MEETING_NOTE_INDEX` refers to the index number of the meeting note shown in the specified client's
 displayed meeting notes list.
 * Both `CLIENT_INDEX` and `MEETING_NOTE_INDEX` must be provided.
-* Only one meeting note can be deleted at a time.
+* You can only delete one meeting note at a time.
 
 Examples:
 
 * `list` followed by `nDelete 2 1` deletes the 1st meeting note in the displayed meeting notes list of the 2nd client in the displayed clients list.
+
+<box type="success">
+
+**Assumptions:**
+1. Bernice Yu is the 2nd client in the displayed clients list.
+2. [2025-09-30 09:30] Planned to introduce new product line next quarter is the first note in her list.
+
+**Expected Output Message:** Deleted Client Bernice Yu's Meeting note 1: [2025-09-30 09:30] Planned to introduce new product line next quarter.
+
+</box>
+
 * `find alex` followed by `nDelete 1 1` deletes the 1st meeting note in the displayed meeting notes list of the 1st client in the results of the `find`
   command.
 
@@ -653,7 +713,7 @@ Restore a backup of that file or delete it to regenerate sample data. Try to avo
 | [**nDelete**](#2-4-2-deleting-a-meeting-note-ndelete)         | `nDelete CLIENT_INDEX MEETING_NOTE_INDEX`<br> e.g., `nDelete 1 1`                                                                                                                             |
 
 
-## Glossary
+## <font color=##3a5a40>7. Glossary</font>
 
 | Term / Command                               | Meaning                                                                                                                               |
 |----------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
