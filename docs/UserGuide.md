@@ -46,7 +46,7 @@ Our target users are insurance agents who:
 <br>
 
 --------------------------------------------------------------------------------------------------------------------
-
+<!-- @@author oyanzhi -->
 <!-- * Table of Contents -->
 ## <font color=#3a5a40>Table of Contents</font>
 * [1. Quick Start](#1-quick-start)
@@ -84,7 +84,7 @@ Our target users are insurance agents who:
 * [7. Glossary](#7-glossary)
 
 <br>
-
+<!-- @@author -->
 --------------------------------------------------------------------------------------------------------------------
 
 ## <font color=#3a5a40>1. Quick Start</font>
@@ -400,7 +400,7 @@ Examples:
 <br>
 
 --------------------------------------------------------------------------------------------------------------------
-
+<!-- @@author oyanzhi -->
 ### <font color=#588157>2.3 Reminders</font>
 
 #### <font color=#5a9f68>2.3.1 Adding a reminder : `reminder`</font>
@@ -516,7 +516,7 @@ reminders list of the 2nd client in the displayed clients list to "Meeting on Fr
 reminders list of the 1st client in the results of the `find` command to "Meeting on Friday, due by 2026-04-24 16:00".
 
 <br>
-
+<!-- @@author -->
 <div style="page-break-after: always;"></div>
 
 --------------------------------------------------------------------------------------------------------------------
