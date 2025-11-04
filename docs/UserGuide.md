@@ -340,7 +340,7 @@ Examples:
 #### <font color=#5a9f68>2.2.5 Starring a client : `star`</font>
 
 Stars the specified client in FinHub. Starred clients will have a star displayed next to their name, and will be bumped
-to the top of the currently displayed clients lists along with other starred clients.
+to the top of the displayed clients lists along with other starred clients.
 
 Format: `star CLIENT_INDEX`
 
@@ -350,8 +350,8 @@ Format: `star CLIENT_INDEX`
 
 Examples:
 
-* `list` followed by `star 1` stars the 1st client in the currently displayed clients list.
-* `list` followed by `star 2` stars the 2nd client in the currently displayed clients list.
+* `activelist` followed by `star 1` stars the 1st client in the currently displayed clients list.
+* `activelist` followed by `star 2` stars the 2nd client in the currently displayed clients list.
 * `find Alex` followed by `star 1` stars the 1st client in the results of the `find` command.
 
 <box type="tip" seamless>
@@ -375,8 +375,8 @@ Format: `unstar CLIENT_INDEX`
 
 Examples:
 
-* `list` followed by `unstar 1` removes star status from the 1st client in the currently displayed clients list.
-* `list` followed by `unstar 2` removes star status from the 2nd client in the currently displayed clients list.
+* `activelist` followed by `unstar 1` removes star status from the 1st client in the currently displayed clients list.
+* `activelist` followed by `unstar 2` removes star status from the 2nd client in the currently displayed clients list.
 * `find Alex` followed by `unstar 1` removes star status from the 1st client in the results of the `find` command.
 
 <box type="success">
