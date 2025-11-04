@@ -1,0 +1,54 @@
+@startuml
+skin rose
+skinparam ActivityFontSize 15
+skinparam ArrowFontSize 12
+start
+:User executes "note CLIENT_INDEX (One-Based) TEXT";
+
+:AddressBookParser parses "note CLIENT_INDEX (One-Based) TEXT";
+
+:AddressBookParser gets commandWord "note";
+
+:AddressBookParser gets arguments "CLIENT_INDEX (One-Based) TEXT";
+
+:AddMeetingNoteParser parses "CLIENT_INDEX (One-Based) TEXT";
+
+if () then ([CLIENT_INDEX (One-Based) is a valid positive integer, and TEXT is not empty])
+    :new MeetingNote created using "TEXT" and the timestamp at which the note is created;
+
+    :new AddMeetingNoteCommand created with CLIENT_INDEX (One-Based) MeetingNote;
+
+    :LogicManager executes AddMeetingNoteCommand using Model;
+
+    :DisplayedList in GUI returned from Model;
+
+    if () then ([CLIENT_INDEX (Zero-Based) < number of clients in DisplayedList])
+        :DisplayedList returns Person to have MeetingNote added to;
+
+        :Person returns their own MeetingNoteList;
+
+        if () then ([Person returned does not have MeetingNote with same text added less than 2 hours ago])
+            :new Person with the newly added MeetingNote is initialised;
+
+            :Model replaces old Person with new Person that has the new MeetingNote;
+
+            :Model refreshes the GUI with the updated list;
+
+            :CommandResult thrown with success execution message;
+            stop
+
+        else ([else])
+            :CommandException thrown with error message;
+            stop
+        endif
+
+    else ([else])
+        :CommandException thrown with error message;
+        stop
+    endif
+
+else ([else])
+:ParseException thrown with error message;
+stop
+endif
+@enduml
