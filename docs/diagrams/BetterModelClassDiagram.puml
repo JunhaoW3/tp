@@ -30,5 +30,5 @@ Person *--> Email
 Person *--> Address
 Person *--> "*" MeetingNote
 Person *--> InsurancePolicy
-Person -right> "*" Reminder
+Person --> "*" Reminder
 @enduml

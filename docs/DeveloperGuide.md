@@ -164,7 +164,7 @@ This section describes some noteworthy details on how certain features are imple
 ### Reminders Feature
 
 #### Challenge
-* Reminders was the first feature that we deemed as important for MVP - as we decided that reminders will be stored as an `ArrayList<Reminder>` for each `Person`, we needed to expand the current model, logic and storage to include it.
+* Reminders was the first feature that we deemed as important for MVP - as we decided that reminders will be stored as an `ArrayList<Reminder>` for each `Person`, we needed to expand the current model, logic and storage to include it - the challenge lies in the integration.
 
 #### Implementation Details
 
@@ -182,15 +182,22 @@ The `add`, `delete` and `edit` reminders commands are then designed as separate 
 * ###### Add Reminder
     * The user will execute `reminder CLIENT_INDEX h/HEADER d/yyyy-MM-dd HH:mm` which initialises a new `Reminder.java` with the given header and deadline after parsing of the user input is done by `AddReminderCommandParser.java` and validation of header and deadline by `Reminder.java`.
 
+    <br>
+
+    * A newly initialised `AddReminderCommand.java` will then have the fields before `AddReminderCommand#exceute` is called.
+      * `CLIENT_INDEX` 
+      * and the previously initialised `Reminder.java`
+
+    <br>
+
+    * Upon execution of the `AddReminderCommand`, the method `Person#addReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the new `Reminder.java` as parameter and initialises a new `ArrayList<Reminder>` with the `Reminder.java` added to the previous `ArrayList<Reminder>`, returning a new `Person` object with the newly updated `ArrayList<Reminder>`.
+
 <br>
 
-* A newly initialised `AddReminderCommand.java` will then have the fields before `AddReminderCommand#exceute` is called.
-    * `CLIENT_INDEX`
-    * and the previously initialised `Reminder.java`
+The following is a sequence diagram for the execution of `reminder 2 h/Meeting on Friday d/2026-04-24 16:00`:
+(Due to the diagram's detailed nature, it may appear small. If it's unclear, zooming in will provide better clarity of the individual components and interactions.)
 
-<br>
-
-* Upon execution of the `AddReminderCommand`, the method `Person#addReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the new `Reminder.java` as parameter and initialises a new `ArrayList<Reminder>` with the `Reminder.java` added to the previous `ArrayList<Reminder>` of the `Person` and returns a new `Person` object with the newly updated `ArrayList<Reminder>`
+<puml src="diagrams/add-reminder/AddReminderSequenceDiagram.puml" alt="Interactions Inside the Logic Component for the `reminder 2 h/Meeting on Friday d/2026-04-24 16:00` Command"/>
 
 <br>
 
@@ -199,38 +206,44 @@ The `add`, `delete` and `edit` reminders commands are then designed as separate 
 * ###### Delete Reminder
     * The user will execute `rDelete CLIENT_INDEX REMINDER_INDEX` which are based on the indexes on the displayed GUI after parsing of the user input is done by `DeleteReminderCommandParser.java`.
 
+    <br>
+
+    * This initialises a new `DeleteReminderCommand.java` with two fields before `DeleteReminderCommand#exceute` is called.
+      * `CLIENT_INDEX`
+      * `REMINDER_INDEX`
+      
+    <br>
+
+    * Upon execution of the `DeleteReminderCommand`, the method `Person#removeReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the `Reminder.java` at the `REMINDER_INDEX` of the `Person`'s `ArrayList<Reminder>` as parameter. This initialises a new `ArrayList<Reminder>` with the `Reminder.java` removed from the previous `ArrayList<Reminder>`, returning a new `Person` object with the updated `ArrayList<Reminder>`.
+
 <br>
 
-* This initialises a new `DeleteReminderCommand.java` with two fields before `DeleteReminderCommand#exceute` is called.
-    * `CLIENT_INDEX`
-    * `REMINDER_INDEX`
+The following is a activity diagram for the execution of `rDelete CLIENT_INDEX REMINDER_INDEX`:
 
-<br>
-
-* Upon execution of the `DeleteReminderCommand`, the method `Person#removeReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which takes in the `Reminder.java` as parameter and initialises a new `ArrayList<Reminder>` with the `Reminder.java` removed from the previous `ArrayList<Reminder>` of the `Person` and returns a new `Person` object with the newly updated `ArrayList<Reminder>`
+<puml src="diagrams/add-reminder/AddReminderActivityDiagram.puml" alt="Activity Diagram for the execution of `rDelete CLIENT_INDEX REMINDER_INDEX`"/>
 
 <br>
 
 --------------------------------------------------------------------------------------------------------------------
 
 * ###### Edit Reminder
-    * The user will execute `rEdit CLIENT_INDEX REMINDER_INDEX h/HEADER d/yyyy-MM-dd HH:mm` which initialises a new `Reminder.java` with the given header and deadline after parsing of the user input is done by `EditReminderCommandParser.java` and validation of header and deadline by `Reminder.java`.
+  * The user will execute `rEdit CLIENT_INDEX REMINDER_INDEX h/HEADER d/yyyy-MM-dd HH:mm` which initialises a new `Reminder.java` with the given header and deadline after parsing of the user input is done by `EditReminderCommandParser.java` and validation of header and deadline by `Reminder.java`.
 
-<br>
+    <br>
 
-* This initialises a new `EditReminderCommand.java` with three fields before `EditReminderCommand#execute` is called.
-    * `CLIENT_INDEX`
-    * `REMINDER_INDEX` which is the index of the reminder to be edited.
-    * `EDITED_REMINDER` which is the new `Reminder.java` as parsed and initialised before.
+    * This initialises a new `EditReminderCommand.java` with three fields before `EditReminderCommand#execute` is called.
+      * `CLIENT_INDEX`
+      *  the index of the reminder to be edited `REMINDER_INDEX`
+      * `EDITED_REMINDER` which is the new `Reminder.java`
 
-<br>
+    <br>
 
-* Upon execution of the `EditReminderCommand`
-    1. The method `Person#removeReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which utilises `REMINDER_INDEX` to locate the `Reminder.java` in the `Person` and removes the reminder similar to how `DeleteReminderCommand` is implemented.
-
-<br>
-
-    2. The method `Person#addReminder` is then called on the `Person` with the given `ClIENT_INDEX` in the model which takes in `EDITED_REMINDER` as parameter and adds it to the `Person` similar to how `AddReminderCommand` is implemented.
+    * Upon execution of the `EditReminderCommand`,
+      1. The method `Person#removeReminder` is called on the `Person` with the given `CLIENT_INDEX` in the model which utilises `REMINDER_INDEX` to locate the `Reminder.java` in the `Person` and removes the reminder similar to how `DeleteReminderCommand` is implemented.
+    
+      <br>
+    
+      2. The method `Person#addReminder` is then called on the `Person` with the given `ClIENT_INDEX` in the model which takes in `EDITED_REMINDER` as parameter and adds it to the `Person` similar to how `AddReminderCommand` is implemented.
 
 <br>
 
@@ -238,7 +251,7 @@ The `add`, `delete` and `edit` reminders commands are then designed as separate 
 
 ### Meeting Notes Feature
 
-#### Challenges
+#### Challenge
 * Next, we wanted a convenient way for users to record and review key discussions with clients in a simple yet efficient way. We needed to decide what order to store and display meeting notes — whether to prioritise a simple internal logic or a more intuitive user interface.
 
 #### Implementation Details
@@ -834,11 +847,11 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **Extensions**
 
 * 2a. The user selects an invalid client or reminder.
-    * 2a1. FinHub warns and specifies which is the invalid selection, and prompts the user to select again.
+  * 2a1. FinHub warns and specifies which is the invalid selection, and prompts the user to select again.
 
-      Step 2a1 is repeated until a correct selection.
+    Step 2a1 is repeated until a correct selection.
 
-      Use case resumes at step 3.
+    Use case resumes at step 3.
 
 **Use case: UC09 - Receive alerts if client has not been contacted in a specified period**
 
@@ -1169,15 +1182,15 @@ testers are expected to do more *exploratory* testing.
 
 1. Initial launch
 
-    1. Download the jar file and copy into an empty folder
+   1. Download the jar file and copy into an empty folder
 
-    1. Double-click the jar file Expected: Shows the GUI with a set of sample clients. The window size may not be optimum.
+   1. Double-click the jar file Expected: Shows the GUI with a set of sample clients. The window size may not be optimum.
 
 1. Saving window preferences
 
-    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
+   1. Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-    1. Re-launch the app by double-clicking the jar file.<br>
+   1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
 <br>
@@ -1190,36 +1203,36 @@ testers are expected to do more *exploratory* testing.
 &nbsp;
 
 * Test Case: Adds a reminder to a client with a valid index
-    * Assumption: Valid Inputs
-    * User Input: `reminder 1 h/Follow up with client on insurance quote d/2026-11-10 09:00`
-    * Expected Outcome:
-        * A reminder with the header {Follow up with client on insurance quote} and deadline {2026-11-10 09:00} is added to the client at index 1.
-        * A success message is displayed: `Reminder added to {Person's Name}: {Follow up with client on insurance quote}, due by {2026-11-10 09:00}`
-        * The reminder list for the client at index 1 is re-sorted by the closest deadlines first, followed by the header name.
+  * Assumption: Valid Inputs
+  * User Input: `reminder 1 h/Follow up with client on insurance quote d/2026-11-10 09:00`
+  * Expected Outcome:
+    * A reminder with the header {Follow up with client on insurance quote} and deadline {2026-11-10 09:00} is added to the client at index 1.
+    * A success message is displayed: `Reminder added to {Person's Name}: {Follow up with client on insurance quote}, due by {2026-11-10 09:00}`
+    * The reminder list for the client at index 1 is re-sorted by the closest deadlines first, followed by the header name.
 
 &nbsp;
 
 * Test Case: Adds a reminder to a client with an invalid index
-    * Assumption: Invalid Client Index (index exceeds number of clients currently displayed)
-    * User Input: `reminder 100000 h/Follow up with client on insurance quote d/2026-11-10 09:00`
-    * Expected Outcome:
-        * A failure message is displayed: `The client index provided is invalid — it exceeds the number of clients currently displayed`
+  * Assumption: Invalid Client Index (index exceeds number of clients currently displayed)
+  * User Input: `reminder 100000 h/Follow up with client on insurance quote d/2026-11-10 09:00`
+  * Expected Outcome:
+    * A failure message is displayed: `The client index provided is invalid — it exceeds the number of clients currently displayed`
 
 &nbsp;
 
 * Test Case: Adds a reminder to a client with a valid index and deadline but invalid header
-    * Assumption: Valid Client Index but Invalid Header (empty)
-    * User Input: `reminder 1 h/ d/2026-11-10 09:00`
-    * Expected Outcome:
-        * A failure message is displayed: `Reminder can take any value but cannot be blank.`
+  * Assumption: Valid Client Index but Invalid Header (empty)
+  * User Input: `reminder 1 h/ d/2026-11-10 09:00`
+  * Expected Outcome:
+    * A failure message is displayed: `Reminder can take any value but cannot be blank.`
 
 &nbsp;
 
 * Test Case: Adds a reminder to a client with a valid index and header but invalid deadline format
-    * Assumption: Valid Client Index but invalid deadline format (not formatted to "yyyy-MM-dd HH:mm")
-    * User Input: `reminder 1 h/Follow up with client on insurance quote d/2029-10-10 1000`
-    * Expected Outcome:
-        * A failure message is displayed: `Deadline should be in the following format: yyyy-MM-dd HH:mm`
+  * Assumption: Valid Client Index but invalid deadline format (not formatted to "yyyy-MM-dd HH:mm")
+  * User Input: `reminder 1 h/Follow up with client on insurance quote d/2029-10-10 1000`
+  * Expected Outcome:
+    * A failure message is displayed: `Deadline should be in the following format: yyyy-MM-dd HH:mm`
 
 <br>
 
@@ -1231,28 +1244,28 @@ testers are expected to do more *exploratory* testing.
 &nbsp;
 
 * Test Case: Deletes a reminder with a valid index from a client with a valid index
-    * Assumptions: Valid Inputs & Chosen Client has reminders to be removed
-    * User Input: `rDelete 1 1`
-    * Expected Outcome:
-        * The first reminder of the first client will be deleted.
-        * A success message is displayed: `Deleted Client {Person's Name}'s Reminder 1: {Deleted Reminder}`
-        * The reminder list for the client at index 1 will not contain the {Deleted Reminder}.
+  * Assumptions: Valid Inputs & Chosen Client has reminders to be removed
+  * User Input: `rDelete 1 1`
+  * Expected Outcome:
+    * The first reminder of the first client will be deleted.
+    * A success message is displayed: `Deleted Client {Person's Name}'s Reminder 1: {Deleted Reminder}`
+    * The reminder list for the client at index 1 will not contain the {Deleted Reminder}.
 
 &nbsp;
 
 * Test Case: Deletes a reminder with a valid index from a client with an invalid index
-    * Assumption: Invalid Client Index (index exceeds number of clients currently displayed)
-    * User Input: `rDelete 100000 1`
-    * Expected Outcome:
-        * A failure message is displayed: `The client index provided is invalid — it exceeds the number of clients currently displayed`
+  * Assumption: Invalid Client Index (index exceeds number of clients currently displayed)
+  * User Input: `rDelete 100000 1`
+  * Expected Outcome:
+    * A failure message is displayed: `The client index provided is invalid — it exceeds the number of clients currently displayed`
 
 &nbsp;
 
 * Test Case: Deletes a reminder with an invalid index from a client with a valid index
-    * Assumption: Invalid Reminder Index (index exceeds number of reminders of the client's reminder list)
-    * User Input: `rDelete 1 10000000`
-    * Expected Outcome:
-        * A failure message is displayed: `The reminder index provided is invalid — it exceeds the number of reminders this client currently has`
+  * Assumption: Invalid Reminder Index (index exceeds number of reminders of the client's reminder list)
+  * User Input: `rDelete 1 10000000`
+  * Expected Outcome:
+    * A failure message is displayed: `The reminder index provided is invalid — it exceeds the number of reminders this client currently has`
 
 <br>
 
@@ -1264,27 +1277,27 @@ testers are expected to do more *exploratory* testing.
 &nbsp;
 
 * Test Case: Edits the reminder at a valid index of the reminder list of a client at a valid index
-    * Assumption: Valid Inputs & Edited Reminder is **different** from Previous Reminder
-    * User Input: `rEdit 1 1 h/Submit updated policy document d/2026-11-15 17:30`
-    * Expected Outcome:
-        * The first reminder of the client at index 1 will be replaced with a new reminder with the header [Submit updated policy document] and deadline [2026-11-15 17:30].
-        * A success message is displayed: `Edited Client {Person's Name}'s Reminder 1: from {Previous Reminder} to {Edited Reminder}`
+  * Assumption: Valid Inputs & Edited Reminder is **different** from Previous Reminder
+  * User Input: `rEdit 1 1 h/Submit updated policy document d/2026-11-15 17:30`
+  * Expected Outcome:
+    * The first reminder of the client at index 1 will be replaced with a new reminder with the header [Submit updated policy document] and deadline [2026-11-15 17:30].
+    * A success message is displayed: `Edited Client {Person's Name}'s Reminder 1: from {Previous Reminder} to {Edited Reminder}`
 
 &nbsp;
 
 * Test Case: Edits a reminder with a valid index from a client with an invalid index
-    * Assumption: Invalid Client Index (index exceeds number of clients currently displayed)
-    * User Input: `rEdit 100000 1 h/Submit updated policy document d/2026-11-15 17:30`
-    * Expected Outcome:
-        * A failure message is displayed: `The client index provided is invalid — it exceeds the number of clients currently displayed`
+  * Assumption: Invalid Client Index (index exceeds number of clients currently displayed)
+  * User Input: `rEdit 100000 1 h/Submit updated policy document d/2026-11-15 17:30`
+  * Expected Outcome:
+    * A failure message is displayed: `The client index provided is invalid — it exceeds the number of clients currently displayed`
 
 &nbsp;
 
 * Test Case: Edits a reminder with an invalid index from a client with a valid index
-    * Assumption: Invalid Reminder Index (index exceeds number of reminders of the client's reminder list)
-    * User Input: `rEdit 1 10000000 h/Submit updated policy document d/2026-11-15 17:30`
-    * Expected Outcome:
-        * A failure message is displayed: `The reminder index provided is invalid — it exceeds the number of reminders this client currently has`
+  * Assumption: Invalid Reminder Index (index exceeds number of reminders of the client's reminder list)
+  * User Input: `rEdit 1 10000000 h/Submit updated policy document d/2026-11-15 17:30`
+  * Expected Outcome:
+    * A failure message is displayed: `The reminder index provided is invalid — it exceeds the number of reminders this client currently has`
 
 <br>
 
@@ -1622,7 +1635,7 @@ Parameters: INDEX (must be a positive integer)`.
 
 <br>
 
-<!-- @@author-->
+<!-- @@author -->
 
 --------------------------------------------------------------------------------------------------------------------
 
