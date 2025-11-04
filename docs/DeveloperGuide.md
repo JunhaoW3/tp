@@ -287,7 +287,7 @@ The `add` and `delete` meeting note commands are then designed as separate comma
 <br>
 
 --------------------------------------------------------------------------------------------------------------------
-<!-- @@author Aloysius Pek Yong Jun -->
+<!-- @@author aloy-pek -->
 
 ### Star Client Feature
 
@@ -1507,7 +1507,7 @@ Parameters: INDEX (must be a positive integer)`.
 <br>
 
 --------------------------------------------------------------------------------------------------------------------
-<!-- @@author Aloysius Pek Yong Jun -->
+<!-- @@author aloy-pek -->
 
 ### Starring a client
 * Prerequisites: Make sure the list of clients is displayed using the `activelist` command. The list should include at least one client who is not starred.
