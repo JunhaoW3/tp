@@ -1445,7 +1445,7 @@ and must include at least one letter or digit.`.
 * Test Case: Try adding a client with invalid command format (no insurance policy)
     * Input: `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
     * Expected Outcome:
-        * A failure message is displayed: `Invalid command format! 
+        * A failure message is displayed: `Invalid command format!
 add: Adds a client to FinHub. Parameters: n/NAME p/PHONE e/EMAIL a/ADDRESS ip/INSURANCE_POLICY [t/TAG]...
 Example: add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 ip/AIB Overall Lifeshield Plan t/friends t/owesMoney`
 
