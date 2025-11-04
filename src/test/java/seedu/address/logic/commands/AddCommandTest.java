@@ -206,6 +206,16 @@ public class AddCommandTest {
         }
 
         @Override
+        public void clearGeneralReminderList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void editPersonGeneralReminderList(Person toEdit, Person editedPerson) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void updateFilteredPersonList(Predicate<Person> predicate) {
             throw new AssertionError("This method should not be called.");
         }

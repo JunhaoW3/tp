@@ -121,6 +121,16 @@ public interface Model {
     ObservableList<Pair<Person, Reminder>> getGeneralReminderList();
 
     /**
+     * Clears the entire list of general reminders
+     */
+    void clearGeneralReminderList();
+
+    /**
+     * Edits GeneralReminderList to use the new Person instead of the Person before edit
+     */
+    void editPersonGeneralReminderList(Person toEdit, Person editedPerson);
+
+    /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
