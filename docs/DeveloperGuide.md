@@ -1766,3 +1766,18 @@ Parameters: INDEX (must be a positive integer).`
 - Agents can **trust** reminders (they won’t silently schedule in the past) and **keep** their old data through releases.
 - The UI supports **realistic, verbose notes** without breaking layout—a must for actual client work.
 - The codebase stays **evolvable**: one dataset, clear boundaries, adapters ready for schema growth.
+
+--------------------------------------------------------------------------------------------------------------------
+
+## Appendix: Planned Enhancements
+
+### 1. Allow unarchiving of clients on general list
+Currently, the user is only able to unarchive client if he is in `archivelist`.
+This might cause some inconvenience if the user knows a person is archived in general list and wants to unarchive them.
+We plan to add on to `UnarchiveCommand` to allow users to directly unarchive clients from general list.
+
+### 2. Display archive status for clients in general list
+Currently, when the user is viewing `list`, it is hard to tell between active clients and archived clients,
+unless they go back to `activelist` or `archivelist`.
+We plan to add on to `list` GUI an active and archive tag next to the client's name,
+so that it is easier for the user to tell which clients are active or archived.
