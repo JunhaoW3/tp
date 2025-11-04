@@ -401,6 +401,50 @@ To implement the star client feature, we focus on the following areas:
 <br>
 
 --------------------------------------------------------------------------------------------------------------------
+### Insurance Policy Feature
+
+#### Challenge
+* We introduced an **`INSURANCE_POLICY`** field that must behave like other AB3-style value objects (trimmed, validated, immutable), while also:
+    - Integrating with **Add**/**Edit** client flows (parsing, error messages).
+    - Rendering consistently in the UI without breaking existing cards/layouts.
+
+#### Implementation Details
+
+To implement the insurance policy feature, we focus on the following areas:
+
+1. **Model**: Each `Person` object has a compulsory `InsurancePolicy` field. An `InsurancePolicy` contains a String value to store the insurance policy a client has.
+
+   &nbsp;
+
+2. **Commands**: Two main commands are edited:
+    - `AddCommand`: For adding a client with insurance policy. InsurancePolicy is made a compulsory field.
+    - `EditCommand`: For editing the insurance policy of a client. InsurancePolicy is made an optional field.
+
+    &nbsp;
+
+3. **Parser**: Command parsing logic to ensure that the user's input is valid and parsed correctly into command objects. 
+Parser prefix `ip/` is integrated into AddCommandParser and EditCommandParser.
+
+   &nbsp;
+
+4. **Constraints:**
+    * Must contain **at least one** letter or digit.
+    * Allowed characters: letters, digits, spaces, and these symbols: `+ / & ( ) ' . , -`
+    * Leading/trailing spaces are **trimmed** before validation.
+
+    <br>
+
+##### Command Implementation
+* ###### Add Client
+    * The user will execute `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS ip/INSURANCE_POLICY [t/TAG]…​`. `AddCommandParser.java` extracts `ip/…` and calls `ParserUtil.parseInsurancePolicy(...)`, which constructs `InsurancePolicy.java` or throws with MESSAGE_CONSTRAINTS.
+      `Person` is built with the validated and non-optional `InsurancePolicy` field and added to the clients list.
+
+--------------------------------------------------------------------------------------------------------------------
+* ##### Edit Client
+    * The user will execute `edit CLIENT_INDEX ip/INSURANCE_POLICY`. `EditCommandParser.java` treats `ip/…` as an optional edited field; if present, it validates and sets the new `InsurancePolicy.java`.
+      A new `Person` instance is created with the updated policy (immutability preserved), replacing the old one in `UniquePersonList.java`
+
+--------------------------------------------------------------------------------------------------------------------
 
 ### \[Proposed\] Undo/redo feature
 
@@ -502,37 +546,6 @@ _{Explain here how the data archiving feature will be implemented}_
 
 <br>
 
---------------------------------------------------------------------------------------------------------------------
-### Insurance Policy Feature
-
-#### Challenge
-* We introduced an **`InsurancePolicy`** field that must behave like other AB3-style value objects (trimmed, validated, immutable), while also:
-    - Integrating with **Add**/**Edit** client flows (parsing, error messages).
-    - Rendering consistently in the UI without breaking existing cards/layouts.
-
-#### Implementation Details
-
-`InsurancePolicy` is implemented as a value object:
-
-- **Class:** `InsurancePolicy.java`
-- **Internal field:**
-    * `String value` (trimmed in the constructor, guaranteed valid thereafter)
-
-- **Constraints:**
-    * Must contain **at least one** letter or digit.
-    * Allowed characters: letters, digits, spaces, and these symbols: `+ / & ( ) ' . , -`
-    * Leading/trailing spaces are **trimmed** before validation.
-
-##### Command Integration
-* ###### Add Client
-    * The user will execute `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS ip/INSURANCE_POLICY [t/TAG]…​`. `AddCommandParser.java` extracts `ip/…` and calls `ParserUtil.parseInsurancePolicy(...)`, which constructs `InsurancePolicy.java` or throws with MESSAGE_CONSTRAINTS.
-      `Person` is built with the validated and non-optional `InsurancePolicy` field and added to the clients list.
-
---------------------------------------------------------------------------------------------------------------------
-* ##### Edit Client
-    * The user will execute `edit CLIENT_INDEX ip/INSURANCE_POLICY`. `EditCommandParser.java` treats `ip/…` as an optional edited field; if present, it validates and sets the new `InsurancePolicy.java`.
-      A new `Person` instance is created with the updated policy (immutability preserved), replacing the old one in `UniquePersonList.java`
-      
 --------------------------------------------------------------------------------------------------------------------
 ## **Documentation, logging, testing, configuration, dev-ops**
 
