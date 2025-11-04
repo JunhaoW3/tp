@@ -419,7 +419,7 @@ Format: `reminder CLIENT_INDEX h/HEADER d/DEADLINE`
 
 Examples:
 
-* `list` followed by `reminder 2 h/Meeting on Friday d/2026-04-24 16:00` adds the reminder "Meeting on Friday, due by
+* `activelist` followed by `reminder 2 h/Meeting on Friday d/2026-04-24 16:00` adds the reminder "Meeting on Friday, due by
 2026-04-24 16:00" to the 2nd client in the displayed clients list.
 
 <box type="success">
@@ -459,7 +459,7 @@ Format: `rDelete CLIENT_INDEX REMINDER_INDEX`
 
 Examples:
 
-* `list` followed by `rDelete 2 1` deletes the 1st reminder in the displayed reminders list of the 2nd client in the displayed clients list.
+* `activelist` followed by `rDelete 2 1` deletes the 1st reminder in the displayed reminders list of the 2nd client in the displayed clients list.
 
 <box type="success">
 
@@ -498,7 +498,7 @@ Format: `rEdit CLIENT_INDEX REMINDER_INDEX h/HEADER d/DEADLINE`
 * You can only replace one reminder with a new reminder at a time.
 
 Examples:
-* `list` followed by `rEdit 2 1 h/Meeting on Friday d/2026-04-24 16:00` edits the 1st reminder in the displayed 
+* `activelist` followed by `rEdit 2 1 h/Meeting on Friday d/2026-04-24 16:00` edits the 1st reminder in the displayed 
 reminders list of the 2nd client in the displayed clients list to "Meeting on Friday, due by 2026-04-24 16:00".
 
 <box type="success">
