@@ -1,0 +1,26 @@
+@startuml
+skin rose
+skinparam ActivityFontSize 15
+skinparam ArrowFontSize 12
+start
+:User enters "star CLIENT_INDEX";
+:parse user input;
+
+if () then ([Index out of bounds])
+    :Displays error message;
+else ([else])
+    :Retrieve client at CLIENT_INDEX;
+    if () then ([client already starred])
+        :Displays error message;
+    else ([no])
+        :Rebuild client with isStarred = true;
+        :Replace old client with starred client;
+        :Sort clients;
+        :Refresh client list;
+        :Save AddressBook to
+        addressBookStateList;
+        :Displays success message;
+    endif
+endif
+stop
+@enduml
