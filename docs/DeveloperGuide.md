@@ -403,7 +403,7 @@ To implement the star client feature, we focus on the following areas:
 <br>
 
 #### Sequence Diagram
-The sequence diagram below illustrates the flow of interactions when the user enters the `star 1` command. It shows how the command is parsed, the person at the specified index is retrieved, and the starred status is updated in the model. Key components include the `CommandBox`, `LogicManager`, `StarCommandParser`, and `Model`.
+The sequence diagram below illustrates the flow of interactions when the user enters the `star 1` command. It shows how the command is parsed, the person at the specified index is retrieved, and the starred status is updated in the model. Key components include the `CommandBox`, `LogicManager`, `StarCommandParser`, and `Model`. Due to the diagram's detailed nature, it may appear small. If it's unclear, zooming in will provide better clarity of the individual components and interactions.
 
 <puml src="diagrams/star-feature/StarSequenceDiagram.puml" alt="Interactions for the `star 1` Command" />
 
