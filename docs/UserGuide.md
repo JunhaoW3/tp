@@ -262,16 +262,16 @@ Deletes a specified client from FinHub.
 Format: `delete CLIENT_INDEX`
 
 * Deletes the client at the specified `CLIENT_INDEX`.
-* `CLIENT_INDEX` refers to the index number of the client shown in the displayed clients list.
+* `CLIENT_INDEX` refers to the index number of the client shown in the currently displayed clients list.
 
 Examples:
 
-* `list` followed by `delete 2` deletes the 2nd client in the displayed clients list.
+* `activelist` followed by `delete 2` deletes the 2nd client in the currently displayed clients list.
 
 <box type="success">
 
 **Assumptions:**
-1. Alex Yeoh is the second client in the currently displayed list.
+1. Alex Yeoh is the second client in the currently displayed clients list.
 
 **Expected Output Message:** Deleted Client: Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com;
 Address: Blk 30 Geylang Street 29, #06-40; Insurance Policy: AIB HealthShield Gold Max; Tags: [friends]
@@ -300,8 +300,8 @@ Format: `edit CLIENT_INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…�
 * You can remove all the client’s tags by typing `t/` without specifying any tags after it.
 
 Examples:
-* `edit 1 p/91234567 ip/Health policy` Changes the 1st client’s `PHONE` to `91234567`
-  and `INSURANCE_POLICY` to `Health policy` respectively.
+* `activelist` followed by `edit 1 p/91234567 ip/Health policy` changes the 1st client’s `PHONE` to `91234567`
+  and `INSURANCE_POLICY` to `Health policy` respectively in the currently displayed client list.
 
 <box type="success">
 
@@ -313,7 +313,7 @@ Address: Blk 30 Lorong 3 Serangoon Gardens, #07-18; Insurance Policy: Health pol
 
 </box>
 
-* `edit 2 n/Alex Tan t/` Changes the 2nd client’s name to `Alex Tan` and clears all their existing tags.
+* `find alvin` followed by `edit 2 n/Alex Tan t/` changes the name of the second client in the results of the `find` command to `Alex Tan` and clears all his existing tags.
 
 <br>
 
