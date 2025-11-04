@@ -344,7 +344,7 @@ To implement the star client feature, we focus on the following areas:
 * ###### Unarchive Command
     * **Objective**: Unarchives a `Person` (Client) based on their displayed index in the list.
 
-  &nbsp;
+    &nbsp;
 
     * **Command Syntax**: `unarchive CLIENT_INDEX`
         * Parameters:
@@ -352,19 +352,19 @@ To implement the star client feature, we focus on the following areas:
         * Usage Example:
             * `unarchive 1`: Unarchives the client at index 1
 
-  &nbsp;
+    &nbsp;
 
     * **Key Steps**
         1. *Input parsing:*
             * The `UnarchiveCommandParser.java` parses the input string. If the input is empty, a ParseException is thrown.
 
-      &nbsp;
+        &nbsp;
 
         2. *Update Archived Status:*
             * If the client is archived, the command updates the client's archived status by calling the Person#unarchive() method. This method creates a new Person object with the updated archived status (set to `false`).
             * The updated `Person` is saved back into the model using `Model#setPerson(Person target, Person editedPerson)`.
 
-      &nbsp;
+        &nbsp;
 
         3. *Return Command Result:*
             * The command returns a `CommandResult` with a success message, confirming that the client has been unarchived.
