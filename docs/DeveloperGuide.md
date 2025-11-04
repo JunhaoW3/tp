@@ -752,7 +752,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 1.
 
-* 2b. The user enters a name/email/telephone number that has been added before.
+* 2b. The user enters an email/telephone number that has been added before.
     * 2b1. FinHub warns that a duplicate entry is not allowed.
 
       Use case ends.
