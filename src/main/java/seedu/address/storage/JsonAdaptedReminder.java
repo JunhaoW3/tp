@@ -59,8 +59,10 @@ class JsonAdaptedReminder {
         if (deadline == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Deadline"));
         }
-        if (!Reminder.isValidDeadline(deadline)) {
-            throw new IllegalValueException(Reminder.DEADLINE_MESSAGE_CONSTRAINTS);
+        try {
+            Reminder.isValidDeadline(deadline);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalValueException(e.getMessage());
         }
         return new Reminder(header, deadline);
     }

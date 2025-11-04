@@ -226,16 +226,15 @@ public class Person implements Comparable<Person> {
     }
 
     /**
-     * Returns true if both persons have the same name.
+     * Returns true if both persons have the same email or phone number.
      * This defines a weaker notion of equality between two persons.
      */
     public boolean isSamePerson(Person otherPerson) {
         if (otherPerson == this) {
             return true;
         }
-
         return otherPerson != null
-                && otherPerson.getName().equals(getName());
+                && (otherPerson.getEmail().equals(getEmail()) || otherPerson.getPhone().equals(getPhone()));
     }
 
     /**
@@ -260,15 +259,12 @@ public class Person implements Comparable<Person> {
                 && address.equals(otherPerson.address)
                 && tags.equals(otherPerson.tags)
                 && policy.equals(otherPerson.policy);
-        //TODO - Update to include reminders
-        //may not need to implement as reminders is not core identity of person
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
         return Objects.hash(name, phone, email, address, tags);
-        //TODO - Update to include reminders
     }
 
     @Override
