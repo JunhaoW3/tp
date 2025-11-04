@@ -306,7 +306,7 @@ Examples:
 <box type="success">
 
 **Assumptions:**
-1. The first client of the currently displayed list is Bernice Yu
+1. The first client of the currently displayed list is Bernice Yu.
 
 **Expected Output Message:** Edited Client: Bernice Yu; Phone: 91234567; Email: berniceyu@example.com;
 Address: Blk 30 Lorong 3 Serangoon Gardens, #07-18; Insurance Policy: Health policy; Tags: [colleagues][friends]
@@ -337,7 +337,7 @@ Examples:
 <box type="success">
 
 **Assumptions:**
-1. There are 2 clients whose name contains "ale"
+1. There are 2 clients whose name contains "ale".
 
 **Expected Output Message: 2 persons listed!
 

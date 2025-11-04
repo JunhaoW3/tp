@@ -1,0 +1,96 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":AddCommandParser" as AddCommandParser LOGIC_COLOR
+participant "add:AddCommand" as AddCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "m:Model" as Model MODEL_COLOR
+participant "toAdd:Person" as toAdd MODEL_COLOR
+participant "policy:InsurancePolicy" as policy MODEL_COLOR
+end box
+
+[-> LogicManager : execute\n("add n/John Doe p/98765432 e/johnd@example.com\n a/John street, block 123, #01-01\n ip/AIB LifePlan")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand\n("add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 ip/AIB LifePlan")
+activate AddressBookParser
+
+create AddCommandParser
+AddressBookParser -> AddCommandParser
+activate AddCommandParser
+
+AddCommandParser --> AddressBookParser
+deactivate AddCommandParser
+
+AddressBookParser -> AddCommandParser : parse\n("n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 ip/AIB LifePlan")
+activate AddCommandParser
+
+' Construct InsurancePolicy from ip/ prefix
+create policy
+AddCommandParser -> policy : new InsurancePolicy("AIB LifePlan")
+activate policy
+policy --> AddCommandParser
+deactivate policy
+
+' Construct Person with InsurancePolicy
+create toAdd
+AddCommandParser -> toAdd : new Person(..., policy)
+activate toAdd
+toAdd --> AddCommandParser
+deactivate toAdd
+
+' Construct AddCommand with the Person (toAdd)
+create AddCommand
+AddCommandParser -> AddCommand : new AddCommand(toAdd)
+activate AddCommand
+
+AddCommand --> AddCommandParser : add
+deactivate AddCommand
+
+AddCommandParser --> AddressBookParser : add
+deactivate AddCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+AddCommandParser -[hidden]-> AddressBookParser
+destroy AddCommandParser
+
+AddressBookParser --> LogicManager : add
+deactivate AddressBookParser
+
+LogicManager -> AddCommand : execute(m)
+activate AddCommand
+
+AddCommand -> Model : hasPerson(toAdd)
+activate Model
+
+Model --> AddCommand : false
+deactivate Model
+
+AddCommand -> Model : addPerson(toAdd)
+activate Model
+
+Model --> AddCommand
+deactivate Model
+
+create CommandResult
+AddCommand -> CommandResult : new CommandResult("New person added: John Doe")
+activate CommandResult
+
+CommandResult --> AddCommand : r
+deactivate CommandResult
+
+AddCommand --> LogicManager : r
+deactivate AddCommand
+destroy toAdd
+destroy policy
+
+[<-- LogicManager
+deactivate LogicManager
+@enduml
+Footer
