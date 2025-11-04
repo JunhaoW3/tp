@@ -1180,12 +1180,15 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Glossary
 
-* **Archive**: Clients who are archived are inactive, but not deleted
-* **Client**: Customer who has signed or is going to sign an insurance policy with the user
-* **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Private contact detail**: A contact detail that is not meant to be shared with others
-* **Reminder**: A note linked to a specific client, with a message and due date
-* **User**: Insurance agent using the address book
+* **Archive**: Clients who are archived are inactive, but not deleted.
+* **Client**: Customer who has signed or is going to sign an insurance policy with the user.
+* **Insurance Policy**: A client field to record insurance policies they hold.
+* **Mainstream OS**: Windows, Linux, Unix, MacOS.
+* **Meeting Note**: A short record of discussions with a client, stored along with the date and time it was added.
+* **Private contact detail**: A contact detail that is not meant to be shared with others.
+* **Reminder**: A task or deadline linked to a specific client, with a header and due date.
+* **Star**: Important clients can be starred to keep track of them.
+* **User**: Insurance agent using the address book.
 
 <br>
 
