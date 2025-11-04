@@ -76,11 +76,11 @@ public class EditReminderCommand extends Command {
 
         Person removedFromPerson = target.removeReminder(toEdit);
         Person addedToPerson = removedFromPerson.addReminder(this.editedReminder);
-
-        model.addGeneralReminder(addedToPerson, this.editedReminder);
-        model.deleteGeneralReminder(addedToPerson, toEdit);
-
+        //@@author oyanzhi
+        model.deleteGeneralReminder(target, toEdit);
+        model.addGeneralReminder(target, this.editedReminder);
         model.setPerson(target, addedToPerson);
+        //@@author
         model.refreshFilteredPersonList();
         return new CommandResult(String.format(
                 MESSAGE_EDIT_REMINDER_SUCCESS,

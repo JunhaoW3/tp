@@ -1,0 +1,115 @@
+@startuml
+!include ../style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":AddReminderCommandParser" as AddReminderCommandParser LOGIC_COLOR
+participant "addReminder:AddReminderCommand" as AddReminderCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "m:Model" as Model MODEL_COLOR
+participant "personToEdit:Person" as personToEdit MODEL_COLOR
+participant "editedPerson:Person" as editedPerson MODEL_COLOR
+end box
+
+box #6CA6CD
+participant "filteredPersons:FilteredList<Person>" as filteredPersons #6CA6CD
+end box
+
+[-> LogicManager : execute\n("reminder 2 h/Meeting on Friday d/2026-04-24 16:00")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand\n("reminder 2 h/Meeting on Friday d/2026-04-24 16:00")
+activate AddressBookParser
+
+create AddReminderCommandParser
+AddressBookParser -> AddReminderCommandParser
+activate AddReminderCommandParser
+
+AddReminderCommandParser --> AddressBookParser
+deactivate AddReminderCommandParser
+
+AddressBookParser -> AddReminderCommandParser : parse\n("2 h/Meeting on Friday d/2026-04-24 16:00")
+activate AddReminderCommandParser
+
+create AddReminderCommand
+AddReminderCommandParser -> AddReminderCommand
+activate AddReminderCommand
+
+AddReminderCommand --> AddReminderCommandParser : addReminder
+deactivate AddReminderCommand
+
+AddReminderCommandParser --> AddressBookParser : addReminder
+deactivate AddReminderCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+AddReminderCommandParser -[hidden]-> AddressBookParser
+destroy AddReminderCommandParser
+
+AddressBookParser --> LogicManager : addReminder
+deactivate AddressBookParser
+
+LogicManager -> AddReminderCommand : execute(m)
+activate AddReminderCommand
+
+AddReminderCommand -> Model : getFilteredPersonList()
+activate Model
+
+Model --> AddReminderCommand : filteredPersons
+deactivate Model
+
+AddReminderCommand -> filteredPersons : get(1)
+activate filteredPersons
+
+filteredPersons --> AddReminderCommand : personToEdit
+deactivate filteredPersons
+
+AddReminderCommand -> personToEdit : addReminder(reminder)
+activate personToEdit
+
+create editedPerson
+personToEdit -> editedPerson
+activate editedPerson
+
+editedPerson --> personToEdit : editedPerson
+deactivate editedPerson
+
+personToEdit --> AddReminderCommand : editedPerson
+deactivate personToEdit
+
+AddReminderCommand -> Model : setPerson(personToEdit, editedPerson)
+activate Model
+
+Model --> AddReminderCommand
+deactivate Model
+
+AddReminderCommand -> Model : refreshFilteredPersonList();
+activate Model
+
+Model --> AddReminderCommand
+deactivate Model
+
+create CommandResult
+AddReminderCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> AddReminderCommand : r
+deactivate CommandResult
+
+AddReminderCommand --> LogicManager : r
+deactivate AddReminderCommand
+
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+AddReminderCommand -[hidden]-> LogicManager
+destroy AddReminderCommand
+
+[<--LogicManager
+deactivate LogicManager
+
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+personToEdit -[hidden]-> LogicManager
+destroy personToEdit
+@enduml
