@@ -371,6 +371,29 @@ To implement the star client feature, we focus on the following areas:
 
 <br>
 
+#### Sequence Diagram
+The sequence diagram below illustrates the flow of interactions when the user enters the `archive 1` command. It shows how the command is parsed, 
+the person at the specified index is retrieved, and the archived status is updated in the model. Key components include 
+the `CommandBox`, `LogicManager`, `ArchiveCommandParser`, and `Model`.
+
+<puml src="diagrams/archive-feature/ArchiveSequenceDiagram.puml" 
+alt="Interactions for the `archive 1` Command" />
+
+
+<br>
+<br>
+
+#### Activity Diagram
+The activity diagram outlines the detailed workflow that happens when the `archive 1` command is executed.
+It shows the decision points for validating the index, checking if the person is already archived,
+and updating the model accordingly. If successful, the system returns a success message.
+
+<puml src="diagrams/archive-feature/ArchiveActivityDiagram.puml/>
+
+
+<br>
+<br>
+
 --------------------------------------------------------------------------------------------------------------------
 
 ### Star Client Feature
