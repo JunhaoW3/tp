@@ -69,8 +69,10 @@ DeleteMeetingNoteCommand -> personToDeleteFrom : getMeetingNotes()
 activate personToDeleteFrom
 
 personToDeleteFrom --> DeleteMeetingNoteCommand : meetingNotes
+deactivate personToDeleteFrom
 
 DeleteMeetingNoteCommand -> personToDeleteFrom : removeMeetingNote(meetingNoteToDelete)
+activate personToDeleteFrom
 
 create editedPerson
 personToDeleteFrom -> editedPerson
