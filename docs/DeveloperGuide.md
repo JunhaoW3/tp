@@ -439,6 +439,12 @@ Parser prefix `ip/` is integrated into AddCommandParser and EditCommandParser.
     * The user will execute `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS ip/INSURANCE_POLICY [t/TAG]…​`. `AddCommandParser.java` extracts `ip/…` and calls `ParserUtil.parseInsurancePolicy(...)`, which constructs `InsurancePolicy.java` or throws with MESSAGE_CONSTRAINTS.
       `Person` is built with the validated and non-optional `InsurancePolicy` field and added to the clients list.
 
+The following are sequence diagrams for the execution of `add n/John Doe p/98765432 e/johnd@example.com\na/John street, block 123, #01-01 ip/AIB LifePlan`,
+
+
+<puml src="diagrams/AddSequenceDiagram - Logic.puml" alt="High-level Logic Sequence for `add n/John Doe p/98765432 e/johnd@example.com\na/John street, block 123, #01-01 ip/AIB LifePlan` Command"/>
+<puml src="diagrams/AddSequenceDiagram - Model.puml" alt="Parser detail: constructing InsurancePolicy and Person"/>
+
 --------------------------------------------------------------------------------------------------------------------
 * ##### Edit Client
     * The user will execute `edit CLIENT_INDEX ip/INSURANCE_POLICY`. `EditCommandParser.java` treats `ip/…` as an optional edited field; if present, it validates and sets the new `InsurancePolicy.java`.
