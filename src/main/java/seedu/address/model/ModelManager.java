@@ -46,6 +46,7 @@ public class ModelManager implements Model {
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         archivedPersons = new FilteredList<>(this.addressBook.getPersonList(), Person::isArchived);
         updateFilteredPersonList(person -> !person.isArchived());
+        this.currentFilter = p -> !p.isArchived();
         this.generalReminderList = FXCollections.observableArrayList();
         for (Person p : filteredPersons) {
             ArrayList<Reminder> pReminderList = p.getReminders();
@@ -177,6 +178,24 @@ public class ModelManager implements Model {
         requireNonNull(predicate);
         this.currentFilter = predicate;
         updateFilteredPersonList(predicate);
+    }
+
+    @Override
+    public void setToArchiveList() {
+        setCurrentFilter(Person::isArchived);
+        setViewingArchivedList(true);
+    }
+
+    @Override
+    public void setToActiveList() {
+        setCurrentFilter(p -> !p.isArchived());
+        setViewingArchivedList(false);
+    }
+
+    @Override
+    public void setToGeneralList() {
+        setCurrentFilter(p -> true);
+        setViewingArchivedList(false);
     }
 
     //=========== Filtered Person List Accessors =============================================================

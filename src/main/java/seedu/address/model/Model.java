@@ -110,6 +110,12 @@ public interface Model {
 
     void setCurrentFilter(Predicate<Person> predicate);
 
+    void setToArchiveList();
+
+    void setToActiveList();
+
+    void setToGeneralList();
+
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();
 

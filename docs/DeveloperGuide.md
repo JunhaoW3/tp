@@ -311,6 +311,115 @@ The following is a sequence diagram for the execution of `nDelete 1 1`:
 <puml src="diagrams/DeleteMeetingNoteSequenceDiagram.puml" alt="Interactions Inside the Logic Component for the `nDelete 1 1` Command"></puml>
 
 <br>
+--------------------------------------------------------------------------------------------------------------------
+
+### Archive Client Feature
+
+#### Challenges
+* We wanted FinHub to be able to archive clients that are not currently active. This means that we need to be able to
+* identify active and archived clients. To do this, we had to create new lists to check for active and archived clients.
+
+#### Implementation Details
+
+To implement the star client feature, we focus on the following areas:
+1. **Model**: Each `Person` object has a boolean field `isArchived` to mark whether a client is archived or not. The logic of archiving and unarchiving a client updates this field.
+
+&nbsp;
+
+2. **Commands**: Two main commands are created:
+    - `ArchiveCommand`: For archiving a client.
+    - `UnarchiveCommand`: For unarchiving a client.
+
+&nbsp;
+
+3. **Parser**: Command parsing logic to ensure that the user's input is valid and parsed correctly into command objects.
+<br>
+
+#### Command Implementation
+* ###### Archive Command
+    * **Objective**: Archives a `Person` (Client) based on their displayed index in the list.
+
+    &nbsp;
+
+    * **Command Syntax**: `archive CLIENT_INDEX`
+        * Parameters:
+            * `CLIENT_INDEX`: The index of the client (starts from 1 in the displayed list).
+        * Usage Example:
+            * `archive 1`: Archives the client at index 1
+
+    &nbsp;
+
+    * **Key Steps**
+        1. *Input parsing:*
+            * The `ArchiveCommandParser.java` parses the input string. If the input is empty, a ParseException is thrown.
+
+        &nbsp;
+
+        2. *Update Archived Status:*
+            * If the client is unarchived, the command updates the client's archived status by calling the Person#archive() method. This method creates a new Person object with the updated archived status (set to `true`).
+            * The updated `Person` is saved back into the model using `Model#setPerson(Person target, Person editedPerson)`.
+
+        &nbsp;
+
+        3. *Return Command Result:*
+            * The command returns a `CommandResult` with a success message, confirming that the client has been archived.
+
+<br>
+
+--------------------------------------------------------------------------------------------------------------------
+
+* ###### Unarchive Command
+    * **Objective**: Unarchives a `Person` (Client) based on their displayed index in the list.
+
+    &nbsp;
+
+    * **Command Syntax**: `unarchive CLIENT_INDEX`
+        * Parameters:
+            * `CLIENT_INDEX`: The index of the client (starts from 1 in the displayed list).
+        * Usage Example:
+            * `unarchive 1`: Unarchives the client at index 1
+
+    &nbsp;
+
+    * **Key Steps**
+        1. *Input parsing:*
+            * The `UnarchiveCommandParser.java` parses the input string. If the input is empty, a ParseException is thrown.
+
+        &nbsp;
+
+        2. *Update Archived Status:*
+            * If the client is archived, the command updates the client's archived status by calling the Person#unarchive() method. This method creates a new Person object with the updated archived status (set to `false`).
+            * The updated `Person` is saved back into the model using `Model#setPerson(Person target, Person editedPerson)`.
+
+        &nbsp;
+
+        3. *Return Command Result:*
+            * The command returns a `CommandResult` with a success message, confirming that the client has been unarchived.
+
+<br>
+
+#### Sequence Diagram
+The sequence diagram below illustrates the flow of interactions when the user enters the `archive 1` command. It shows how the command is parsed,
+the person at the specified index is retrieved, and the archived status is updated in the model. Key components include
+the `CommandBox`, `LogicManager`, `ArchiveCommandParser`, and `Model`.
+
+<puml src="diagrams/archive-feature/ArchiveSequenceDiagram.puml"
+alt="Interactions for the `archive 1` Command" />
+
+
+<br>
+<br>
+
+#### Activity Diagram
+The activity diagram outlines the detailed workflow that happens when the `archive 1` command is executed.
+It shows the decision points for validating the index, checking if the person is already archived,
+and updating the model accordingly. If successful, the system returns a success message.
+
+<puml src="diagrams/archive-feature/ArchiveActivityDiagram.puml/>
+
+
+<br>
+<br>
 
 --------------------------------------------------------------------------------------------------------------------
 <!-- @@author aloy-pek -->
@@ -1067,7 +1176,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3a. FinHub detects an error in the command entered.
     * 3a1. FinHub displays an error message and prompts the user to input again.
-    * 3a2. The user re-enters the command to archive the client
+    * 3a2. The user re-enters the command to archive the client.
 
       Steps 3a1-3a2 are repeated until the command and data entered are correct.
 
@@ -1178,10 +1287,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * **Archive**: Clients who are archived are inactive, but not deleted.
 * **Client**: Customer who has signed or may sign an insurance policy with the user.
+* **Insurance Policy**: A client field to record insurance policies they hold.
 * **Mainstream OS**: Windows, Linux, Unix, MacOS.
 * **Meeting note**: Linked to a specific client, a meeting note consists of a note and a timestamp.
 * **Private contact detail**: A contact detail that is not meant to be shared with others.
 * **Reminder**: Linked to a specific client, a reminder consists of a header and due date.
+* **Star**: Important clients can be starred to keep track of them.
 * **User**: Insurance agent using FinHub.
 
 <br>
@@ -1572,7 +1683,6 @@ Parameters: INDEX (must be a positive integer)`.
 <br>
 
 --------------------------------------------------------------------------------------------------------------------
-<!-- @@author aloy-pek -->
 
 ### Starring a client
 * Prerequisites: Make sure the list of clients is displayed using the `activelist` command. The list should include at least one client who is not starred.
@@ -1877,9 +1987,21 @@ notes. Timestamps for such edited notes would also be updated accordingly.
 Currently, only one phone number can be added per client, and it can only consist of numbers. Since it is possible for 
 an individual to have more than one phone numbers such as for mobile, home and office numbers, we plan to update `Phone` 
 to `LabelledPhone` which consists of a phone number and a label, and for each `Person` to have a `Set<LabelledPhone>`. 
+`AddCommandParser` and `EditCommandParser` will also allow the parsing of multiple labelled phone numbers.
+
+### 3. Allow unarchiving of clients on general list
+Currently, the user is only able to unarchive client if he is in `archivelist`.
+This might cause some inconvenience if the user knows a person is archived in general list and wants to unarchive them.
+We plan to add on to `UnarchiveCommand` to allow users to directly unarchive clients from general list.
+
+### 4. Display archive status for clients in general list
+Currently, when the user is viewing `list`, it is hard to tell between active clients and archived clients,
+unless they go back to `activelist` or `archivelist`.
+We plan to add on to `list` GUI an active and archive tag next to the client's name,
+so that it is easier for the user to tell which clients are active or archived.
 `AddCommandParser` and `EditCommandParser` will also allow the parsing of multiple labelled phone numbers. 
 
-### 3. Allow names with foreign accents and of different languages
+### 5. Allow names with foreign accents and of different languages
 Currently, we only allow English name inputs with ASCII characters as our target audience are insurance agents that have 
 Singaporean clients with English names. Since it is possible for an individual to have only non-English name and names
 with accents, such as 习近平 and Müller we plan to update `VALIDATION_REGEX` of  `NAME` to include such possibilities .

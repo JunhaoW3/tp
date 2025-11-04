@@ -30,6 +30,11 @@ or need some definitions?
 
 </box>
 
+<box type="note">
+
+**Note:** FinHub opens active list by default at start/restart.
+</box>
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## <font color=#3a5a40>Target User and Assumptions Made</font>
@@ -455,16 +460,33 @@ Format: `archive CLIENT_INDEX`
 
 * Archives the client at the specified `CLIENT_INDEX`.
 * `CLIENT_INDEX` refers to the index number of the client shown in the displayed clients list.
-* Only one client can be archived at a time.
+* You can only archive one client at a time.
 
 Examples:
 
-* `list` followed by `archive 1` archives the 1st client in the displayed clients list.
-* `find Alex` followed by `archive 1` archives the 1st client in the results of the `find` command.
+* `activelist` followed by `archive 1` archives the 1st client in the displayed clients list.
+* `find Alex` followed by `archive 1` archives the 1st client in the results of the `find` command if he is not archived.
+
+<box type="success" class="success-box">
+
+**Assumption:**
+1. Alex Yeoh is the 1st client in the currently displayed clients list.
+2. Alex Yeoh is not archived.
+
+<br>
+
+**Expected Output Message:**
+Client archived: Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com; Address: Blk 30 Geylang Street 29, #06-40; Insurance Policy: AIB HealthShield Gold Max; Tags: [friends]
+</box>
 
 <box type="tip" seamless>
 
 **Tip:** Temporarily archive inactive clients to de-clutter your active clients list!
+</box>
+
+<box type="note" seamless>
+
+**Note:**: Edits made to any archived client will automatically unarchive them.
 </box>
 
 <br>
@@ -481,12 +503,31 @@ Format: `unarchive CLIENT_INDEX`
 
 * Unarchives the client at the specified `CLIENT_INDEX`
 * `CLIENT_INDEX` refers to the index number of the client shown in the archived clients list.
-* Only one client can be unarchived at a time.
+* You can only unarchive one client at a time.
 
 Examples:
 
 * `archivelist` followed by `unarchive 1` unarchives the 1st client in the displayed clients list
-* `find Alex` followed by `unarchive 1` unarchives the 1st client in the results of the `find` command.
+* `find Alex` followed by `unarchive 1` unarchives the 1st client in the results of the `find` command if he is archived.
+
+<box type="success" class="success-box">
+
+**Assumption:**
+1. Alex Yeoh is the 1st client in the currently displayed clients list.
+2. Alex Yeoh is archived.
+
+<br>
+
+**Expected Output Message:**
+Client unarchived: Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com; Address: Blk 30 Geylang Street 29, #06-40; Insurance Policy: AIB HealthShield Gold Max; Tags: [friends]
+</box>
+
+</box>
+
+<box type="note" seamless>
+
+**Note:** You have to be in `archivelist` to unarchive clients.
+</box>
 
 <br>
 
@@ -804,7 +845,7 @@ Restore a backup of that file or delete it to regenerate sample data. Try to avo
 | [**Note**](#2-4-1-adding-a-meeting-note-note)                  | `note CLIENT_INDEX TEXT`<br> e.g., `note 1 Client wants to know about policy abc`                                                                                                         |
 | [**nDelete**](#2-4-2-deleting-a-meeting-note-ndelete)          | `nDelete CLIENT_INDEX MEETING_NOTE_INDEX`<br> e.g., `nDelete 1 1`                                                                                                                         |
 
-<!-- @@author -->
+<!-- @@JunhaoW3 -->
 ## <font color=##3a5a40>7. Glossary</font>
 
 | Term / Command                               | Meaning                                                                                                                               |

@@ -80,7 +80,7 @@ public class EditReminderCommand extends Command {
         model.deleteGeneralReminder(target, toEdit);
         model.addGeneralReminder(target, this.editedReminder);
         model.setPerson(target, addedToPerson);
-        //@@author
+        model.setToActiveList();
         model.refreshFilteredPersonList();
         return new CommandResult(String.format(
                 MESSAGE_EDIT_REMINDER_SUCCESS,

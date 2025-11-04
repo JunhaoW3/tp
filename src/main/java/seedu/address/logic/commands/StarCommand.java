@@ -68,6 +68,7 @@ public class StarCommand extends Command {
 
         model.setPerson(personToStar, starredPerson);
         model.sortPersons(STARRED_STATUS_COMPARATOR);
+        model.setToActiveList();
         model.refreshFilteredPersonList();
         return new CommandResult(String.format(MESSAGE_STARRED_PERSON_SUCCESS, Messages.format(starredPerson)));
     }
