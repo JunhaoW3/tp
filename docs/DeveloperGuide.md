@@ -1865,3 +1865,8 @@ Currently, only one phone number can be added per client, and it can only consis
 an individual to have more than one phone numbers such as for mobile, home and office numbers, we plan to update `Phone` 
 to `LabelledPhone` which consists of a phone number and a label, and for each `Person` to have a `Set<LabelledPhone>`. 
 `AddCommandParser` and `EditCommandParser` will also allow the parsing of multiple labelled phone numbers. 
+
+### 3. Allow names with foreign accents and of different languages
+Currently, we only allow English name inputs with ASCII characters as our target audience are insurance agents that have 
+Singaporean clients with English names. Since it is possible for an individual to have only non-English name and names
+with accents, such as 习近平 and Müller we plan to update `VALIDATION_REGEX` of  `NAME` to include such possibilities .
