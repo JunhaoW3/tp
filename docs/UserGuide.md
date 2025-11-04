@@ -238,17 +238,18 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS ip/INSURANCE_POLICY [t/TAG]
 Examples:
 
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 ip/AIB Premium Plan`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Palace street, block 456, #03-03 p/1234567 t/classmate ip/AIB LifePlan`
 
 <box type="success">
 
 **Assumptions:**
 1. There isn't another client added with the same phone number or email as John Doe.
 
-**Expected Output Message:** New client added: John Doe; Phone: 98765432; Email: johnd@example.com; 
+**Expected Output Message:** New client added: John Doe; Phone: 98765432; Email: johnd@example.com;
 Address: John street, block 123, #01-01; Insurance Policy: AIB Premium Plan; Tags:
 
 </box>
+
+* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Palace street, block 456, #03-03 p/1234567 t/classmate ip/AIB LifePlan`
 
 <br>
 
@@ -266,17 +267,18 @@ Format: `delete CLIENT_INDEX`
 Examples:
 
 * `list` followed by `delete 2` deletes the 2nd client in the displayed clients list.
-* `find alex` followed by `delete 1` deletes the 1st client in the results of the `find` command.
 
 <box type="success">
 
 **Assumptions:**
-1. Alex Yeoh is the first client in the currently displayed list.
+1. Alex Yeoh is the second client in the currently displayed list.
 
-**Expected Output Message:** Deleted Client: Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com; 
+**Expected Output Message:** Deleted Client: Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com;
 Address: Blk 30 Geylang Street 29, #06-40; Insurance Policy: AIB HealthShield Gold Max; Tags: [friends]
 
 </box>
+
+* `find alex` followed by `delete 1` deletes the 1st client in the results of the `find` command.
 
 <br>
 
@@ -300,17 +302,18 @@ Format: `edit CLIENT_INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…�
 Examples:
 * `edit 1 p/91234567 ip/Health policy` Changes the 1st client’s `PHONE` to `91234567`
   and `INSURANCE_POLICY` to `Health policy` respectively.
-* `edit 2 n/Alex Tan t/` Changes the 2nd client’s name to `Alex Tan` and clears all their existing tags.
 
 <box type="success">
 
 **Assumptions:**
 1. The first client of the currently displayed list is Bernice Yu
 
-**Expected Output Message:** Edited Client: Bernice Yu; Phone: 91234567; Email: berniceyu@example.com; 
-Address: Blk 30 Lorong 3 Serangoon Gardens, #07-18; Insurance Policy: AIB Secure Flexi Term; Tags: [colleagues][friends]
+**Expected Output Message:** Edited Client: Bernice Yu; Phone: 91234567; Email: berniceyu@example.com;
+Address: Blk 30 Lorong 3 Serangoon Gardens, #07-18; Insurance Policy: Health policy; Tags: [colleagues][friends]
 
 </box>
+
+* `edit 2 n/Alex Tan t/` Changes the 2nd client’s name to `Alex Tan` and clears all their existing tags.
 
 <br>
 
@@ -330,18 +333,19 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 Examples:
 
 * `find ale` returns `Alex Yeoh`.
-* `find Yu Ber` returns `Bernice Yu`.
-* `find Alex David` returns `Alex Yeoh`, `David Li`.<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
 
 <box type="success">
 
 **Assumptions:**
-1. There are 2 clients with the name Bernice (case-insensitive).
+1. There are 2 clients with name containing "ale"
 
 **Expected Output Message: 2 persons listed!
 
 </box>
+
+* `find Yu Ber` returns `Bernice Yu`.
+* `find Alex David` returns `Alex Yeoh`, `David Li`.<br>
+  ![result for 'find alex david'](images/findAlexDavidResult.png)
 
 <br>
 
