@@ -102,6 +102,11 @@ activate Model
 Model --> StarCommand
 deactivate Model
 
+StarCommand -> Model : setToActiveList()
+activate Model
+Model --> StarCommand
+deactivate Model
+
 StarCommand -> Model : refreshFilteredPersonList()
 activate Model
 Model --> StarCommand
