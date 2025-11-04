@@ -16,7 +16,7 @@ participant "personToDeleteFrom:Person" as personToDeleteFrom MODEL_COLOR
 participant "editedPerson:Person" as editedPerson MODEL_COLOR
 end box
 
-participant "filteredPersons:FilteredList<Person>" as filteredPersons #green
+participant "lastShownList:List<Person>" as lastShownList #green
 
 [-> LogicManager : execute\n("nDelete 1 1")
 activate LogicManager
@@ -59,11 +59,11 @@ activate Model
 Model --> DeleteMeetingNoteCommand : lastShownList
 deactivate Model
 
-DeleteMeetingNoteCommand -> filteredPersons : get(0)
-activate filteredPersons
+DeleteMeetingNoteCommand -> lastShownList : get(0)
+activate lastShownList
 
-filteredPersons --> DeleteMeetingNoteCommand : personToDeleteFrom
-deactivate filteredPersons
+lastShownList --> DeleteMeetingNoteCommand : personToDeleteFrom
+deactivate lastShownList
 
 DeleteMeetingNoteCommand -> personToDeleteFrom : getMeetingNotes()
 activate personToDeleteFrom

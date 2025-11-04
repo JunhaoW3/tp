@@ -1123,7 +1123,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Mainstream OS**: Windows, Linux, Unix, MacOS.
 * **Meeting note**: Linked to a specific client, a meeting note consists of a note and a timestamp.
 * **Private contact detail**: A contact detail that is not meant to be shared with others.
-* **Reminder**: Linked to a specific client, a reminder consists of a headline and due date.
+* **Reminder**: Linked to a specific client, a reminder consists of a header and due date.
 * **User**: Insurance agent using FinHub.
 
 <br>
