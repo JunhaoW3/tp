@@ -56,7 +56,7 @@ public class InsurancePolicy {
         }
 
         InsurancePolicy otherPolicy = (InsurancePolicy) other;
-        return value.equals(otherPolicy.value);
+        return value.equalsIgnoreCase(otherPolicy.value);
     }
 
     @Override
