@@ -10,7 +10,7 @@ FinHub is a **desktop app for insurance agents to manage clients. It helps them 
 still having the benefits of a Graphical User Interface (GUI). If you can type fast, FinHub can get your client management
 tasks done faster than traditional GUI apps.
 
-<box type="tip">
+<box type="tip" seamless>
 
 **Tip:** In addition to managing standard contact fields, FinHub also allows you to add reminders and meeting notes to
 each client. You also have the option to star or archive clients for better client organisation.
@@ -230,7 +230,7 @@ Adds a client to FinHub.
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS ip/INSURANCE_POLICY [t/TAG]…​`
 
-<box type="tip">
+<box type="tip" seamless>
 
 **Tip:** A client can have any number of tags (including 0)
 </box>
@@ -476,7 +476,7 @@ Examples:
 * `find alex` followed by `reminder 1 h/Meeting on Saturday d/2026-06-24 18:00` adds the reminder "Meeting on Saturday,
 due by 2026-06-24 18:00" to the 1st client in the results of the `find` command.
 
-<box type="tip">
+<box type="tip" seamless>
 
 **Tip:** You can use reminders to stay on top of important client events, renewals, or follow-ups — never miss a key
 date again!
@@ -517,7 +517,7 @@ Examples:
 * `find alex` followed by `rDelete 1 1` deletes the 1st reminder in the currently displayed reminders list of the 1st client in the results of the `find`
   command.
 
-<box type="tip">
+<box type="tip" seamless>
 
 **Tip:** Regularly delete overdue reminders to maintain a clean and organised workspace!
 </box>
@@ -574,7 +574,7 @@ Format: `note CLIENT_INDEX TEXT`
 
 * Adds a meeting note to the client at the specified `CLIENT_INDEX`
 * When adding a meeting note, FinHub automatically records the date and time the note was added.
-* `CLIENT_INDEX` refers to the index number of the client shown in the displayed clients list.
+* `CLIENT_INDEX` refers to the index number of the client shown in the currently displayed clients list.
 * `TEXT` refers to the content of the meeting note that you want to add to the specified client.
 * `TEXT` cannot be empty.
 * You can only add one meeting note at a time.
@@ -582,8 +582,8 @@ Format: `note CLIENT_INDEX TEXT`
 
 Examples:
 
-* `list` followed by `note 2 Client wants to renew policy` adds the meeting note "Client wants to renew policy" to the
-  2nd client in the displayed clients list.
+* `activelist` followed by `note 2 Client wants to renew policy` adds the meeting note "Client wants to renew policy" to the
+  2nd client in the currently displayed clients list.
 
 <box type="success">
 
@@ -612,7 +612,7 @@ Deletes a meeting note from a specified client in FinHub.
 Format: `nDelete CLIENT_INDEX MEETING_NOTE_INDEX`
 
 * Deletes the meeting note at the specified `MEETING_NOTE_INDEX` of the specified clients listed at `CLIENT_INDEX`.
-* `CLIENT_INDEX` refers to the index number of the client shown in the displayed clients list.
+* `CLIENT_INDEX` refers to the index number of the client shown in the currently displayed clients list.
 * `MEETING_NOTE_INDEX` refers to the index number of the meeting note shown in the specified client's
 displayed meeting notes list.
 * Both `CLIENT_INDEX` and `MEETING_NOTE_INDEX` must be provided.
@@ -620,7 +620,7 @@ displayed meeting notes list.
 
 Examples:
 
-* `list` followed by `nDelete 2 1` deletes the 1st meeting note in the displayed meeting notes list of the 2nd client in the displayed clients list.
+* `activelist` followed by `nDelete 2 1` deletes the 1st meeting note in the displayed meeting notes list of the 2nd client in the currently displayed clients list.
 
 <box type="success">
 
